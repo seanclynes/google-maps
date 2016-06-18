@@ -79,6 +79,8 @@
   </div>
   <div id="map"></div>
   <script>
+    var markers = [];
+
     function initMap() {
       var directionsService = new google.maps.DirectionsService;
       var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -105,6 +107,12 @@
           var i, step = null, steps = response.routes[0].legs[0].steps;
           var lat_lng = null;
 
+          for(i = 0; i < markers.length ; i++) {
+            markers[i].setMap(null);
+          }
+
+          markers = new Array(steps.length);
+
           for ( i = 0; i < steps.length ; i++) {
             step = steps[i];
 
@@ -113,13 +121,13 @@
               lng: step.end_location.lng()
             };
 
-            var marker = new google.maps.Marker({
+            markers[i] = new google.maps.Marker({
               position: lat_lng,
               map: map,
               title: step.maneuver
 
           });
-            marker.setMap(map);
+            markers[i].setMap(map);
           }
           directionsDisplay.setDirections(response);
         } else {
