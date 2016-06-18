@@ -106,18 +106,18 @@
     }
 
     function setStreetView(index) {
-      street_lat_lng = {
-        lat: steps[0].start_location.lat(),
-        lng: steps[0].end_location.lng()
+      var street_lat_lng = {
+        lat: steps[index].start_location.lat(),
+        lng: steps[index].start_location.lng()
       };
 
       var panorama = new google.maps.StreetViewPanorama(
         document.getElementById('pano'), {
-          position: street_lat_lng,
-          pov: {
-            heading: 34, /* Correct heading */
+          position: street_lat_lng /*,
+           pov: {
+            heading: 34, Correct heading
             pitch: 10
-          }
+          }*/
         });
       map.setStreetView(panorama);
     };
@@ -170,7 +170,7 @@
             && response.routes[0].legs[0].steps
         ) {
           addMarkers(response);
-          //setStreetView(0);
+          setStreetView(0);
           directionsDisplay.setDirections(response);
         } else {
           window.alert('Directions request failed due to ' + status);
