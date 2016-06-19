@@ -106,6 +106,10 @@
       document.getElementById('end').addEventListener('change', onChangeHandler);
     }
 
+    function getContainerNameForIndex(index) {
+      return 'street-view-container-' + index;
+    }
+
     function addStreetViewContainers() {
       var i, viewContainer = document.getElementById('panos'), div;
 
@@ -113,7 +117,7 @@
 
       for (i = 0; i < markers.length ; i++) {
         div = document.createElement('div');
-        div.id = 'pano-' + i;
+        div.id = getContainerNameForIndex(i);
         viewContainer.appendChild(div);
       }
     }
