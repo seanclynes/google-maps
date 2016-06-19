@@ -84,6 +84,7 @@
   </div>
   <div id="map"></div>
   <div id="pano"></div>
+  <div id="panos"></div>
   <script>
     var markers = [], steps = [], map = null;
 
@@ -105,11 +106,24 @@
       document.getElementById('end').addEventListener('change', onChangeHandler);
     }
 
+    function addStreetViewContainers() {
+      var i, viewContainer = document.getElementById('panos'), div;
+
+      viewContainer.innerHTML = '';
+
+      for (i = 0; i < markers.length ; i++) {
+        div = document.createElement('div');
+        viewContainer.appendChild(div);
+      }
+    }
+
     function setStreetView(index) {
       var street_lat_lng = {
         lat: steps[index].start_location.lat(),
         lng: steps[index].start_location.lng()
       };
+
+      map.setStreetView(null);// Check this is correct
 
       var panorama = new google.maps.StreetViewPanorama(
         document.getElementById('pano'), {
@@ -120,6 +134,7 @@
           }*/
         });
       map.setStreetView(panorama);
+      addStreetViewContainers();
     };
 
     function setMarkerMap(map) {
