@@ -51,6 +51,8 @@
         for ( i = 0; i < steps.length ; i++) {
             template = document.getElementsByClassName(templateClass)[0];
             duplicate = template.cloneNode(true);
+
+            duplicate.children[1].id = 'street-view-' + (i + 1);
             container.appendChild(duplicate);
         }
     }
