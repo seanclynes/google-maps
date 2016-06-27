@@ -56,15 +56,13 @@
 
     function createStreetViewContainers(templateClass, containerClass) {
         var templateArray = document.getElementsByClassName(templateClass),
-                containerArray = document.getElementsByClassName(containerClass),
-                duplicate, i;
+                containerArray = document.getElementsByClassName(containerClass), i;
 
         if (isOneOrMoreArrayLike(templateArray) && isOneOrMoreArrayLike(containerArray)) {
 
             for (i = 0; i < steps.length; i++) {
 
-                duplicate = templateArray[0].cloneNode(true);
-                containerArray[0].appendChild(duplicate);
+                containerArray[0].appendChild( templateArray[0].cloneNode(true) );
             }
         } else  {
             consoleErrorIfConsole("Require template class [" + templateClass + "] to reference a template and" +
