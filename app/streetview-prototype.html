@@ -45,14 +45,18 @@
 
     var steps = new Array(10);
 
+    function streetViewIdByIndex(index) {
+        return 'street-view-' + (index + 1);
+    }
+
     function createStreetViewContainers(templateClass, containerId) {
-        var i, template,duplicate,  container = document.getElementById(containerId);
+        var i, template = document.getElementsByClassName(templateClass)[0],
+                duplicate,  container = document.getElementById(containerId);
 
         for ( i = 0; i < steps.length ; i++) {
-            template = document.getElementsByClassName(templateClass)[0];
-            duplicate = template.cloneNode(true);
 
-            duplicate.children[1].id = 'street-view-' + (i + 1);
+            duplicate = template.cloneNode(true);
+            duplicate.children[1].id = streetViewIdByIndex(i);
             container.appendChild(duplicate);
         }
     }
