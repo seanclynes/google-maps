@@ -48,15 +48,26 @@
         return 'street-view-' + (index + 1);
     }
 
+    function isOneOrMoreArrayLike( object ) {
+        return object && object.length && object.length >= 1;
+    }
+
     function createStreetViewContainers(templateClass, containerId) {
-        var i, template = document.getElementsByClassName(templateClass)[0],
+        var i, templateArray = document.getElementsByClassName(templateClass),
                 duplicate,  container = document.getElementById(containerId);
 
-        for ( i = 0; i < steps.length ; i++) {
+        if (isOneOrMoreArrayLike(templateArray)) {
 
-            duplicate = template.cloneNode(true);
-            duplicate.children[1].id = streetViewIdByIndex(i);
-            container.appendChild(duplicate);
+            for (i = 0; i < steps.length; i++) {
+
+                duplicate = templateArray[0].cloneNode(true);
+
+                //Probably don't need this as I can use index only
+                duplicate.children[1].id = streetViewIdByIndex(i);
+                container.appendChild(duplicate);
+            }
+        } else if (console) {
+            console.error("Require template class [" + templateClass + "] to define template");
         }
     }
 
