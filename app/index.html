@@ -34,6 +34,32 @@
         height: 80%;
         width: 45%;
       }
+      #panos {
+        /*float: left;*/
+      }
+      #panos > div {
+        margin: 20px 0px;
+      }
+      .street-view-container {
+        float: left;
+        width: 200px;
+        height: 200px;
+        background-color: blue;
+        /*margin: 10px 0px;*/
+      }
+      .street-view-description {
+        /*float: left;*/
+        width: 200px;
+        height: 200px;
+        background-color: green;
+      }
+      .street-view-description:after {
+        content: ".";
+        visibility: hidden;
+        display: block;
+        height: 0;
+        clear: both;
+      }
       #floating-panel {
         position: absolute;
         top: 10px;
@@ -84,6 +110,10 @@
   </div>
   <div id="map"></div>
   <div id="pano"></div>
+  <div id="panorama-template">
+    <div class="street-view-container"></div>
+    <div class="street-view-description"></div>
+  </div>
   <div id="panos"></div>
   <script>
     var markers = [], steps = [], map = null;
@@ -122,15 +152,23 @@
       return 'street-view-container-' + index;
     }
 
-    function addStreetViewContainers() {
-      var i, viewContainer = getElementByIdWrapper('panos'), div;
-
+    function deleteStreetViewContainers() {
+      var viewContainer = getElementByIdWrapper('panos');
       viewContainer.innerHTML = '';
+    }
+
+    function addStreetViewContainers() {
+      var i, viewContainer = getElementByIdWrapper('panos'), streetView, description;
 
       for (i = 0; i < markers.length ; i++) {
-        div = createElementWrapper('div');
-        div.id = getContainerNameForIndex(i);
-        viewContainer.appendChild(div);
+        streetView = createElementWrapper('div');
+        streetView.id = getContainerNameForIndex(i);
+        streetView.className = 'street-view-container';
+
+        description = createElementWrapper('div');
+        description.className = 'street-view-description';
+        viewContainer.appendChild(streetView);
+        viewContainer.appendChild(description);
       }
     }
 
@@ -151,6 +189,7 @@
           }*/
         });
       map.setStreetView(panorama);
+      deleteStreetViewContainers();
       addStreetViewContainers();
     };
 
