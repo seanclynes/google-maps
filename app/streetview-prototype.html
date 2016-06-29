@@ -192,7 +192,7 @@
                         streetViewElementArray[i], {
                             position: streetViewData[i]
                         });
-                descriptionElementArray[i].innerHTML = streetViewData.instructions;
+                descriptionElementArray[i].innerHTML = streetViewData[i].instructions;
             }
         } catch (e) {
             console.error(e.stack);
