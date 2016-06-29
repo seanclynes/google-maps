@@ -182,7 +182,7 @@
 
     consolePolyfill();
 
-    createStreetViewContainers('street-views',  'panorama-template', steps.length);
+    createStreetViewContainers('street-views',  'panorama-template', (steps.length + 1));
 
     //Small performance hit in traversig repeatedly so logic is simplier. Will never have 100 steps
     streetViewData = parseLatLng(steps);
