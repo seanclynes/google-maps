@@ -109,6 +109,31 @@
     ];
     var latLngForViews, instructions;
 
+    /* General functions */
+
+    function isOneOrMoreArrayLike( object ) {
+        return object && object.length && object.length >= 1;
+    }
+
+    function consoleErrorIfConsole( message ) {
+        if (console && console.error) {
+            console.error(message);
+        }
+    }
+
+    /* DOM specific */
+
+    function appendTemplateCopies(domContainer, domTemplate, copyCount) {
+        var i;
+
+        for (i = 0; i < copyCount; i++) {
+
+            domContainer.appendChild( domTemplate.cloneNode(true) );
+        }
+    }
+
+    /* Google maps specific */
+
     function parseLatLngForStep(propertyName, step) {
 
         return {
@@ -140,32 +165,13 @@
         return instructions;
     }
 
-    function isOneOrMoreArrayLike( object ) {
-        return object && object.length && object.length >= 1;
-    }
-
-    function consoleErrorIfConsole( message ) {
-        if (console && console.error) {
-            console.error(message);
-        }
-    }
-
-    function appendStreetViews(domContainer, domTemplate, steps) {
-        var i;
-
-        for (i = 0; i < steps.length; i++) {
-
-            domContainer.appendChild( domTemplate.cloneNode(true) );
-        }
-    }
-
     function createStreetViewContainers(templateClass, containerClass, steps) {
         var templateArray = document.getElementsByClassName(templateClass),
                 containerArray = document.getElementsByClassName(containerClass);
 
         if (isOneOrMoreArrayLike(templateArray) && isOneOrMoreArrayLike(containerArray)) {
 
-            appendStreetViews(containerArray[0], templateArray[0], steps);
+            appendTemplateCopies(containerArray[0], templateArray[0], steps.length);
         } else  {
             consoleErrorIfConsole("Require template class [" + templateClass + "] to reference a template and" +
             " target container class [" + containerClass + "] to reference a container")
