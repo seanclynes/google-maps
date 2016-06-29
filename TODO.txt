@@ -52,8 +52,6 @@ Top to bottom street views
 
 Display all street views for turn by turn directions
 
-Hide template div
-
 Add start location for first street view
 
-Trigger directions for start location and end location rather than drop down
+Trigger directions for start location and end location with completion rather than drop down

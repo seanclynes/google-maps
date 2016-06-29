@@ -111,7 +111,11 @@
 
     /* General functions */
 
-    function consolePolyfill() {
+    function isOneOrMoreArrayLike( object ) {
+        return object && object.length && object.length >= 1;
+    }
+
+    function consoleShiv() {
         if (!console) {
             console = {
                 error: function() {}
@@ -167,28 +171,51 @@
      * May have multiple templates and view containers with user choosing different views
      */
     function createStreetViewContainers(containerClass, templateClass, copyCount) {
-        var templateArray = document.getElementsByClassName(templateClass),
-                containerArray = document.getElementsByClassName(containerClass);
+        var templateElementArray = document.getElementsByClassName(templateClass),
+                containerElementArray = document.getElementsByClassName(containerClass);
 
         try  {
-            appendTemplateCopies(containerArray[0], templateArray[0], copyCount);
+            appendTemplateCopies(containerElementArray[0], templateElementArray[0], copyCount);
         } catch (e)  {
             console.error(e.stack);
             console.error("Require template [" + templateClass + "] target container [" + containerClass + "]")
         }
     }
 
+    function addStreetViews(streetViewClass, descriptionClass, streetViewData) {
+        var streetViewElementArray = document.getElementsByClassName(streetViewClass),
+                descriptionElementArray = document.getElementsByClassName(descriptionClass),
+                i, panorama;
+        try {
+            for (i = 0; i < streetViewData.length ; i++) {
+                panorama = new google.maps.StreetViewPanorama(
+                        streetViewElementArray[i], {
+                            position: streetViewData[i]
+                        });
+                descriptionElementArray[i].innerHTML = streetViewData.instructions;
+            }
+        } catch (e) {
+            console.error(e.stack);
+        }
+
+    }
+
     // Main function calls
+    function displayPrototype() {
+        consoleShiv();
 
-    consolePolyfill();
+        createStreetViewContainers("street-views", "panorama-template", (steps.length + 1));
 
-    createStreetViewContainers('street-views',  'panorama-template', (steps.length + 1));
-
-    //Small performance hit in traversig repeatedly so logic is simplier. Will never have 100 steps
-    streetViewData = parseLatLng(steps);
-    addInstructions(steps, streetViewData);
-
+        //Small performance hit in traversing repeatedly so logic is simpler. Will never have 100 steps
+        streetViewData = parseLatLng(steps);
+        addInstructions(steps, streetViewData);
+        if (streetViewData.length > 0) {
+            addStreetViews("street-view-container", "street-view-description", streetViewData);
+        }
+    }
 </script>
-
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&callback=displayPrototype">
+</script>
 </body>
 </html>
