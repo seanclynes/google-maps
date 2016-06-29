@@ -150,16 +150,22 @@
         }
     }
 
+    function appendStreetViews(domContainer, domTemplate, steps) {
+        var i;
+
+        for (i = 0; i < steps.length; i++) {
+
+            domContainer.appendChild( domTemplate.cloneNode(true) );
+        }
+    }
+
     function createStreetViewContainers(templateClass, containerClass, steps) {
         var templateArray = document.getElementsByClassName(templateClass),
-                containerArray = document.getElementsByClassName(containerClass), i;
+                containerArray = document.getElementsByClassName(containerClass);
 
         if (isOneOrMoreArrayLike(templateArray) && isOneOrMoreArrayLike(containerArray)) {
 
-            for (i = 0; i < steps.length; i++) {
-
-                containerArray[0].appendChild( templateArray[0].cloneNode(true) );
-            }
+            appendStreetViews(containerArray[0], templateArray[0], steps);
         } else  {
             consoleErrorIfConsole("Require template class [" + templateClass + "] to reference a template and" +
             " target container class [" + containerClass + "] to reference a container")
