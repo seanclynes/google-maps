@@ -8,13 +8,13 @@
         .street-views {
             /*display: flex;*/
             /*flex-flow: row wrap;*/
-          width: 400px;
+          width: 600px;
 
         }
 
         .street-view-container {
             width: 100%;
-            height: 200px;
+            height: 300px;
             margin: 2px;
 
             background-color: #07fef6;
@@ -182,9 +182,9 @@
         }
     }
 
-    function addStreetViews(streetViewClass, descriptionClass, streetViewData) {
-        var streetViewElementArray = document.getElementsByClassName(streetViewClass),
-                descriptionElementArray = document.getElementsByClassName(descriptionClass),
+    function addStreetViews(streetViewSelector, descriptionSelector, streetViewData) {
+        var streetViewElementArray = document.querySelectorAll(streetViewSelector),
+                descriptionElementArray = document.querySelectorAll(descriptionSelector),
                 i, panorama;
         try {
             for (i = 0; i < streetViewData.length ; i++) {
@@ -210,7 +210,8 @@
         streetViewData = parseLatLng(steps);
         addInstructions(steps, streetViewData);
         if (streetViewData.length > 0) {
-            addStreetViews("street-view-container", "street-view-description", streetViewData);
+            addStreetViews(".street-views .street-view-container", ".street-views .street-view-description",
+                    streetViewData);
         }
     }
 </script>
