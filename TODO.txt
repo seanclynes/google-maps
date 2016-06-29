@@ -53,3 +53,5 @@ Top to bottom street views
 Display all street views for turn by turn directions
 
 Hide template div
+
+Add start location for first street view
