@@ -50,6 +50,7 @@
     //TODO: Bogus global
     var steps = [
         {
+            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -68,6 +69,7 @@
             }
         },
         {
+            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -86,6 +88,7 @@
             }
         },
         {
+            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -104,7 +107,7 @@
             }
         }
     ];
-    var latLngForViews;
+    var latLngForViews, instructions;
 
     function parseLatLngForStep(propertyName, step) {
 
@@ -124,6 +127,17 @@
         }
 
         return latLngArray;
+    }
+
+    function parseInstructions(steps) {
+        var i, instructions = new Array(steps.length + 1);
+
+        for (i = 0 ; i < steps.length ; i++) {
+            instructions[i] = steps[i].instructions;
+        }
+        instructions[i] = "You have reached your destination";
+
+        return instructions;
     }
 
     function isOneOrMoreArrayLike( object ) {
@@ -153,8 +167,8 @@
     }
 
     createStreetViewContainers('panorama-template', 'street-views');
-    latLngForViews = parseLatLng(steps)
-
+    latLngForViews = parseLatLng(steps);
+    instructions = parseInstructions(steps);
 
 </script>
 
