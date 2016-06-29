@@ -150,7 +150,7 @@
         }
     }
 
-    function createStreetViewContainers(templateClass, containerClass) {
+    function createStreetViewContainers(templateClass, containerClass, steps) {
         var templateArray = document.getElementsByClassName(templateClass),
                 containerArray = document.getElementsByClassName(containerClass), i;
 
@@ -166,7 +166,9 @@
         }
     }
 
-    createStreetViewContainers('panorama-template', 'street-views');
+    createStreetViewContainers('panorama-template', 'street-views', steps);
+
+    //Small performance hit in traversig repeatedly so logic is simplier
     latLngForViews = parseLatLng(steps);
     instructions = parseInstructions(steps);
 
