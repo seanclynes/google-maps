@@ -28,6 +28,8 @@ Top and bottom start direction detection and matching.
 
 Scrollable streetviews horizontally
 
+Link streetview with map while adjusting view. Only want one at a time.
+
 
 ##############################################
 ## Minimum to be production usable demoable ##

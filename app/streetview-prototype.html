@@ -167,9 +167,6 @@
 
     /* Multiple API dependencies */
 
-    /**
-     * May have multiple templates and view containers with user choosing different views
-     */
     function createStreetViewContainers(containerClass, templateClass, copyCount) {
         var templateElementArray = document.getElementsByClassName(templateClass),
                 containerElementArray = document.getElementsByClassName(containerClass);
@@ -192,12 +189,12 @@
                         streetViewElementArray[i], {
                             position: streetViewData[i]
                         });
-                descriptionElementArray[i].innerHTML = streetViewData[i].instructions;
+                descriptionElementArray[i].innerHTML = "<b>" + (i + 1) + ".</b> " + streetViewData[i].instructions;
             }
         } catch (e) {
             console.error(e.stack);
+            console.error("Error initializing street views");
         }
-
     }
 
     // Main function calls
