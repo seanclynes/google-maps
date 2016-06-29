@@ -1,0 +1,55 @@
+
+########################
+## Advanced/Difficult ##
+########################
+
+
+Named description for markers
+
+Zig Zag layout to minimize vertical/horizontal space used for street views.
+
+Minimize unwanted street views
+
+Add additional street views no part of directions
+
+
+#########################################
+## Improvements on basic functionality ##
+#########################################
+
+
+Starting street view direction guess from locations
+
+Vertical and Horizontal layouts based on Google map direction for direction and match it.
+
+Left and right direction detection and matching.
+
+Top and bottom start direction detection and matching.
+
+Scrollable streetviews horizontally
+
+
+##############################################
+## Minimum to be production usable demoable ##
+##############################################
+
+
+Scrollable streetviews vertically
+
+
+############################################
+## Minimum to use in any way. For testing ##
+############################################
+
+
+Numbering to match streetviews for markers
+
+Top to bottom street views
+
+###################################
+## Basic prototype work required ##
+###################################
+
+Display all street views for turn by turn directions
+
+Hide template div

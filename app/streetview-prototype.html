@@ -8,6 +8,7 @@
         .street-views {
             /*display: flex;*/
             /*flex-flow: row wrap;*/
+          width: 400px;
 
         }
 
@@ -26,13 +27,17 @@
 
             background-color: #e0bf9c;
         }
+      .hidden-template {
+        display: none;
+      }
     </style>
 </head>
 <body>
-
-<div class="panorama-template">
-    <div class="street-view-description"></div>
-    <div class="street-view-container"></div>
+<div class="hidden-template">
+  <div class="panorama-template">
+      <div class="street-view-description"></div>
+      <div class="street-view-container"></div>
+  </div>
 </div>
 
 
@@ -42,7 +47,8 @@
 
 <script>
 
-    var steps = new Array(10);
+    //TODO: Bogus global
+    var steps = new Array(4);
 
     function isOneOrMoreArrayLike( object ) {
         return object && object.length && object.length >= 1;
