@@ -50,7 +50,7 @@
     //TODO: Bogus global
     var steps = [
         {
-            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
+            instructions: "Head <b>south</b> on <b>Melissa Ave</b> toward <b>Melissa Ct</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -69,7 +69,7 @@
             }
         },
         {
-            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
+            instructions: "Turn <b>right</b> onto <b>E Mountain View St</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -88,7 +88,7 @@
             }
         },
         {
-            instructions: "Head <b>west</b> on <b>W 5th St</b> toward <b>N Mayfield Ave</b>",
+            instructions: "Turn <b>left</b> onto <b>Barstow Rd</b>",
             start_location: {
                 lat: function () {
                     return 41.85;
@@ -107,7 +107,7 @@
             }
         }
     ];
-    var latLngForViews, instructions;
+    var streetViewData, instructions;
 
     /* General functions */
 
@@ -141,15 +141,13 @@
         return latLngArray;
     }
 
-    function parseInstructions(steps) {
-        var i, instructions = new Array(steps.length + 1);
+    function addInstructions(steps, streetViewData) {
+        var i;
 
         for (i = 0 ; i < steps.length ; i++) {
-            instructions[i] = steps[i].instructions;
+            streetViewData[i].instructions = steps[i].instructions;
         }
-        instructions[i] = "You have reached your destination";
-
-        return instructions;
+        streetViewData[i].instructions = "You have reached your destination";
     }
 
     /* DOM specific */
@@ -165,7 +163,10 @@
 
     /* Multiple API dependencies */
 
-    function createStreetViewContainers(templateClass, containerClass, copyCount) {
+    /**
+     * May have multiple templates and view containers with user choosing different views
+     */
+    function createStreetViewContainers(containerClass, templateClass, copyCount) {
         var templateArray = document.getElementsByClassName(templateClass),
                 containerArray = document.getElementsByClassName(containerClass);
 
@@ -181,11 +182,11 @@
 
     consolePolyfill();
 
-    createStreetViewContainers('panorama-template', 'street-views', steps.length);
+    createStreetViewContainers('street-views',  'panorama-template', steps.length);
 
-    //Small performance hit in traversig repeatedly so logic is simplier
-    latLngForViews = parseLatLng(steps);
-    instructions = parseInstructions(steps);
+    //Small performance hit in traversig repeatedly so logic is simplier. Will never have 100 steps
+    streetViewData = parseLatLng(steps);
+    addInstructions(steps, streetViewData);
 
 </script>
 
