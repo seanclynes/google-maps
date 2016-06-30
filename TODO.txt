@@ -30,6 +30,8 @@ Scrollable streetviews horizontally
 
 Link streetview with map while adjusting view. Only want one at a time.
 
+Choose between multiple routes returned from Directions API
+
 
 ##############################################
 ## Minimum to be production usable demoable ##
@@ -37,6 +39,8 @@ Link streetview with map while adjusting view. Only want one at a time.
 
 
 Scrollable streetviews vertically
+
+Select different routes as there will be multiple or automatically select one only
 
 
 ############################################
