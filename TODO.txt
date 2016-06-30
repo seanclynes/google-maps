@@ -56,6 +56,10 @@ Top to bottom street views
 ## Basic prototype work required ##
 ###################################
 
+Add markers to map for turns
+
+Display map centred on Melbourne
+
 Display all street views for turn by turn directions
 
 Add start location for first street view

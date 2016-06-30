@@ -117,7 +117,9 @@
     ];
     var streetViewData, instructions;
 
+
     /* General functions */
+
 
     function consoleShiv() {
         if (!console) {
@@ -127,7 +129,9 @@
         }
     }
 
+
     /* Google maps specific */
+
 
     function parseLatLngForStep(propertyName, step) {
 
@@ -158,7 +162,9 @@
         streetViewData[i].instructions = "You have reached your destination";
     }
 
+
     /* DOM specific */
+
 
     function appendTemplateCopies(domContainer, domTemplate, copyCount) {
         var i;
@@ -168,8 +174,6 @@
             domContainer.appendChild( domTemplate.cloneNode(true) );
         }
     }
-
-    /* Multiple API dependencies */
 
     function createStreetViewContainers(containerSelector, templateSelector, copyCount) {
         var containerElementArray = document.querySelectorAll(containerSelector),
@@ -184,12 +188,16 @@
         }
     }
 
+
+    /* Multiple API dependencies */
+
+
     function addStreetViews(streetViewSelector, descriptionSelector, streetViewData) {
         var streetViewElementArray = document.querySelectorAll(streetViewSelector),
                 descriptionElementArray = document.querySelectorAll(descriptionSelector),
                 i, panorama;
         try {
-            for (i = 0; i < streetViewData.length ; i++) {
+            for (i = 0; i < 1 /* Save on bandwidth streetViewData.length*/ ; i++) {
                 panorama = new google.maps.StreetViewPanorama(
                         streetViewElementArray[i], {
                             position: streetViewData[i]
