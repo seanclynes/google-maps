@@ -133,21 +133,21 @@
     /* Google maps specific */
 
 
-    function parseLatLngForStep(propertyName, step) {
+    function callLatLngGetFunctions(propertyName, object) {
 
         return {
-            lat: step[propertyName].lat(),
-            lng: step[propertyName].lng()
+            lat: object[propertyName].lat(),
+            lng: object[propertyName].lng()
         }
     }
 
     function parseLatLng(steps) {
         var i, latLngArray = new Array(steps.length + 1);
 
-        latLngArray[0] = parseLatLngForStep('start_location', steps[0]);
+        latLngArray[0] = callLatLngGetFunctions('start_location', steps[0]);
 
         for ( i = 0 ; i < steps.length ; i++) {
-            latLngArray[i + 1] = parseLatLngForStep('end_location', steps[i])
+            latLngArray[i + 1] = callLatLngGetFunctions('end_location', steps[i])
         }
 
         return latLngArray;

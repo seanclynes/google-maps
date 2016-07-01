@@ -12,6 +12,8 @@ Minimize unwanted street views
 
 Add additional street views no part of directions
 
+Support for different modes other than driving
+
 
 #########################################
 ## Improvements on basic functionality ##
