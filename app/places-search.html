@@ -61,6 +61,7 @@
 </head>
 <body>
 <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+<input id="pac-input2" class="controls" type="text" placeholder="Search Box">
 <div id="map"></div>
 <script>
     // This example adds a search box to a map, using the Google Place Autocomplete
@@ -80,12 +81,16 @@
 
         // Create the search box and link it to the UI element.
         var input = document.getElementById('pac-input');
+        var input2 = document.getElementById('pac-input2');
         var searchBox = new google.maps.places.SearchBox(input);
+        var searchBox2 = new google.maps.places.SearchBox(input2);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input2);
 
         // Bias the SearchBox results towards current map's viewport.
         map.addListener('bounds_changed', function() {
             searchBox.setBounds(map.getBounds());
+            searchBox2.setBounds(map.getBounds());
         });
 
         var markers = [];
