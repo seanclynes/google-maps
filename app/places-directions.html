@@ -172,6 +172,7 @@
                 if (status === google.maps.DirectionsStatus.OK) {
                     directionsDisplay.setDirections(response);
                 } else {
+                    //Handle inter country request failures better. Maybe ignore or clear other field
                     window.alert('Directions request failed due to ' + status);
                 }
             });
