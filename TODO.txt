@@ -1,10 +1,10 @@
 
-########################
-## Advanced/Difficult ##
-########################
+########################################
+## Advanced, Less useful or Difficult ##
+########################################
 
 
-Named description for markers
+Named description for markers using InfoWindow probably
 
 Zig Zag layout to minimize vertical/horizontal space used for street views.
 
@@ -12,13 +12,22 @@ Minimize unwanted street views
 
 Add additional street views no part of directions
 
-Support for different modes other than driving
+Support for different modes other than driving. Should be easy but not really as important.
+
+Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
+Can almost reproduce this as two separate trips e.g. Scanlan st -> Southland and Southland -> Moorabbin
+
+Ability to drag and modify the directions
+
+Drop markers animation
 
 
 #########################################
 ## Improvements on basic functionality ##
 #########################################
 
+
+Use distance information in steps and include this in the UI e.g. [Turn left into brown street] [Drive 5km]
 
 Starting street view direction guess from locations
 
@@ -28,7 +37,7 @@ Left and right direction detection and matching.
 
 Top and bottom start direction detection and matching.
 
-Scrollable streetviews horizontally
+Scrollable streetviews horizontally if they, as is probable, have too many to display without scrolling.
 
 Link streetview with map while adjusting view. Only want one at a time.
 
@@ -44,6 +53,9 @@ Scrollable streetviews vertically
 
 Select different routes as there will be multiple or automatically select one only
 
+Display message for DirectionsService route status ZERO_RESULTS.
+"No route could be plotted for the origin [Description] and destination [Description]"
+
 
 ############################################
 ## Minimum to use in any way. For testing ##
@@ -54,8 +66,9 @@ Numbering to match streetviews for markers
 
 Top to bottom street views
 
+
 ###################################
-## Basic prototype work required ##
+## Basic prototype working       ##
 ###################################
 
 Add markers to map for turns
@@ -63,7 +76,5 @@ Add markers to map for turns
 Display map centred on Melbourne
 
 Display all street views for turn by turn directions
-
-Add start location for first street view
 
 Trigger directions for start location and end location with completion rather than drop down
