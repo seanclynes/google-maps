@@ -72,7 +72,12 @@
     // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
     function initMap() {
-        var streetViewData;
+        /**
+         * My additions to autocomplete/directions example
+         * */
+        var streetViewData, markers = [];
+
+
         var origin_place_id = null;
         var destination_place_id = null;
         var travel_mode = google.maps.TravelMode.DRIVING;
@@ -136,6 +141,10 @@
                     directionsService, directionsDisplay);
         });
 
+        /**
+         * My additions to autocomplete/directions example
+         * */
+
         function callLatLngGetFunctions(propertyName, object) {
 
             return {
@@ -167,6 +176,31 @@
             streetViewData[i].instructions = "You have reached your destination";
         }
 
+        function setMarkerMap(map) {
+            var i;
+
+            for(i = 0; i < markers.length ; i++) {
+                markers[i].setMap(map);
+            }
+        };
+
+        function addMarkers(streetViewData) {
+            var i;
+
+            //Clear previous
+            setMarkerMap(null);
+            markers = new Array(streetViewData.length);
+
+            for ( i = 0; i < streetViewData.length ; i++) {
+
+                markers[i] = new google.maps.Marker({
+                    position: streetViewData[i],
+                    map: map
+                });
+            }
+            setMarkerMap(map);
+        };
+
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
             if (!origin_place_id || !destination_place_id) {
@@ -181,6 +215,7 @@
                     streetViewData = parseLatLng(response);
                     addInstructions(response, streetViewData);
                     directionsDisplay.setDirections(response);
+                    addMarkers(streetViewData);
                 } else {
                     //Handle inter country request failures better. Maybe ignore or clear other field
                     window.alert('Directions request failed due to ' + status);
