@@ -157,6 +157,16 @@
             return latLngArray;
         }
 
+        function addInstructions(response, streetViewData) {
+            var steps = response.routes[0].legs[0].steps;
+            var i;
+
+            for (i = 0 ; i < steps.length ; i++) {
+                streetViewData[i].instructions = steps[i].instructions;
+            }
+            streetViewData[i].instructions = "You have reached your destination";
+        }
+
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
             if (!origin_place_id || !destination_place_id) {
@@ -169,6 +179,7 @@
             }, function(response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
                     streetViewData = parseLatLng(response);
+                    addInstructions(response, streetViewData);
                     directionsDisplay.setDirections(response);
                 } else {
                     //Handle inter country request failures better. Maybe ignore or clear other field
