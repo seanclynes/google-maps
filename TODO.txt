@@ -6,22 +6,18 @@
 
 Named description for markers using InfoWindow probably
 
-Zig Zag layout to minimize vertical/horizontal space used for street views.
-
 Minimize unwanted street views
 
-Add additional street views no part of directions
+Add additional street views not part of directions
 
 Support for different modes other than driving. Should be easy but not really as important.
 
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
 Can almost reproduce this as two separate trips e.g. Scanlan st -> Southland and Southland -> Moorabbin
 
-Ability to drag and modify the directions
-
 Drop markers animation
 
-
+Select different routes as there will be multiple or automatically select one only
 
 
 #########################################
@@ -31,7 +27,7 @@ Drop markers animation
 
 Use distance information in steps and include this in the UI e.g. [Turn left into brown street] [Drive 5km]
 
-Starting street view direction guess from locations
+Starting street view direction heading guess from locations
 
 Vertical and Horizontal layouts based on Google map direction for direction and match it.
 
@@ -43,7 +39,7 @@ Scrollable streetviews horizontally if they, as is probable, have too many to di
 
 Link streetview with map while adjusting view. Only want one at a time.
 
-Choose between multiple routes returned from Directions API
+Reset to default path after dragging line
 
 
 ##############################################
@@ -52,8 +48,6 @@ Choose between multiple routes returned from Directions API
 
 
 Scrollable streetviews vertically
-
-Select different routes as there will be multiple or automatically select one only
 
 Display message for DirectionsService route status ZERO_RESULTS.
 "No route could be plotted for the origin [Description] and destination [Description]"
@@ -66,8 +60,6 @@ Display message for DirectionsService route status ZERO_RESULTS.
 
 Numbering to match streetviews for markers
 
-Numbering should include start and end markers which currently display A and B
-
 Top to bottom street views
 
 
@@ -75,10 +67,9 @@ Top to bottom street views
 ## Basic prototype working       ##
 ###################################
 
-Add markers to map for turns
 
 Display map centred on Melbourne
 
 Display all street views for turn by turn directions
 
-Trigger directions for start location and end location with completion rather than drop down
+REPRODUCE MARKER RENDERING FATAL ERROR. WAS IT CONNECTED TO ADDING STREETVIEWS?
