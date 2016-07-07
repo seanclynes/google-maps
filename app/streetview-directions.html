@@ -74,7 +74,8 @@
         /**
          * My additions to autocomplete/directions example
          * */
-        var streetViewData, markers = [];
+        var streetViewData = [], markers = [],
+                markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
 
 
         var origin_place_id = null;
@@ -195,7 +196,7 @@
 
                 markers[i] = new google.maps.Marker({
                     position: streetViewData[i],
-                    map: map
+                    label: markerLabels.charAt( (i % markerLabels.length) )
                 });
             }
             setMarkerMap(map);
