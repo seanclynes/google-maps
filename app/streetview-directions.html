@@ -12,6 +12,9 @@
         }
         #map {
             height: 80%;
+            width: 50%;
+            min-width: 536px;
+            min-height: 536px;
         }
         .controls {
             margin-top: 10px;
@@ -27,13 +30,13 @@
         #origin-input,
         #destination-input {
             background-color: #fff;
-            font-family: Roboto;
+            font-family: Roboto, Helvetica, sans-serif;
             font-size: 15px;
             font-weight: 300;
             margin-left: 12px;
             padding: 0 11px 0 13px;
             text-overflow: ellipsis;
-            width: 200px;
+            width: 250px;
         }
 
         #origin-input:focus,
@@ -41,15 +44,8 @@
             border-color: #4d90fe;
         }
 
-        #mode-selector {
-            color: #fff;
-            background-color: #4d90fe;
-            margin-left: 12px;
-            padding: 5px 11px 0px 11px;
-        }
-
         #mode-selector label {
-            font-family: Roboto;
+            font-family: Roboto, Helvetica, sans-serif;
             font-size: 13px;
             font-weight: 300;
         }
@@ -182,12 +178,11 @@
             for(i = 0; i < markers.length ; i++) {
                 markers[i].setMap(map);
             }
-        };
+        }
 
         function addMarkers(streetViewData) {
             var i;
 
-            //Clear previous
             setMarkerMap(null);
             markers = new Array(streetViewData.length);
 
@@ -199,7 +194,7 @@
                 });
             }
             setMarkerMap(map);
-        };
+        }
 
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
