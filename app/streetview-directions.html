@@ -53,6 +53,39 @@
             border-color: #4d90fe;
         }
 
+        .street-views {
+            /*display: flex;*/
+            /*flex-flow: row wrap;*/
+            width: 600px;
+
+        }
+
+        .street-view-container {
+            width: 100%;
+            height: 300px;
+            margin: 0.2em;
+            border-radius: 0.5em;
+
+            background-color: #07fef6;
+        }
+
+        .street-view-description {
+            width: 100%;
+            height: 2em;
+            margin: 0.2em;
+            padding: 0.5em;
+            border-radius: 0.5em;
+            box-sizing: border-box;
+
+            background-color: #e0bf9c;
+        }
+
+        .panorama-template {
+            margin-bottom: 1.5em;
+        }
+        .hidden-template {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +98,18 @@
 
 <div id="map"></div>
 
+<div class="hidden-template">
+    <div class="panorama-template">
+        <div class="street-view-description"></div>
+        <div class="street-view-container"></div>
+    </div>
+</div>
+
+
+<div class="street-views">
+
+</div>
+
 <script>
     // This example requires the Places library. Include the libraries=places
     // parameter when you first load the API. For example:
@@ -74,8 +119,7 @@
         /**
          * My additions to autocomplete/directions example
          * */
-        var streetViewData = [], markers = [],
-                markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
+        var markers = [], markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
 
 
         var origin_place_id = null;
@@ -88,7 +132,8 @@
         });
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer({
-            suppressMarkers: true
+            suppressMarkers: true,
+            draggable: true
         });
         directionsDisplay.setMap(map);
 
@@ -147,6 +192,10 @@
          * My additions to autocomplete/directions example
          * */
 
+        directionsDisplay.addListener("directions_changed", function() {
+            updateMarkers(this.getDirections());
+        });
+
         function callLatLngGetFunctions(propertyName, object) {
 
             return {
@@ -202,6 +251,12 @@
             setMarkerMap(map);
         }
 
+        function updateMarkers(response) {
+            var streetViewData = parseLatLng(response);
+            addInstructions(response, streetViewData);
+            addMarkers(streetViewData);
+        }
+
         function route(origin_place_id, destination_place_id, travel_mode,
                        directionsService, directionsDisplay) {
             if (!origin_place_id || !destination_place_id) {
@@ -213,10 +268,8 @@
                 travelMode: travel_mode
             }, function(response, status) {
                 if (status === google.maps.DirectionsStatus.OK) {
-                    streetViewData = parseLatLng(response);
-                    addInstructions(response, streetViewData);
+
                     directionsDisplay.setDirections(response);
-                    addMarkers(streetViewData);
                 } else {
                     //Handle inter country request failures better. Maybe ignore or clear other field
                     window.alert('Directions request failed due to ' + status);
