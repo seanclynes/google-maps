@@ -83,7 +83,9 @@
             zoom: 13
         });
         var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+            suppressMarkers: true
+        });
         directionsDisplay.setMap(map);
 
         var origin_input = document.getElementById('origin-input');
