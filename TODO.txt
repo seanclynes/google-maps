@@ -68,8 +68,7 @@ Top to bottom street views
 ###################################
 
 
-Display map centred on Melbourne
-
 Display all street views for turn by turn directions
 
 REPRODUCE MARKER RENDERING FATAL ERROR. WAS IT CONNECTED TO ADDING STREETVIEWS?
+Extending the bounds causes the bounds to extend to the earth
