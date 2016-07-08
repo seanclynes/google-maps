@@ -137,6 +137,14 @@
         });
         directionsDisplay.setMap(map);
 
+        //FIXME: Want to try google.maps.event.trigger(MapInstance,'resize') to see if it forces a repaint of markers
+        myglobal = {
+            map: map,
+            directionsDisplay: directionsDisplay,
+            markers: markers
+        };
+
+
         var origin_input = document.getElementById('origin-input');
         var destination_input = document.getElementById('destination-input');
 
@@ -245,6 +253,9 @@
             setMarkerMap(null);
             markers = new Array(streetViewData.length);
 
+            //FIXME: Expose for testing on browser console
+            myglobal.markers = markers;
+
             for ( i = 0; i < streetViewData.length ; i++) {
 
                 markers[i] = new google.maps.Marker({
@@ -259,6 +270,15 @@
             var streetViewData = parseLatLng(response);
             addInstructions(response, streetViewData);
             addMarkers(streetViewData);
+
+            //Workaround for markers not being rendered. This always fixes it.
+            setTimeout(function() {
+                map.panBy(1,0);
+                map.panBy(-1,0);
+            }, 500);
+            console.info("UpdateMarkers called [" + new Date().getTime() + "]");
+            console.info(streetViewData);
+            console.info(markers);
         }
 
         function route(origin_place_id, destination_place_id, travel_mode,
