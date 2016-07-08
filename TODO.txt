@@ -39,7 +39,7 @@ Scrollable streetviews horizontally if they, as is probable, have too many to di
 
 Link streetview with map while adjusting view. Only want one at a time.
 
-Reset to default path after dragging line
+Reset to default path after dragging line as the dragging can leave the line in strange state
 
 
 ##############################################

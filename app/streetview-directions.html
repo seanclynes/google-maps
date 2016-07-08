@@ -53,6 +53,10 @@
             border-color: #4d90fe;
         }
 
+        .container {
+            display: flex;
+        }
+
         .street-views {
             /*display: flex;*/
             /*flex-flow: row wrap;*/
@@ -89,14 +93,6 @@
     </style>
 </head>
 <body>
-<input id="origin-input" class="controls" type="text"
-       placeholder="Enter an origin location">
-
-<input id="destination-input" class="controls" type="text"
-       placeholder="Enter a destination location">
-
-
-<div id="map"></div>
 
 <div class="hidden-template">
     <div class="panorama-template">
@@ -105,9 +101,33 @@
     </div>
 </div>
 
+<input id="origin-input" class="controls" type="text"
+       placeholder="Enter an origin location">
 
-<div class="street-views">
+<input id="destination-input" class="controls" type="text"
+       placeholder="Enter a destination location">
 
+<div class="container">
+    <div id="map"></div>
+
+    <div class="street-views">
+        <div class="panorama-template">
+            <div class="street-view-description"></div>
+            <div class="street-view-container"></div>
+        </div>
+        <div class="panorama-template">
+            <div class="street-view-description"></div>
+            <div class="street-view-container"></div>
+        </div>
+        <div class="panorama-template">
+            <div class="street-view-description"></div>
+            <div class="street-view-container"></div>
+        </div>
+        <div class="panorama-template">
+            <div class="street-view-description"></div>
+            <div class="street-view-container"></div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -280,8 +300,9 @@
                 if (status === google.maps.DirectionsStatus.OK) {
 
                     directionsDisplay.setDirections(response);
+                } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
+                    window.alert('No route could be found between the origin and destination');
                 } else {
-                    //Handle inter country request failures better. Maybe ignore or clear other field
                     window.alert('Directions request failed due to ' + status);
                 }
             });
