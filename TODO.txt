@@ -70,21 +70,3 @@ Top to bottom street views
 
 Display all street views for turn by turn directions
 
-REPRODUCE MARKER RENDERING FATAL ERROR. WAS IT CONNECTED TO ADDING STREETVIEWS?
-Extending the bounds causes the bounds to extend to the earth and also doesn't redraw markers
-also trigger resize doesn't cause the invisible markers to display
-
-The markers that don't display do have a map property set but not an anchor point
-
-repeated triggering of directions_changed causes the markers to have map set to null and disappear
-then reappear again.
-
-The defect may or maynot appear for the same values of the following
-
-* origin and destination
-
-There are always markers drawn either at the start of the end
-
-Moving the map or resizing the window causes the markers to display
-
-myglobal.map.panBy(1,0); Causes the markers to draw
