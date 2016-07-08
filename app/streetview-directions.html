@@ -140,6 +140,10 @@
         var origin_input = document.getElementById('origin-input');
         var destination_input = document.getElementById('destination-input');
 
+        //Firefox 47.0.1 on OSX doesn't clear previous search on page loading
+        origin_input.value = null;
+        destination_input.value = null;
+
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
 
