@@ -47,10 +47,9 @@ Reset to default path after dragging line as the dragging can leave the line in 
 ##############################################
 
 
-Scrollable streetviews vertically
+Can I detect no street view coverage for marker?
 
-Display message for DirectionsService route status ZERO_RESULTS.
-"No route could be plotted for the origin [Description] and destination [Description]"
+improve CSS and in particular flex box usage. Mobile friendly layout
 
 
 ############################################
@@ -58,15 +57,8 @@ Display message for DirectionsService route status ZERO_RESULTS.
 ############################################
 
 
-Numbering to match streetviews for markers
-
-Top to bottom street views
-
-
 ###################################
 ## Basic prototype working       ##
 ###################################
 
-
-Display all street views for turn by turn directions
 

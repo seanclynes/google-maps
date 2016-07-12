@@ -71,7 +71,7 @@
             margin: 10px;
             margin-left: 5px;
             overflow: scroll;
-            padding-right: 40px;
+            padding-right: 20px;
         }
 
         .street-view-container {
@@ -129,9 +129,6 @@
 </div>
 
 <script>
-    // This example requires the Places library. Include the libraries=places
-    // parameter when you first load the API. For example:
-    // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
     function initMap() {
         /**
@@ -348,11 +345,13 @@
             try {
                 for (i = 0; i < streetViewData.length ; i++) {
                     panorama = new google.maps.StreetViewPanorama(
-                            streetViewElementArray[i], {
-                                position: streetViewData[i]
+                            streetViewElementArray[i],{
+                                scrollwheel: false
                             });
+                    panorama.setPosition(streetViewData[i]);
                     descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
                             + ".</b> " + streetViewData[i].instructions;
+                    console.info(markerLabels.charAt( (i % markerLabels.length) ) + " " + panorama.getStatus());
                 }
             } catch (e) {
                 console.error(e.stack);
