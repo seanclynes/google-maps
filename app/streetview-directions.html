@@ -118,38 +118,7 @@
     <div id="map"></div>
 
     <div class="street-views">
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
-        <div class="panorama-template">
-            <div class="street-view-description"></div>
-            <div class="street-view-container"></div>
-        </div>
+
     </div>
 </div>
 
@@ -308,6 +277,8 @@
                 map.panBy(1,0);
                 map.panBy(-1,0);
             }, 500);
+
+            createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
         }
 
         function route(origin_place_id, destination_place_id, travel_mode,
@@ -329,6 +300,31 @@
                     window.alert('Directions request failed due to ' + status);
                 }
             });
+        }
+
+        /* DOM specific */
+
+
+        function appendTemplateCopies(domContainer, domTemplate, copyCount) {
+            var i;
+
+            for (i = 0; i < copyCount; i++) {
+
+                domContainer.appendChild( domTemplate.cloneNode(true) );
+            }
+        }
+
+        function createStreetViewContainers(containerSelector, templateSelector, copyCount) {
+            var containerElementArray = document.querySelectorAll(containerSelector),
+                    templateElementArray = document.querySelectorAll(templateSelector);
+
+            try  {
+                containerElementArray[0].innerHTML = "";
+                appendTemplateCopies(containerElementArray[0], templateElementArray[0], copyCount);
+            } catch (e)  {
+                console.error(e.stack);
+                console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+            }
         }
     }
 </script>
