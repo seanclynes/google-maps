@@ -11,6 +11,10 @@
             padding: 0;
         }
 
+        body {
+            overflow: hidden;
+        }
+
         @font-face {
             font-face-name: 'RobotoRegular';
             src: url('fonts/Roboto-Regular-webfont.eot');
@@ -57,17 +61,16 @@
 
         .container {
             display: flex;
-            overflow: auto;
             height: 100%;
         }
 
         .street-views {
+            box-sizing: border-box;
             width: 50%;
             min-width: 536px;
             margin: 10px;
             margin-left: 5px;
             overflow: auto;
-            height: 100%;
         }
 
         .street-view-container {
