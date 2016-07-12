@@ -279,6 +279,11 @@
             }, 500);
 
             createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
+
+            if (streetViewData.length > 0) {
+                addStreetViews(".street-views .street-view-container", ".street-views .street-view-description",
+                        streetViewData);
+            }
         }
 
         function route(origin_place_id, destination_place_id, travel_mode,
@@ -324,6 +329,28 @@
             } catch (e)  {
                 console.error(e.stack);
                 console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+            }
+        }
+
+        /* Multiple API dependencies */
+
+
+        function addStreetViews(streetViewSelector, descriptionSelector, streetViewData) {
+            var streetViewElementArray = document.querySelectorAll(streetViewSelector),
+                    descriptionElementArray = document.querySelectorAll(descriptionSelector),
+                    i, panorama;
+            try {
+                for (i = 0; i < streetViewData.length ; i++) {
+                    panorama = new google.maps.StreetViewPanorama(
+                            streetViewElementArray[i], {
+                                position: streetViewData[i]
+                            });
+                    descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
+                            + ".</b> " + streetViewData[i].instructions;
+                }
+            } catch (e) {
+                console.error(e.stack);
+                console.error("Error initializing street views");
             }
         }
     }
