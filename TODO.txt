@@ -27,8 +27,6 @@ Select different routes as there will be multiple or automatically select one on
 
 Use distance information in steps and include this in the UI e.g. [Turn left into brown street] [Drive 5km]
 
-Starting street view direction heading guess from locations
-
 Vertical and Horizontal layouts based on Google map direction for direction and match it.
 
 Left and right direction detection and matching.

@@ -209,8 +209,14 @@
         });
 
         /**
-         * My additions to autocomplete/directions example
+         * My additions to the original starting example
+         * https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-directions
          * */
+
+        /**
+         * Google maps API specific functions
+         * */
+
 
         directionsDisplay.addListener("directions_changed", function() {
             updateMarkers(this.getDirections());
@@ -271,6 +277,14 @@
             setMarkerMap(map);
         }
 
+        function convertHeading(heading) {
+            if(heading < 0) {
+                return Math.round(360 + heading);
+            }else{
+                return Math.round(heading);
+            }
+        }
+
         function addHeading(streetViewData) {
             var i, heading, latLng1, latLng2;
 
@@ -278,23 +292,14 @@
             latLng2 = new google.maps.LatLng(streetViewData[1].lat, streetViewData[1].lng);
 
             heading = google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
-
-            if(heading < 0) {
-                streetViewData[0].heading = Math.round(360 + heading);
-            }else{
-                streetViewData[0].heading = Math.round(heading);
-            }
+            streetViewData[0].heading = convertHeading(heading);
 
             for ( i = 1; i < streetViewData.length ; i++) {
                 latLng1 = new google.maps.LatLng(streetViewData[i - 1].lat, streetViewData[i - 1].lng);
                 latLng2 = new google.maps.LatLng(streetViewData[i].lat, streetViewData[i].lng);
 
                 heading = google.maps.geometry.spherical.computeHeading(latLng1, latLng2);
-                if(heading < 0) {
-                    streetViewData[i].heading = Math.round(360 + heading);
-                }else{
-                    streetViewData[i].heading = Math.round(heading);
-                }
+                streetViewData[i].heading = convertHeading(heading);
             }
         }
 
