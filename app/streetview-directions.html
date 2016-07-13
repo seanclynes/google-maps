@@ -271,26 +271,6 @@
             setMarkerMap(map);
         }
 
-        function updateMarkers(response) {
-            var streetViewData = parseLatLng(response);
-            addInstructions(response, streetViewData);
-            addMarkers(streetViewData);
-
-            //Workaround for markers not being rendered occasionally. This always fixes it.
-            setTimeout(function() {
-                map.panBy(1,0);
-                map.panBy(-1,0);
-            }, 500);
-
-            createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
-
-            if (streetViewData.length > 1) {
-                addHeading(streetViewData);
-                addStreetViews(".street-views .street-view-container", ".street-views .street-view-description",
-                        streetViewData);
-            }
-        }
-
         function addHeading(streetViewData) {
             var i, heading, latLng1, latLng2;
 
@@ -316,7 +296,26 @@
                     streetViewData[i].heading = Math.round(heading);
                 }
             }
+        }
 
+        function updateMarkers(response) {
+            var streetViewData = parseLatLng(response);
+            addInstructions(response, streetViewData);
+            addMarkers(streetViewData);
+
+            //Workaround for markers not being rendered occasionally. This always fixes it.
+            setTimeout(function() {
+                map.panBy(1,0);
+                map.panBy(-1,0);
+            }, 500);
+
+            createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
+
+            if (streetViewData.length > 1) {
+                addHeading(streetViewData);
+                addStreetViews(".street-views .street-view-container", ".street-views .street-view-description",
+                        streetViewData);
+            }
         }
 
         function route(origin_place_id, destination_place_id, travel_mode,
