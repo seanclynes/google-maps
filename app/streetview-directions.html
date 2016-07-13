@@ -284,10 +284,39 @@
 
             createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
 
-            if (streetViewData.length > 0) {
+            if (streetViewData.length > 1) {
+                addHeading(streetViewData);
                 addStreetViews(".street-views .street-view-container", ".street-views .street-view-description",
                         streetViewData);
             }
+        }
+
+        function addHeading(streetViewData) {
+            var i, heading, latLng1, latLng2;
+
+            latLng1 = new google.maps.LatLng(streetViewData[0].lat, streetViewData[0].lng);
+            latLng2 = new google.maps.LatLng(streetViewData[1].lat, streetViewData[1].lng);
+
+            heading = google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
+
+            if(heading < 0) {
+                streetViewData[0].heading = Math.round(360 + heading);
+            }else{
+                streetViewData[0].heading = Math.round(heading);
+            }
+
+            for ( i = 1; i < streetViewData.length ; i++) {
+                latLng1 = new google.maps.LatLng(streetViewData[i - 1].lat, streetViewData[i - 1].lng);
+                latLng2 = new google.maps.LatLng(streetViewData[i].lat, streetViewData[i].lng);
+
+                heading = google.maps.geometry.spherical.computeHeading(latLng1, latLng2);
+                if(heading < 0) {
+                    streetViewData[i].heading = Math.round(360 + heading);
+                }else{
+                    streetViewData[i].heading = Math.round(heading);
+                }
+            }
+
         }
 
         function route(origin_place_id, destination_place_id, travel_mode,
@@ -347,12 +376,15 @@
                 for (i = 0; i < streetViewData.length ; i++) {
                     panorama = new google.maps.StreetViewPanorama(
                             streetViewElementArray[i],{
-                                scrollwheel: false
+                                scrollwheel: false,
+                                pov: {
+                                    heading:streetViewData[i].heading,
+                                    pitch: 0
+                                }
                             });
                     panorama.setPosition(streetViewData[i]);
                     descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
                             + ".</b> " + streetViewData[i].instructions;
-                    console.info(markerLabels.charAt( (i % markerLabels.length) ) + " " + panorama.getStatus());
                 }
             } catch (e) {
                 console.error(e.stack);
@@ -361,7 +393,7 @@
         }
     }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&libraries=places&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&libraries=geometry,places&callback=initMap"
         async defer></script>
 </body>
 </html>
