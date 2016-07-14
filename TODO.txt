@@ -45,9 +45,11 @@ Reset to default path after dragging line as the dragging can leave the line in 
 ##############################################
 
 
-Can I detect no street view coverage for marker?
+Can I detect no street view coverage for marker? Use StreetViewService
 
 improve CSS and in particular flex box usage. Mobile friendly layout
+
+Investigate and possibly use steps within step for heading as it will be a little more accurate
 
 
 ############################################
