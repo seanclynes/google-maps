@@ -4,9 +4,9 @@
 ########################################
 
 
-Named description for markers using InfoWindow probably
+Resizable boundary between maps and streetview
 
-Minimize unwanted street views
+Named description for markers using InfoWindow probably
 
 Add additional street views not part of directions
 
@@ -18,6 +18,10 @@ Can almost reproduce this as two separate trips e.g. Scanlan st -> Southland and
 Drop markers animation
 
 Select different routes as there will be multiple or automatically select one only
+
+Investigate and possibly use steps within step for heading as it will be a little more accurate
+
+Can I detect no street view coverage for marker? Use StreetViewService
 
 
 #########################################
@@ -45,11 +49,14 @@ Reset to default path after dragging line as the dragging can leave the line in 
 ##############################################
 
 
-Can I detect no street view coverage for marker? Use StreetViewService
+The ability to minimize unwanted streetviews
+  * clickable icon for each streetview description
+  * animation to gradually decrease te height of the streetview then hide it completely.
+  * icon change when hidden
+  * animation to gradually show streetview
+  * written in a way that will make saving the state easy in the future. Don't implement yet.
 
 improve CSS and in particular flex box usage. Mobile friendly layout
-
-Investigate and possibly use steps within step for heading as it will be a little more accurate
 
 
 ############################################
