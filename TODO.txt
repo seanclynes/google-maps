@@ -56,6 +56,11 @@ The ability to minimize unwanted streetviews
   * animation to gradually show streetview
   * written in a way that will make saving the state easy in the future. Don't implement yet.
 
+    Prototype for animation streetview hide/show
+    o Add class using DOM functions
+    o Add animation class using DOM functions
+    o Listen for animation end event and change styling of description and javascript state
+
 improve CSS and in particular flex box usage. Mobile friendly layout
 
 

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Street View side-by-side</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map, .pano {
+            float: left;
+            height: 100%;
+            width: 45%;
+        }
+        .pano {
+            height: 300px;
+        }
+        .clearfix {
+            clear: left;
+        }
+        .togglebutton {
+            box-sizing: border-box;
+            padding-left: 40%;
+            padding-right: 40%;
+        }
+        .rollup {
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<div id="description">
+    <input id="rollitup" type="button" value="Roll up" class="togglebutton"></input>
+</div>
+<div class="pano"></div>
+<div class="clearfix"></div>
+<script>
+
+    function initialize() {
+        var fenway = {lat: 42.345573, lng: -71.098326};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: fenway,
+            zoom: 14
+        });
+        var panoDiv = document.querySelector('.pano');
+        var panorama = new google.maps.StreetViewPanorama(
+                panoDiv , {
+                    position: fenway,
+                    pov: {
+                        heading: 34,
+                        pitch: 10
+                    }
+                });
+
+        var button = document.getElementById("rollitup");
+
+        button.addEventListener('click', function() {
+            panoDiv.className = "rollup";
+        });
+    }
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&callback=initialize">
+</script>
+</body>
+</html>
