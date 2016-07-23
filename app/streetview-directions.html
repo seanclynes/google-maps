@@ -398,7 +398,7 @@
                     if(currentClass.indexOf(hideClass) < 0) {
                         streetViewContainerElementArray[i].className = currentClass + " " + hideClass;
                     } else {
-                        //Remove class....
+                        streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim();
                     }
                 };
             }
