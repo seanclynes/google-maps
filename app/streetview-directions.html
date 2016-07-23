@@ -111,6 +111,9 @@
         .hidden-template {
             display: none;
         }
+        .rolledup {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -327,8 +330,8 @@
 
             if (streetViewData.length > 1) {
                 addHeading(streetViewData);
-                addStreetViews(".street-views .street-view", ".street-views .street-view-description",
-                        streetViewData);
+                addStreetViews(".street-views .street-view-container", ".street-views .street-view",
+                        ".street-views .street-view-description", streetViewData);
             }
         }
 
@@ -381,10 +384,24 @@
         /* Multiple API dependencies */
 
 
-        function addStreetViews(streetViewSelector, descriptionSelector, streetViewData) {
-            var streetViewElementArray = document.querySelectorAll(streetViewSelector),
+        function addStreetViews(streetViewContainerSelector, streetViewSelector, descriptionSelector, streetViewData) {
+            var streetViewContainerElementArray = document.querySelectorAll(streetViewContainerSelector),
+                    streetViewElementArray = document.querySelectorAll(streetViewSelector),
                     descriptionElementArray = document.querySelectorAll(descriptionSelector),
                     i, panorama;
+
+            //Required to capture the correct value of i
+            function makeClickHandler(i) {
+                return function() {
+                    var hideClass = "rolledup", currentClass = streetViewContainerElementArray[i].className;
+
+                    if(currentClass.indexOf(hideClass) < 0) {
+                        streetViewContainerElementArray[i].className = currentClass + " " + hideClass;
+                    } else {
+                        //Remove class....
+                    }
+                };
+            }
             try {
                 for (i = 0; i < streetViewData.length ; i++) {
                     panorama = new google.maps.StreetViewPanorama(
@@ -398,6 +415,8 @@
                     panorama.setPosition(streetViewData[i]);
                     descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
                             + ".</b> " + streetViewData[i].instructions;
+
+                    descriptionElementArray[i].addEventListener('click', makeClickHandler(i));
                 }
             } catch (e) {
                 console.error(e.stack);
