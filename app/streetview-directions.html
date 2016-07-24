@@ -119,14 +119,16 @@
         }
         .rolledup {
             animation-name: rollitup;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
         }
 
         .rolleddown {
             animation-name: rollitdown;
-            animation-duration: 1s;
+            animation-duration: 0.5s;
             animation-fill-mode: forwards;
+            animation-timing-function: ease-out;
         }
 
         @keyframes rollitup {
@@ -415,16 +417,19 @@
             }
         }
 
+        function toggleString(toBRemoved, toBAdded, str) {
+            return str.replace(toBRemoved, "").trim() + " " + toBAdded;
+        }
+
         //Required to capture the correct value of i
         function makeClickHandler(i, streetViewContainerElementArray) {
             return function() {
                 var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainerElementArray[i].className;
 
                 if(currentClass.indexOf(hideClass) < 0) {
-                    streetViewContainerElementArray[i].className = currentClass.replace(showClass, "").trim() + " " + hideClass;
+                    streetViewContainerElementArray[i].className = toggleString(showClass, hideClass, currentClass);
                 } else {
-                    streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim() + " " +
-                                                                            showClass;
+                    streetViewContainerElementArray[i].className = toggleString(hideClass, showClass, currentClass);
                 }
             };
         }
