@@ -91,6 +91,7 @@
             padding: 0.5em;
             border-radius: 5px 5px 0 0 ;
             box-sizing: border-box;
+            cursor: pointer;
 
             background-color: #CCC;
             background-image:
@@ -120,7 +121,7 @@
 
 <div class="hidden-template">
     <div class="panorama-template">
-        <div class="street-view-description"></div>
+        <div class="street-view-description" title="Click to minimize"></div>
         <div class="street-view-container">
             <div class="street-view"></div>
         </div>
@@ -383,6 +384,18 @@
 
         /* Multiple API dependencies */
 
+        //Required to capture the correct value of i
+        function makeClickHandler(i, streetViewContainerElementArray) {
+            return function() {
+                var hideClass = "rolledup", currentClass = streetViewContainerElementArray[i].className;
+
+                if(currentClass.indexOf(hideClass) < 0) {
+                    streetViewContainerElementArray[i].className = currentClass + " " + hideClass;
+                } else {
+                    streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim();
+                }
+            };
+        }
 
         function addStreetViews(streetViewContainerSelector, streetViewSelector, descriptionSelector, streetViewData) {
             var streetViewContainerElementArray = document.querySelectorAll(streetViewContainerSelector),
@@ -390,18 +403,6 @@
                     descriptionElementArray = document.querySelectorAll(descriptionSelector),
                     i, panorama;
 
-            //Required to capture the correct value of i
-            function makeClickHandler(i) {
-                return function() {
-                    var hideClass = "rolledup", currentClass = streetViewContainerElementArray[i].className;
-
-                    if(currentClass.indexOf(hideClass) < 0) {
-                        streetViewContainerElementArray[i].className = currentClass + " " + hideClass;
-                    } else {
-                        streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim();
-                    }
-                };
-            }
             try {
                 for (i = 0; i < streetViewData.length ; i++) {
                     panorama = new google.maps.StreetViewPanorama(
@@ -415,8 +416,8 @@
                     panorama.setPosition(streetViewData[i]);
                     descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
                             + ".</b> " + streetViewData[i].instructions;
-
-                    descriptionElementArray[i].addEventListener('click', makeClickHandler(i));
+                    descriptionElementArray[i].addEventListener('click',
+                                                                makeClickHandler(i, streetViewContainerElementArray));
                 }
             } catch (e) {
                 console.error(e.stack);
