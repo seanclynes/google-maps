@@ -118,8 +118,13 @@
             display: none;
         }
         .rolledup {
-            /*display: none;*/
             animation-name: rollitup;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+        }
+
+        .rolleddown {
+            animation-name: rollitdown;
             animation-duration: 1s;
             animation-fill-mode: forwards;
         }
@@ -127,12 +132,20 @@
         @keyframes rollitup {
             from {
                 height: 300px;
-                display: block;
             }
 
             to {
                 height: 0;
-                display: none;
+            }
+        }
+
+        @keyframes rollitdown {
+            from {
+                height: 0;
+            }
+
+            to {
+                height: 300px;
             }
         }
     </style>
@@ -405,12 +418,13 @@
         //Required to capture the correct value of i
         function makeClickHandler(i, streetViewContainerElementArray) {
             return function() {
-                var hideClass = "rolledup", currentClass = streetViewContainerElementArray[i].className;
+                var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainerElementArray[i].className;
 
                 if(currentClass.indexOf(hideClass) < 0) {
-                    streetViewContainerElementArray[i].className = currentClass + " " + hideClass;
+                    streetViewContainerElementArray[i].className = currentClass.replace(showClass, "").trim() + " " + hideClass;
                 } else {
-                    streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim();
+                    streetViewContainerElementArray[i].className = currentClass.replace(hideClass, "").trim() + " " +
+                                                                            showClass;
                 }
             };
         }
