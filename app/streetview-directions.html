@@ -113,7 +113,21 @@
             display: none;
         }
         .rolledup {
-            display: none;
+            /*display: none;*/
+            animation-name: rollitup;
+            animation-duration: 5s;
+            animation-timing-function: ;
+        }
+
+        @keyframes rollitup {
+            from {
+                height: 300px;
+            }
+
+            to {
+                height: 2px;
+                display: none;
+            }
         }
     </style>
 </head>
