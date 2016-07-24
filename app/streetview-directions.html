@@ -309,6 +309,10 @@
             }
         }
 
+        function charFromStr(index, str) {
+            return str.charAt( (index % str.length) )
+        }
+
         function addMarkers(streetViewData) {
             var i;
 
@@ -319,7 +323,7 @@
 
                 markers[i] = new google.maps.Marker({
                     position: streetViewData[i],
-                    label: markerLabels.charAt( (i % markerLabels.length) )
+                    label: charFromStr(i, markerLabels)
                 });
             }
             setMarkerMap(map);
@@ -455,8 +459,8 @@
                                 }
                             });
                     panorama.setPosition(streetViewData[i]);
-                    descriptionElementArray[i].innerHTML = "<b>" + markerLabels.charAt( (i % markerLabels.length) )
-                            + ".</b> " + streetViewData[i].instructions;
+                    descriptionElementArray[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> "
+                                                                + streetViewData[i].instructions;
                     descriptionElementArray[i].addEventListener('click',
                                                                 makeClickHandler(i, streetViewContainerElementArray));
                 }
