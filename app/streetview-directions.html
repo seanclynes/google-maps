@@ -382,8 +382,6 @@
             }
         }
 
-        /* Multiple API dependencies */
-
         //Required to capture the correct value of i
         function makeClickHandler(i, streetViewContainerElementArray) {
             return function() {
@@ -396,6 +394,10 @@
                 }
             };
         }
+
+
+        /* Multiple API dependencies */
+
 
         function addStreetViews(streetViewContainerSelector, streetViewSelector, descriptionSelector, streetViewData) {
             var streetViewContainerElementArray = document.querySelectorAll(streetViewContainerSelector),

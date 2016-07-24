@@ -9,11 +9,9 @@ Resizable boundary between maps and streetview
 Named description for markers using InfoWindow probably
 
 Add additional street views not part of directions
+Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
 
 Support for different modes other than driving. Should be easy but not really as important.
-
-Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
-Can almost reproduce this as two separate trips e.g. Scanlan st -> Southland and Southland -> Moorabbin
 
 Drop markers animation
 
@@ -23,6 +21,8 @@ Investigate and possibly use steps within step for heading as it will be a littl
 
 Can I detect no street view coverage for marker? Use StreetViewService
 
+Reset to default path after dragging line as the dragging can leave the line in strange state
+
 
 #########################################
 ## Improvements on basic functionality ##
@@ -31,17 +31,7 @@ Can I detect no street view coverage for marker? Use StreetViewService
 
 Use distance information in steps and include this in the UI e.g. [Turn left into brown street] [Drive 5km]
 
-Vertical and Horizontal layouts based on Google map direction for direction and match it.
-
-Left and right direction detection and matching.
-
-Top and bottom start direction detection and matching.
-
-Scrollable streetviews horizontally if they, as is probable, have too many to display without scrolling.
-
 Link streetview with map while adjusting view. Only want one at a time.
-
-Reset to default path after dragging line as the dragging can leave the line in strange state
 
 
 ##############################################
@@ -62,6 +52,8 @@ The ability to minimize unwanted streetviews
     o Listen for animation end event and change styling of description and javascript state
 
 improve CSS and in particular flex box usage. Mobile friendly layout
+
+Initial loading of page shows origin and destination inputs. Should be hidden
 
 
 ############################################
