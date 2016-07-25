@@ -50,8 +50,6 @@ The ability to minimize unwanted streetviews
 
 improve CSS and in particular flex box usage. Mobile friendly layout
 
-Initial loading of page shows origin and destination inputs. Should be hidden
-
 
 ############################################
 ## Minimum to use in any way. For testing ##
