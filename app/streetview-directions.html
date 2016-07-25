@@ -114,7 +114,7 @@
         .panorama-template {
             margin-bottom: 10px;
         }
-        .hidden-template {
+        .hidden {
             display: none;
         }
         .rolledup {
@@ -154,7 +154,7 @@
 </head>
 <body>
 
-<div class="hidden-template">
+<div class="hidden">
     <div class="panorama-template">
         <div class="street-view-description" title="Click to minimize"></div>
         <div class="street-view-container">
@@ -261,6 +261,23 @@
          * https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-directions
          * */
 
+
+        function charFromStr(index, str) {
+            return str.charAt( (index % str.length) )
+        }
+
+        function convertTo360Heading(heading) {
+            if(heading < 0) {
+                return Math.round(360 + heading);
+            }else{
+                return Math.round(heading);
+            }
+        }
+
+        function toggleString(toBRemoved, toBAdded, str) {
+            return str.replace(toBRemoved, "").trim() + " " + toBAdded;
+        }
+
         /**
          * Google maps API specific functions
          * */
@@ -309,10 +326,6 @@
             }
         }
 
-        function charFromStr(index, str) {
-            return str.charAt( (index % str.length) )
-        }
-
         function addMarkers(streetViewData) {
             var i;
 
@@ -329,29 +342,20 @@
             setMarkerMap(map);
         }
 
-        function convertHeading(heading) {
-            if(heading < 0) {
-                return Math.round(360 + heading);
-            }else{
-                return Math.round(heading);
-            }
+        function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
+            latLng1 = new google.maps.LatLng(latLngLiteral1.lat, latLngLiteral1.lng);
+            latLng2 = new google.maps.LatLng(latLngLiteral2.lat, latLngLiteral2.lng);
+
+            return google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
         }
 
-        function addHeading(streetViewData) {
-            var i, heading, latLng1, latLng2;
+        function addHeading(latLngArray) {
+            var i;
 
-            latLng1 = new google.maps.LatLng(streetViewData[0].lat, streetViewData[0].lng);
-            latLng2 = new google.maps.LatLng(streetViewData[1].lat, streetViewData[1].lng);
+            latLngArray[0].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[0], latLngArray[1]));
 
-            heading = google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
-            streetViewData[0].heading = convertHeading(heading);
-
-            for ( i = 1; i < streetViewData.length ; i++) {
-                latLng1 = new google.maps.LatLng(streetViewData[i - 1].lat, streetViewData[i - 1].lng);
-                latLng2 = new google.maps.LatLng(streetViewData[i].lat, streetViewData[i].lng);
-
-                heading = google.maps.geometry.spherical.computeHeading(latLng1, latLng2);
-                streetViewData[i].heading = convertHeading(heading);
+            for ( i = 1; i < latLngArray.length ; i++) {
+                latLngArray[i].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[i - 1],latLngArray[i]));
             }
         }
 
@@ -366,7 +370,7 @@
                 map.panBy(-1,0);
             }, 500);
 
-            createStreetViewContainers(".street-views", ".hidden-template .panorama-template", streetViewData.length);
+            createStreetViewContainers(".street-views", ".hidden .panorama-template", streetViewData.length);
 
             if (streetViewData.length > 1) {
                 addHeading(streetViewData);
@@ -396,7 +400,9 @@
             });
         }
 
-        /* DOM specific */
+        /**
+         *  DOM specific
+         * */
 
 
         function appendTemplateCopies(domContainer, domTemplate, copyCount) {
@@ -421,11 +427,7 @@
             }
         }
 
-        function toggleString(toBRemoved, toBAdded, str) {
-            return str.replace(toBRemoved, "").trim() + " " + toBAdded;
-        }
-
-        //Required to capture the correct value of i
+        //Required to capture the correct value of i. Don't create functions in loops
         function makeClickHandler(i, streetViewContainerElementArray) {
             return function() {
                 var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainerElementArray[i].className;
@@ -439,7 +441,9 @@
         }
 
 
-        /* Multiple API dependencies */
+        /**
+         *  Multiple API dependencies
+         * */
 
 
         function addStreetViews(streetViewContainerSelector, streetViewSelector, descriptionSelector, streetViewData) {
