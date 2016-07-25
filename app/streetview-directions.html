@@ -156,7 +156,9 @@
 
 <div class="hidden">
     <div class="panorama-template">
-        <div class="street-view-description" title="Click to minimize"></div>
+        <div class="street-view-description" title="Click to minimize">
+            <span class="description-content"></span>
+        </div>
         <div class="street-view-container">
             <div class="street-view"></div>
         </div>
@@ -295,7 +297,7 @@
             }
         }
 
-        function parseLatLng(response) {
+        function populateLatLng(response) {
             var steps = response.routes[0].legs[0].steps;
             var i, latLngArray = new Array(steps.length + 1);
 
@@ -308,7 +310,7 @@
             return latLngArray;
         }
 
-        function addInstructions(response, streetViewData) {
+        function populateInstructions(response, streetViewData) {
             var steps = response.routes[0].legs[0].steps;
             var i;
 
@@ -326,7 +328,7 @@
             }
         }
 
-        function addMarkers(streetViewData) {
+        function drawMarkers(streetViewData) {
             var i;
 
             setMarkerMap(null);
@@ -349,7 +351,7 @@
             return google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
         }
 
-        function addHeading(latLngArray) {
+        function calculateHeading(latLngArray) {
             var i;
 
             latLngArray[0].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[0], latLngArray[1]));
@@ -360,9 +362,11 @@
         }
 
         function updateMarkers(response) {
-            var streetViewData = parseLatLng(response);
-            addInstructions(response, streetViewData);
-            addMarkers(streetViewData);
+            var data = populateLatLng(response);
+            populateInstructions(response, data);
+            calculateHeading(data);
+
+            drawMarkers(data);
 
             //Workaround for markers not being rendered occasionally. This always fixes it.
             setTimeout(function() {
@@ -370,12 +374,10 @@
                 map.panBy(-1,0);
             }, 500);
 
-            createStreetViewContainers(".street-views", ".hidden .panorama-template", streetViewData.length);
-
-            if (streetViewData.length > 1) {
-                addHeading(streetViewData);
-                addStreetViews(".street-views .street-view-container", ".street-views .street-view",
-                        ".street-views .street-view-description", streetViewData);
+            if (data.length > 1) {
+                createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
+                addStreetViews(".street-views .street-view", data);
+                addDescriptions(".street-views .street-view-container", ".street-views .street-view-description", data);
             }
         }
 
@@ -414,7 +416,7 @@
             }
         }
 
-        function createStreetViewContainers(containerSelector, templateSelector, copyCount) {
+        function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
             var containerElementArray = document.querySelectorAll(containerSelector),
                     templateElementArray = document.querySelectorAll(templateSelector);
 
@@ -440,33 +442,38 @@
             };
         }
 
+        function addDescriptions(streetViewContainerSelector, descriptionSelector, data) {
+            var streetViewContainers = document.querySelectorAll(streetViewContainerSelector),
+                    descriptions = document.querySelectorAll(descriptionSelector), i;
+
+            for (i = 0; i < data.length ; i++) {
+
+                descriptions[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> " + data[i].instructions;
+                descriptions[i].addEventListener('click', makeClickHandler(i, streetViewContainers));
+            }
+        }
+
 
         /**
          *  Multiple API dependencies
          * */
 
 
-        function addStreetViews(streetViewContainerSelector, streetViewSelector, descriptionSelector, streetViewData) {
-            var streetViewContainerElementArray = document.querySelectorAll(streetViewContainerSelector),
-                    streetViewElementArray = document.querySelectorAll(streetViewSelector),
-                    descriptionElementArray = document.querySelectorAll(descriptionSelector),
+        function addStreetViews(streetViewSelector, data) {
+            var streetViewElementArray = document.querySelectorAll(streetViewSelector),
                     i, panorama;
 
             try {
-                for (i = 0; i < streetViewData.length ; i++) {
+                for (i = 0; i < data.length ; i++) {
                     panorama = new google.maps.StreetViewPanorama(
                             streetViewElementArray[i],{
                                 scrollwheel: false,
                                 pov: {
-                                    heading:streetViewData[i].heading,
+                                    heading:data[i].heading,
                                     pitch: 0
-                                }
+                                },
+                                position: data[i]
                             });
-                    panorama.setPosition(streetViewData[i]);
-                    descriptionElementArray[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> "
-                                                                + streetViewData[i].instructions;
-                    descriptionElementArray[i].addEventListener('click',
-                                                                makeClickHandler(i, streetViewContainerElementArray));
                 }
             } catch (e) {
                 console.error(e.stack);
