@@ -286,7 +286,7 @@
 
 
         directionsDisplay.addListener("directions_changed", function() {
-            updateMarkers(this.getDirections());
+            handleDirectionsResponse(this.getDirections());
         });
 
         function callLatLngGetFunctions(propertyName, object) {
@@ -342,6 +342,12 @@
                 });
             }
             setMarkerMap(map);
+
+            //Workaround for markers not being rendered occasionally. This always fixes it.
+            setTimeout(function() {
+                map.panBy(1,0);
+                map.panBy(-1,0);
+            }, 500);
         }
 
         function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
@@ -361,23 +367,18 @@
             }
         }
 
-        function updateMarkers(response) {
+        function handleDirectionsResponse(response) {
             var data = populateLatLng(response);
             populateInstructions(response, data);
             calculateHeading(data);
 
             drawMarkers(data);
 
-            //Workaround for markers not being rendered occasionally. This always fixes it.
-            setTimeout(function() {
-                map.panBy(1,0);
-                map.panBy(-1,0);
-            }, 500);
-
             if (data.length > 1) {
                 createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
                 addStreetViews(".street-views .street-view", data);
-                addDescriptions(".street-views .street-view-container", ".street-views .street-view-description", data);
+                addClickListeners(".street-views .street-view-container",".street-views .street-view-description",data);
+                addDescriptions(".street-views .description-content", data);
             }
         }
 
@@ -442,14 +443,20 @@
             };
         }
 
-        function addDescriptions(streetViewContainerSelector, descriptionSelector, data) {
+        function addClickListeners(streetViewContainerSelector, controlSelector, data) {
             var streetViewContainers = document.querySelectorAll(streetViewContainerSelector),
-                    descriptions = document.querySelectorAll(descriptionSelector), i;
+                    controls = document.querySelectorAll(controlSelector), i;
 
             for (i = 0; i < data.length ; i++) {
+                controls[i].addEventListener('click', makeClickHandler(i, streetViewContainers));
+            }
+        }
 
+        function addDescriptions(descriptionsSelector, data) {
+            var i, descriptions = document.querySelectorAll(descriptionsSelector);;
+
+            for (i = 0; i < data.length ; i++) {
                 descriptions[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> " + data[i].instructions;
-                descriptions[i].addEventListener('click', makeClickHandler(i, streetViewContainers));
             }
         }
 
