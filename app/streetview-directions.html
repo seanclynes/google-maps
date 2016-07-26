@@ -47,7 +47,7 @@
         #destination-input {
             background-color: #fff;
             font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 300;
             margin-left: 12px;
             padding: 0 11px 0 13px;
@@ -91,12 +91,12 @@
 
         .street-view-description {
             font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
+            font-size: 16px;
             width: 100%;
             min-height: 2em;
             padding: 0.5em;
             border-radius: 5px 5px 0 0 ;
             box-sizing: border-box;
-            cursor: pointer;
 
             background-color: #CCC;
             background-image:
@@ -109,6 +109,25 @@
         .street-view-description div {
             margin-left: 0.4em;
             display:inline-block;
+        }
+
+        .minimise, .maximise {
+            background-color: #FFF;
+            display:inline-block;
+            margin-right: 0.4em;
+            width: 16px;
+            height: 16px;
+            border-radius: 8px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .minimise {
+            background-color: orange;
+        }
+
+        .maximise {
+            background-color: green;
         }
 
         .panorama-template {
@@ -156,7 +175,8 @@
 
 <div class="hidden">
     <div class="panorama-template">
-        <div class="street-view-description" title="Click to minimize">
+        <div class="street-view-description">
+            <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
             <span class="description-content"></span>
         </div>
         <div class="street-view-container">
