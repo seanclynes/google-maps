@@ -251,6 +251,23 @@
         streetViewData[i].instructions = "You have reached your destination";
     }
 
+    function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
+        latLng1 = new google.maps.LatLng(latLngLiteral1.lat, latLngLiteral1.lng);
+        latLng2 = new google.maps.LatLng(latLngLiteral2.lat, latLngLiteral2.lng);
+
+        return google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
+    }
+
+    function calculateHeading(latLngArray) {
+        var i;
+
+        latLngArray[0].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[0], latLngArray[1]));
+
+        for ( i = 1; i < latLngArray.length ; i++) {
+            latLngArray[i].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[i - 1],latLngArray[i]));
+        }
+    }
+
     /**
      *  Multiple API dependencies
      * */
@@ -404,23 +421,6 @@
                 map.panBy(1,0);
                 map.panBy(-1,0);
             }, 500);
-        }
-
-        function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
-            latLng1 = new google.maps.LatLng(latLngLiteral1.lat, latLngLiteral1.lng);
-            latLng2 = new google.maps.LatLng(latLngLiteral2.lat, latLngLiteral2.lng);
-
-            return google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
-        }
-
-        function calculateHeading(latLngArray) {
-            var i;
-
-            latLngArray[0].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[0], latLngArray[1]));
-
-            for ( i = 1; i < latLngArray.length ; i++) {
-                latLngArray[i].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[i - 1],latLngArray[i]));
-            }
         }
 
         function handleDirectionsResponse(response) {
