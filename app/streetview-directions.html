@@ -215,6 +215,7 @@
         return str.replace(toBRemoved, "").trim() + " " + toBAdded;
     }
 
+
     /**
      * Google maps API specific functions
      * */
@@ -267,6 +268,71 @@
             latLngArray[i].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[i - 1],latLngArray[i]));
         }
     }
+
+    /**
+     *  DOM specific
+     * */
+
+    function appendTemplateCopies(domContainer, domTemplate, copyCount) {
+        var i;
+
+        for (i = 0; i < copyCount; i++) {
+
+            domContainer.appendChild( domTemplate.cloneNode(true) );
+        }
+    }
+
+    function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
+        var containerElementArray = document.querySelectorAll(containerSelector),
+                templateElementArray = document.querySelectorAll(templateSelector);
+
+        try  {
+            containerElementArray[0].innerHTML = "";
+            appendTemplateCopies(containerElementArray[0], templateElementArray[0], copyCount);
+        } catch (e)  {
+            console.error(e.stack);
+            console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+        }
+    }
+
+    /** Required to capture the correct value of i. Don't create functions in loops
+     * */
+    function makeMinimiseHandler(i, streetViewContainers) {
+        return function() {
+            var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainers[i].className;
+
+            if(currentClass.indexOf(hideClass) < 0) {
+                streetViewContainers[i].className = toggleString(showClass, hideClass, currentClass);
+            }
+        };
+    }
+
+    function makeMaximiseHandler(i, streetViewContainers) {
+        return function() {
+            var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainers[i].className;
+
+            if(currentClass.indexOf(hideClass) > -1) {
+                streetViewContainers[i].className = toggleString(hideClass, showClass, currentClass);
+            }
+        };
+    }
+
+    function addMinimiseListener(streetViewContainers, minimiseSelector, data) {
+        var minimisers = document.querySelectorAll(minimiseSelector), i;
+
+        for (i = 0; i < data.length ; i++) {
+            minimisers[i].addEventListener('click', makeMinimiseHandler(i, streetViewContainers));
+        }
+    }
+
+    function addMaximiseListener(streetViewContainers, maximiseSelector, data) {
+        var minimisers = document.querySelectorAll(maximiseSelector), i;
+
+        for (i = 0; i < data.length ; i++) {
+            minimisers[i].addEventListener('click', makeMaximiseHandler(i, streetViewContainers));
+        }
+    }
+
 
     /**
      *  Multiple API dependencies
@@ -378,9 +444,6 @@
          * https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-directions
          * */
 
-
-
-
         /**
          * Google maps API specific functions
          * */
@@ -390,8 +453,6 @@
             handleDirectionsResponse(this.getDirections());
         });
 
-
-
         function setMarkerMap(map) {
             var i;
 
@@ -399,7 +460,6 @@
                 markers[i].setMap(map);
             }
         }
-
 
         function drawMarkers(streetViewData) {
             var i;
@@ -461,69 +521,11 @@
             });
         }
 
+
         /**
          *  DOM specific
          * */
 
-        function appendTemplateCopies(domContainer, domTemplate, copyCount) {
-            var i;
-
-            for (i = 0; i < copyCount; i++) {
-
-                domContainer.appendChild( domTemplate.cloneNode(true) );
-            }
-        }
-
-        function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
-            var containerElementArray = document.querySelectorAll(containerSelector),
-                    templateElementArray = document.querySelectorAll(templateSelector);
-
-            try  {
-                containerElementArray[0].innerHTML = "";
-                appendTemplateCopies(containerElementArray[0], templateElementArray[0], copyCount);
-            } catch (e)  {
-                console.error(e.stack);
-                console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
-            }
-        }
-
-        /** Required to capture the correct value of i. Don't create functions in loops
-         * */
-        function makeMinimiseHandler(i, streetViewContainers) {
-            return function() {
-                var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainers[i].className;
-
-                if(currentClass.indexOf(hideClass) < 0) {
-                    streetViewContainers[i].className = toggleString(showClass, hideClass, currentClass);
-                }
-            };
-        }
-
-        function makeMaximiseHandler(i, streetViewContainers) {
-            return function() {
-                var hideClass = "rolledup", showClass = "rolleddown", currentClass = streetViewContainers[i].className;
-
-                if(currentClass.indexOf(hideClass) > -1) {
-                    streetViewContainers[i].className = toggleString(hideClass, showClass, currentClass);
-                }
-            };
-        }
-
-        function addMinimiseListener(streetViewContainers, minimiseSelector, data) {
-            var minimisers = document.querySelectorAll(minimiseSelector), i;
-
-            for (i = 0; i < data.length ; i++) {
-                minimisers[i].addEventListener('click', makeMinimiseHandler(i, streetViewContainers));
-            }
-        }
-
-        function addMaximiseListener(streetViewContainers, maximiseSelector, data) {
-            var minimisers = document.querySelectorAll(maximiseSelector), i;
-
-            for (i = 0; i < data.length ; i++) {
-                minimisers[i].addEventListener('click', makeMaximiseHandler(i, streetViewContainers));
-            }
-        }
 
         function addDescriptions(descriptionsSelector, data) {
             var i, descriptions = document.querySelectorAll(descriptionsSelector);
@@ -532,6 +534,7 @@
                 descriptions[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> " + data[i].instructions;
             }
         }
+
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&libraries=geometry,places&callback=initMap"
