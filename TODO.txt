@@ -43,11 +43,6 @@ Distance and Time information e.g. 20km 40 min visible. Should have or be very c
 
 100% Unit test coverage
 
-The ability to minimize unwanted streetviews
-  * clickable icon for each streetview description
-  * icon change when hidden
-  * written in a way that will make saving the state easy in the future. Don't implement yet.
-
 improve CSS and in particular flex box usage. Mobile friendly layout
 
 
