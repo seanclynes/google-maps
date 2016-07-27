@@ -4,6 +4,9 @@
 ########################################
 
 
+Select different routes as there will be multiple
+    * UI update to select different route index
+
 Resizable boundary between maps and streetview
 
 Named description for markers using InfoWindow probably
@@ -23,8 +26,6 @@ Reset to default path after dragging line as the dragging can leave the line in 
 
 
 Link streetview with map while adjusting view. Only want one at a time.
-
-Select different routes as there will be multiple or automatically select one only
 
 
 ##############################################
