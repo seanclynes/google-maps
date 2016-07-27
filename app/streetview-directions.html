@@ -293,12 +293,12 @@
     }
 
     function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
-        var containerElementArray = document.querySelectorAll(containerSelector),
+        var container = document.querySelector(containerSelector),
                 templateElementArray = document.querySelectorAll(templateSelector);
 
         try  {
-            containerElementArray[0].innerHTML = "";
-            appendTemplateCopies(containerElementArray[0], templateElementArray[0], copyCount);
+            container.innerHTML = "";
+            appendTemplateCopies(container, templateElementArray[0], copyCount);
         } catch (e)  {
             console.error(e.stack);
             console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
