@@ -65,6 +65,20 @@
             height: 100%;
         }
 
+        .directions-information {
+            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .route-description {
+            font-weight: bold;
+        }
+
+        .route-description:after {
+            content: " "
+        }
+
         .street-views {
             box-sizing: border-box;
             width: 50%;
@@ -182,6 +196,14 @@
         </div>
     </div>
 
+    <div class="directions-information">
+        <fieldset>
+            <legend>Directions Summary</legend>
+
+            <span class="route-description">M1 motorway</span><span class="distance-time-data">10km (20 minutes)</span>
+        </fieldset>
+    </div>
+
     <input id="origin-input" class="controls" type="text"
            placeholder="Enter an origin location">
 
@@ -191,6 +213,7 @@
 
 <div class="container">
     <div id="map"></div>
+
 
     <div class="street-views">
 
@@ -292,12 +315,24 @@
         }
     }
 
+    function createDistanceTimeLabel(containerSelector, templateSelector) {
+        var container = document.querySelector(containerSelector),
+                template = document.querySelector(templateSelector);
+
+        try  {
+            container.innerHTML = "";
+            container.appendChild( template.cloneNode(true) );
+        } catch (e)  {
+            console.error(e.stack);
+            console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+        }
+    }
+
     function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
         var container = document.querySelector(containerSelector),
                 templateElementArray = document.querySelectorAll(templateSelector);
 
         try  {
-            container.innerHTML = "";
             appendTemplateCopies(container, templateElementArray[0], copyCount);
         } catch (e)  {
             console.error(e.stack);
@@ -393,6 +428,7 @@
         drawMarkers(data, markers, markerLabels, map);
 
         if (data.length > 1) {
+            createDistanceTimeLabel(".street-views", ".hidden .directions-information");
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
             addStreetViews(".street-views .street-view", data);
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
