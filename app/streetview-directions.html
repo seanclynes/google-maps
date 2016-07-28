@@ -193,11 +193,17 @@
     <div class="panorama-template">
         <div class="street-view-description">
             <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
-            <span class="description-content"></span>
+            <span class="description-content"></span><span class="duration-distance-placeholder"></span>
         </div>
         <div class="street-view-container">
             <div class="street-view"></div>
         </div>
+    </div>
+
+    <div class="duration-distance-template">
+        <span class="route-description"></span>,
+        <span class="duration-data"></span>
+        ( <span class="distance-data"></span> )
     </div>
 
     <div class="directions-information">
@@ -444,6 +450,15 @@
         description.innerHTML = routeInfo.summary;
         distance.innerHTML = routeInfo.distance;
         duration.innerHTML = routeInfo.duration;
+    }
+
+    function createDurationDistanceDOM(targetSelector, templateSelector) {
+        var i, targets = document.querySelectorAll(targetSelector),
+                templateElement = document.querySelector(templateSelector);
+
+        for( i = 0 ; i < (targets.length - 1) ; i++) {
+            targets[i].appendChild(templateElement.cloneNode(true));
+        }
 
     }
 
@@ -459,6 +474,7 @@
         if (data.length > 1) {
             createRouteInfoDOM(".street-views", ".hidden .directions-information");
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
+            createDurationDistanceDOM(".street-views .duration-distance-placeholder", ".hidden .duration-distance-template");
             addRouteDescription(".street-views .route-description", ".street-views .distance-data",
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
