@@ -206,7 +206,7 @@
 
 
             <span class="route-description"></span>,
-            <span class="time-data"></span>
+            <span class="duration-data"></span>
             ( <span class="distance-data"></span> )
         </fieldset>
     </div>
@@ -436,14 +436,14 @@
         return routeInfo;
     }
 
-    function addRouteDescription(descriptionSelector, distanceSelector, timeSelector, routeInfo) {
+    function addRouteDescription(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
         var description = document.querySelector(descriptionSelector),
             distance = document.querySelector(distanceSelector),
-            time = document.querySelector(timeSelector);
+            duration = document.querySelector(durationSelector);
 
         description.innerHTML = routeInfo.summary;
         distance.innerHTML = routeInfo.distance;
-        time.innerHTML = routeInfo.duration;
+        duration.innerHTML = routeInfo.duration;
 
     }
 
@@ -460,7 +460,7 @@
             createRouteInfoDOM(".street-views", ".hidden .directions-information");
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
             addRouteDescription(".street-views .route-description", ".street-views .distance-data",
-                                                                            ".street-views .time-data", routeInfo);
+                                                                            ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
             addMinimiseListener(streetViewContainers, ".street-views .minimise", data);
