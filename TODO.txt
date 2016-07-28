@@ -32,11 +32,9 @@ Link streetview with map while adjusting view. Only want one at a time.
 ## Minimum to be production usable demoable ##
 ##############################################
 
-proper top level domain trippreview.seanclynes.com
+proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview.html
 
 export to github
-
-Distance and Time information e.g. 20km 40 min visible. Should have or be very close to existing directions functionality
 
 Add additional street views not part of directions
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
