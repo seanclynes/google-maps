@@ -15,6 +15,10 @@
             overflow: hidden;
         }
 
+        fieldset {
+            border-radius: 5px;
+        }
+
         @font-face {
             font-face-name: 'RobotoRegular';
             src: url('fonts/Roboto-Regular-webfont.eot');
@@ -198,9 +202,11 @@
 
     <div class="directions-information">
         <fieldset>
-            <legend>Directions Summary</legend>
+            <legend>Route Summary</legend>
 
-            <span class="route-description">M1 motorway</span><span class="distance-time-data">10km (20 minutes)</span>
+            <span class="route-description"></span>
+            <span class="time-data"></span>
+            <span class="distance-data"></span>
         </fieldset>
     </div>
 
@@ -315,7 +321,7 @@
         }
     }
 
-    function createDistanceTimeLabel(containerSelector, templateSelector) {
+    function createRouteInfoDOM(containerSelector, templateSelector) {
         var container = document.querySelector(containerSelector),
                 template = document.querySelector(templateSelector);
 
@@ -420,16 +426,40 @@
         }
     }
 
+    function populateDistanceTimeForRoute(response){
+        var routeInfo = {};
+
+        routeInfo.summary = response.routes[0].summary;
+        routeInfo.distance = response.routes[0].legs[0].distance.text;
+        routeInfo.duration = response.routes[0].legs[0].duration.text;
+        return routeInfo;
+    }
+
+    function addRouteDescription(descriptionSelector, distanceSelector, timeSelector, routeInfo) {
+        var description = document.querySelector(descriptionSelector),
+            distance = document.querySelector(distanceSelector),
+            time = document.querySelector(timeSelector);
+
+        description.innerHTML = routeInfo.summary;
+        distance.innerHTML = routeInfo.distance;
+        time.innerHTML = routeInfo.duration;
+
+    }
+
     function handleDirectionsResponse(response, markers, markerLabels, map) {
-        var streetViewContainers, data = populateLatLng(response);
+        var streetViewContainers, data = populateLatLng(response),
+                routeInfo = populateDistanceTimeForRoute(response);
+
         populateInstructions(response, data);
         calculateHeading(data);
 
         drawMarkers(data, markers, markerLabels, map);
 
         if (data.length > 1) {
-            createDistanceTimeLabel(".street-views", ".hidden .directions-information");
+            createRouteInfoDOM(".street-views", ".hidden .directions-information");
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
+            addRouteDescription(".street-views .route-description", ".street-views .distance-data",
+                                                                            ".street-views .time-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
             addMinimiseListener(streetViewContainers, ".street-views .minimise", data);
