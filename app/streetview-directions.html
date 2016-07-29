@@ -452,6 +452,18 @@
         return routeInfo;
     }
 
+    function populateDurationDistance(response) {
+        var i, steps = response.routes[0].legs[0].steps,
+                durationDistanceData = new Array(steps.length);
+
+        for(i = 0 ; i < steps.length ; i++){
+            durationDistanceData[i] = {};
+            durationDistanceData[i].duration = steps[i].duration.text;
+            durationDistanceData[i].distance = steps[i].distance.text;
+        }
+        return durationDistanceData;
+    }
+
     function addRouteDescription(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
         var description = document.querySelector(descriptionSelector),
             distance = document.querySelector(distanceSelector),
@@ -474,8 +486,8 @@
 
     function handleDirectionsResponse(response, markers, markerLabels, map) {
         var streetViewContainers, data = populateLatLng(response),
-                routeInfo = populateDistanceTimeForRoute(response);
-
+                routeInfo = populateDistanceTimeForRoute(response),
+                durationDistanceData = populateDurationDistance(response);
         populateInstructions(response, data);
         calculateHeading(data);
 
@@ -484,7 +496,8 @@
         if (data.length > 1) {
             createRouteInfoDOM(".street-views", ".hidden .directions-information");
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
-            createDurationDistanceDOM(".street-views .duration-distance-placeholder", ".hidden .duration-distance-template");
+            createDurationDistanceDOM(".street-views .duration-distance-placeholder",
+                                                                                ".hidden .duration-distance-template");
             addRouteDescription(".street-views .route-description", ".street-views .distance-data",
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
