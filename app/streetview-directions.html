@@ -375,19 +375,19 @@
         };
     }
 
-    function addMinimiseListener(streetViewContainers, minimiseSelector, data) {
+    function addMinimiseListener(streetViewContainers, minimiseSelector) {
         var minimisers = document.querySelectorAll(minimiseSelector), i;
 
-        for (i = 0; i < data.length ; i++) {
+        for (i = 0; i < minimisers.length ; i++) {
             minimisers[i].addEventListener('click', makeMinimiseHandler(i, streetViewContainers));
         }
     }
 
-    function addMaximiseListener(streetViewContainers, maximiseSelector, data) {
-        var minimisers = document.querySelectorAll(maximiseSelector), i;
+    function addMaximiseListener(streetViewContainers, maximiseSelector) {
+        var maximisers = document.querySelectorAll(maximiseSelector), i;
 
-        for (i = 0; i < data.length ; i++) {
-            minimisers[i].addEventListener('click', makeMaximiseHandler(i, streetViewContainers));
+        for (i = 0; i < maximisers.length ; i++) {
+            maximisers[i].addEventListener('click', makeMaximiseHandler(i, streetViewContainers));
         }
     }
 
@@ -479,8 +479,8 @@
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
-            addMinimiseListener(streetViewContainers, ".street-views .minimise", data);
-            addMaximiseListener(streetViewContainers, ".street-views .maximise", data);
+            addMinimiseListener(streetViewContainers, ".street-views .minimise");
+            addMaximiseListener(streetViewContainers, ".street-views .maximise");
             addDescriptions(".street-views .description-content", markerLabels, data);
         }
     }
