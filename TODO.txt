@@ -36,6 +36,8 @@ proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview
 
 export to github
 
+
+
 Add additional street views not part of directions
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
 
