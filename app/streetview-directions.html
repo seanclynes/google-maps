@@ -195,6 +195,15 @@
                 height: 300px;
             }
         }
+
+        .duration-distance-template {
+            float: right;
+        }
+        .clearfix:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
     </style>
 </head>
 <body>
@@ -203,7 +212,7 @@
     <div class="panorama-template">
         <div class="street-view-description">
             <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
-            <span class="description-content"></span><span class="duration-distance-placeholder"></span>
+            <span class="description-content"></span><span class="duration-distance-placeholder clearfix"></span>
         </div>
         <div class="street-view-container">
             <div class="street-view"></div>
@@ -211,7 +220,7 @@
     </div>
 
     <div class="duration-distance-template">
-        Travel ,
+        Travel
         <span class="duration-data"></span>
         ( <span class="distance-data"></span> )
     </div>

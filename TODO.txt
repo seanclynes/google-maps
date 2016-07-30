@@ -36,7 +36,7 @@ proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview
 
 export to github
 
-reuse the template for duration, distance for Route Summary
+reuse the template for duration, distance for Route Summary maybe
 
 Add additional street views not part of directions
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
@@ -59,4 +59,5 @@ improve CSS and in particular flex box usage. Mobile friendly layout
 ## Basic prototype working       ##
 ###################################
 
+line in streetview appears to be caused by myself. Possibly the border-radius. more visible on safari
 
