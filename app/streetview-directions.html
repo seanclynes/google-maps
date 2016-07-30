@@ -494,6 +494,16 @@
 
     }
 
+    function addDurationDistance(distanceSelector, durationSelector, durationDistanceData){
+        var i, distances = document.querySelectorAll(distanceSelector),
+                durations = document.querySelectorAll(durationSelector);
+
+        for( i = 0; i < durations.length ; i++) {
+            durations[i].innerHTML = durationDistanceData[i].duration;
+            distances[i].innerHTML = durationDistanceData[i].distance;
+        }
+    }
+
     function handleDirectionsResponse(response, markers, markerLabels, map) {
         var streetViewContainers, data = populateLatLng(response),
                 routeInfo = populateDistanceTimeForRoute(response),
@@ -511,10 +521,13 @@
             addRouteInfo(".street-views .route-description", ".street-views .distance-data",
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
+            addDescriptions(".street-views .description-content", markerLabels, data);
+            addDurationDistance(".street-views .duration-distance-template .distance-data",
+                    ".street-views .duration-distance-template .duration-data", durationDistanceData);
+
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
             addMinimiseListener(streetViewContainers, ".street-views .minimise");
             addMaximiseListener(streetViewContainers, ".street-views .maximise");
-            addDescriptions(".street-views .description-content", markerLabels, data);
         }
     }
 
