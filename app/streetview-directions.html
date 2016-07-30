@@ -211,7 +211,7 @@
     </div>
 
     <div class="duration-distance-template">
-        <span class="route-description"></span>,
+        Travel ,
         <span class="duration-data"></span>
         ( <span class="distance-data"></span> )
     </div>
@@ -292,7 +292,7 @@
         var steps = response.routes[0].legs[0].steps;
         var i;
 
-        for (i = 0 ; i < steps.length ; i++) {
+        for(i = 0 ; i < steps.length ; i++){
             streetViewData[i].instructions = steps[i].instructions;
         }
         streetViewData[i].instructions = "You have reached your destination";
@@ -474,6 +474,16 @@
         duration.innerHTML = routeInfo.duration;
     }
 
+    function addRouteInfo(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
+        var description = document.querySelector(descriptionSelector),
+                distance = document.querySelector(distanceSelector),
+                duration = document.querySelector(durationSelector);
+
+        description.innerHTML = routeInfo.summary;
+        distance.innerHTML = routeInfo.distance;
+        duration.innerHTML = routeInfo.duration;
+    }
+
     function createDurationDistanceDOM(targetSelector, templateSelector) {
         var i, targets = document.querySelectorAll(targetSelector),
                 templateElement = document.querySelector(templateSelector);
@@ -498,7 +508,7 @@
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
             createDurationDistanceDOM(".street-views .duration-distance-placeholder",
                                                                                 ".hidden .duration-distance-template");
-            addRouteDescription(".street-views .route-description", ".street-views .distance-data",
+            addRouteInfo(".street-views .route-description", ".street-views .distance-data",
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
