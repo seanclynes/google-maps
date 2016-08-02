@@ -129,6 +129,9 @@
                             #AAA 20%, #CCC
                     );
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
+
+            display: flex;
+            justify-content: space-between;
         }
 
         /*Google descriptions sometimes contain div's which I want inline */
@@ -152,6 +155,18 @@
 
         .maximise {
             background-color: green;
+        }
+
+        .min-max {
+            flex: 0 0 auto;
+        }
+
+        .description-content {
+            flex: 1 1 auto;
+        }
+
+        .duration-distance-placeholder {
+            flex: 0 0 auto;
         }
 
         .panorama-template {
@@ -195,7 +210,7 @@
         }
 
         .duration-distance-template {
-            float: right;
+            /*float: right;*/
         }
         .clearfix:after {
             content: "";
@@ -248,17 +263,19 @@
     <div class="street-views">
         <div class="panorama-template">
             <div class="street-view-description">
-                <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
-                <span class="description-content">
+                <div class="min-max">
+                    <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
+                </div>
+                <div class="description-content">
                     A. Head west on Inkerman St toward Barkly St/State Route 29
-                </span>
-                <span class="duration-distance-placeholder clearfix">
+                </div>
+                <div class="duration-distance-placeholder">
                     <span class="duration-distance-template">
                         Travel Travel
                         <span class="duration-data">1 min</span>
                         ( <span class="distance-data">17 m</span> )
                     </span>
-                </span>
+                </div>
             </div>
             <div class="street-view-container">
                 <div class="street-view"></div>
