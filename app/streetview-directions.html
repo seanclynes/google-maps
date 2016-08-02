@@ -135,7 +135,7 @@
         }
 
         /*Google descriptions sometimes contain div's which I want inline */
-        .street-view-description div {
+        .description-content div {
             margin-left: 0.4em;
             display:inline-block;
         }
@@ -167,6 +167,7 @@
 
         .duration-distance-placeholder {
             flex: 0 0 auto;
+            margin-left: 0.4em;
         }
 
         .panorama-template {
@@ -208,15 +209,6 @@
                 height: 300px;
             }
         }
-
-        .duration-distance-template {
-            /*float: right;*/
-        }
-        .clearfix:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
     </style>
 </head>
 <body>
@@ -227,7 +219,8 @@
             <div class="min-max">
                 <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
             </div>
-            <span class="description-content"></span><span class="duration-distance-placeholder clearfix"></span>
+            <div class="description-content"></div>
+            <div class="duration-distance-placeholder"></div>
         </div>
         <div class="street-view-container">
             <div class="street-view"></div>
@@ -263,26 +256,7 @@
 
 
     <div class="street-views">
-        <div class="panorama-template">
-            <div class="street-view-description">
-                <div class="min-max">
-                    <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
-                </div>
-                <div class="description-content">
-                    A. Head west on Inkerman St toward Barkly St/State Route 29
-                </div>
-                <div class="duration-distance-placeholder">
-                    <span class="duration-distance-template">
-                        Travel Travel
-                        <span class="duration-data">1 min</span>
-                        ( <span class="distance-data">17 m</span> )
-                    </span>
-                </div>
-            </div>
-            <div class="street-view-container">
-                <div class="street-view"></div>
-            </div>
-        </div>
+
     </div>
 </div>
 
