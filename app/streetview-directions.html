@@ -5,6 +5,13 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <style>
+
+        /*   Styles grouped matching final markup after templating  */
+
+
+        /*   General   */
+
+
         html, body {
             height: 100%;
             margin: 0;
@@ -15,11 +22,6 @@
             overflow: hidden;
         }
 
-        fieldset {
-            border-radius: 10px;
-            box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
-        }
-
         @font-face {
             font-face-name: 'RobotoRegular';
             src: url('fonts/Roboto-Regular-webfont.eot');
@@ -27,6 +29,25 @@
                  url('fonts/Roboto-Regular-webfont.woff') format('woff'),
                  url('fonts/Roboto-Regular-webfont.ttf') format('truetype');
         }
+
+        .hidden {
+            display: none;
+        }
+
+
+        /*   Container   */
+
+
+        .container {
+            display: flex;
+            height: 100%;
+        }
+
+
+
+        /*   Map   */
+
+
 
         #map {
             width: 50%;
@@ -41,6 +62,13 @@
         #map > * {
             border-radius: 10px;
         }
+
+
+
+        /*   Map children  */
+
+
+
         .controls {
             margin-top: 10px;
             border: 1px solid transparent;
@@ -69,20 +97,11 @@
             border-color: #4d90fe;
         }
 
-        .container {
-            display: flex;
-            height: 100%;
-        }
 
-        .directions-information {
-            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
 
-        .route-description:after {
-            content: " "
-        }
+        /*   Streetviews   */
+
+
 
         .street-views {
             box-sizing: border-box;
@@ -94,25 +113,46 @@
             padding-right: 20px;
         }
 
-        .street-view-container {
-            overflow: hidden;
+
+
+        /*   Streetviews  children  */
+
+
+
+        /*   Route summary  */
+
+
+
+        .directions-information {
+            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        fieldset {
+            border-radius: 10px;
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
-
-            /* Required as well as value for > div below */
-            border-radius: 0 0 10px 10px;
         }
 
-        .street-view {
-            width: 100%;
-            height: 300px;
-
-            background-color: #AAA;
+        .route-description:after {
+            content: " "
         }
 
-        /* Style the generated Streetview div requires this for chrome and safari*/
-        .street-view > div {
-            border-radius: 0 0 10px 10px;
+
+
+        /*   Panarama template  */
+
+
+
+        .panorama-template {
+            margin-bottom: 10px;
         }
+
+
+
+        /*   Description   */
+
+
 
         .street-view-description {
             font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
@@ -134,10 +174,8 @@
             justify-content: space-between;
         }
 
-        /*Google descriptions sometimes contain div's which I want inline */
-        .description-content div {
-            margin-left: 0.4em;
-            display:inline-block;
+        .min-max {
+            flex: 0 0 auto;
         }
 
         .minimise, .maximise {
@@ -157,8 +195,10 @@
             background-color: green;
         }
 
-        .min-max {
-            flex: 0 0 auto;
+        /*Google descriptions sometimes contain div's which I want inline */
+        .description-content div {
+            margin-left: 0.4em;
+            display:inline-block;
         }
 
         .description-content {
@@ -170,12 +210,20 @@
             margin-left: 0.4em;
         }
 
-        .panorama-template {
-            margin-bottom: 10px;
+
+
+        /*   Streetview   */
+
+
+
+        .street-view-container {
+            overflow: hidden;
+            box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
+
+            /* Required as well as value for > div below */
+            border-radius: 0 0 10px 10px;
         }
-        .hidden {
-            display: none;
-        }
+
         .rolledup {
             animation-name: rollitup;
             animation-duration: 0.5s;
@@ -209,11 +257,25 @@
                 height: 300px;
             }
         }
+
+        .street-view {
+            width: 100%;
+            height: 300px;
+
+            background-color: #AAA;
+        }
+
+        /* Style the generated Streetview div requires this for chrome and safari*/
+        .street-view > div {
+            border-radius: 0 0 10px 10px;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="hidden">
+
     <div class="panorama-template">
         <div class="street-view-description">
             <div class="min-max">
