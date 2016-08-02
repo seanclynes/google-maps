@@ -60,5 +60,3 @@ improve CSS and in particular flex box usage. Mobile friendly layout
 ###################################
 ## Basic prototype working       ##
 ###################################
-
-Street views has a margin at the bottom for some reason
