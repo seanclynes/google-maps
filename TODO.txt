@@ -4,7 +4,7 @@
 ########################################
 
 
-safari vertical line may be me.
+safari vertical line in streetview
 
 Select different routes as there will be multiple
     * UI update to select different route index

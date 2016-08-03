@@ -351,10 +351,14 @@
             <legend>Route Summary</legend>
 
 
-            <span class="route-description"></span>,
-            <span class="duration-data"></span>
-            ( <span class="distance-data"></span> )
+            <div class="route-info"></div>
         </fieldset>
+    </div>
+
+    <div class="route-info-template">
+        <span class="route-description"></span>,
+        <span class="duration-data"></span>
+        ( <span class="distance-data"></span> )
     </div>
 
     <input id="origin-input" class="controls" type="text" autocomplete="off"
@@ -468,13 +472,20 @@
         }
     }
 
-    function createRouteInfoDOM(containerSelector, templateSelector) {
+    function createRouteInfoDOM(containerSelector, templateSelector, childContainerSelector, childTemplateSelector,
+                                routeInfo) {
         var container = document.querySelector(containerSelector),
-                template = document.querySelector(templateSelector);
+                template = document.querySelector(templateSelector),
+                childContainer,
+                childTemplate = document.querySelector(childTemplateSelector);
 
         try  {
             container.innerHTML = "";
             container.appendChild( template.cloneNode(true) );
+
+            childContainer = document.querySelector(childContainerSelector);
+
+            appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
         } catch (e)  {
             console.error(e.stack);
             console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
@@ -573,13 +584,17 @@
         }
     }
 
-    function populateDistanceTimeForRoute(response){
-        var routeInfo = {};
+    function populateRouteInfo(response){
+        var i, routeInfo, routes = [];
 
-        routeInfo.summary = response.routes[0].summary;
-        routeInfo.distance = response.routes[0].legs[0].distance.text;
-        routeInfo.duration = response.routes[0].legs[0].duration.text;
-        return routeInfo;
+        for(i = 0 ; i < 1 ; i++) {
+            routeInfo = {};
+            routeInfo.summary = response.routes[i].summary;
+            routeInfo.distance = response.routes[i].legs[0].distance.text;
+            routeInfo.duration = response.routes[i].legs[0].duration.text;
+            routes.push(routeInfo);
+        }
+        return routes;
     }
 
     function populateDurationDistance(response) {
@@ -609,9 +624,9 @@
                 distance = document.querySelector(distanceSelector),
                 duration = document.querySelector(durationSelector);
 
-        description.innerHTML = routeInfo.summary;
-        distance.innerHTML = routeInfo.distance;
-        duration.innerHTML = routeInfo.duration;
+        description.innerHTML = routeInfo[0].summary;
+        distance.innerHTML = routeInfo[0].distance;
+        duration.innerHTML = routeInfo[0].duration;
     }
 
     function createDurationDistanceDOM(targetSelector, templateSelector) {
@@ -636,7 +651,7 @@
 
     function handleDirectionsResponse(response, markers, markerLabels, map) {
         var streetViewContainers, data = populateLatLng(response),
-                routeInfo = populateDistanceTimeForRoute(response),
+                routeInfo = populateRouteInfo(response),
                 durationDistanceData = populateDurationDistance(response);
         populateInstructions(response, data);
         calculateHeading(data);
@@ -644,7 +659,8 @@
         drawMarkers(data, markers, markerLabels, map);
 
         if (data.length > 1) {
-            createRouteInfoDOM(".street-views", ".hidden .directions-information");
+            createRouteInfoDOM(".street-views", ".hidden .directions-information", ".street-views .route-info",
+                                                ".hidden .route-info-template", routeInfo);
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
             createDurationDistanceDOM(".street-views .duration-distance-placeholder",
                                                                                 ".hidden .duration-distance-template");
@@ -669,7 +685,8 @@
         directionsService.route({
             origin: {'placeId': origin_place_id},
             destination: {'placeId': destination_place_id},
-            travelMode: travel_mode
+            travelMode: travel_mode,
+            provideRouteAlternatives: true
         }, function(response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
 
