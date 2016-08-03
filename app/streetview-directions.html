@@ -276,28 +276,49 @@
         /*   Small screen styles   */
 
 
-        @media all and  (max-width: 1024px){
+        @media all and (max-width: 1024px){
 
             body {
                 overflow: auto;
             }
+
             .container {
                 flex-flow: column;
             }
 
             #map {
-                height: 600px;
-                min-height: 600px;
+                height: 400px;
+                min-height: 400px;
+                min-width: auto;
                 width: 95%;
                 margin-right: 5%;
             }
 
             .street-views {
+                min-width: auto;
                 width: 95%;
                 margin-right: 5%;
                 margin-left: 10px;
                 padding-right: 0;
                 overflow: visible;
+            }
+        }
+
+        @media all and (max-width: 570px){
+            #origin-input,
+            #destination-input {
+                width: 150px;
+            }
+
+            .duration-distance-placeholder {
+                flex: 1 1 auto;
+            }
+        }
+
+        @media all and (max-width: 320px){
+            #origin-input,
+            #destination-input {
+                width: 130px;
             }
         }
     </style>
