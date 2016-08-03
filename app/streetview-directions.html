@@ -289,13 +289,13 @@
             #map {
                 height: 400px;
                 min-height: 400px;
-                min-width: auto;
+                min-width: inherit;
                 width: 95%;
                 margin-right: 5%;
             }
 
             .street-views {
-                min-width: auto;
+                min-width: inherit;
                 width: 95%;
                 margin-right: 5%;
                 margin-left: 10px;
@@ -587,7 +587,7 @@
     function populateRouteInfo(response){
         var i, routeInfo, routes = [];
 
-        for(i = 0 ; i < 1 ; i++) {
+        for(i = 0 ; i < response.routes.length ; i++) {
             routeInfo = {};
             routeInfo.summary = response.routes[i].summary;
             routeInfo.distance = response.routes[i].legs[0].distance.text;
@@ -620,13 +620,15 @@
     }
 
     function addRouteInfo(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
-        var description = document.querySelector(descriptionSelector),
-                distance = document.querySelector(distanceSelector),
-                duration = document.querySelector(durationSelector);
+        var i, descriptions = document.querySelectorAll(descriptionSelector),
+                distances = document.querySelectorAll(distanceSelector),
+                durations = document.querySelectorAll(durationSelector);
 
-        description.innerHTML = routeInfo[0].summary;
-        distance.innerHTML = routeInfo[0].distance;
-        duration.innerHTML = routeInfo[0].duration;
+        for(i = 0 ; i < routeInfo.length ; i++) {
+            descriptions[i].innerHTML = routeInfo[i].summary;
+            distances[i].innerHTML = routeInfo[i].distance;
+            durations[i].innerHTML = routeInfo[i].duration;
+        }
     }
 
     function createDurationDistanceDOM(targetSelector, templateSelector) {
