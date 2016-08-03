@@ -4,7 +4,7 @@
 ########################################
 
 
-line in streetview appears to be caused by myself. Possibly the border-radius. more visible on safari
+safari vertical line may be me.
 
 Select different routes as there will be multiple
     * UI update to select different route index
@@ -38,18 +38,12 @@ proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview
 
 export to github
 
-reuse the template for duration, distance for Route Summary maybe
-
 Add additional street views not part of directions
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
-
-Use distance information in steps and include this in the UI e.g. [Turn left into brown street] [Drive 5km]
 
 Support for different modes other than driving. Should be easy but not really as important.
 
 100% Unit test coverage
-
-improve CSS and in particular flex box usage. Mobile friendly layout
 
 
 ############################################

@@ -12,22 +12,29 @@
         /*   General   */
 
 
+        @font-face {
+          font-face-name: 'RobotoRegular';
+          src: url('fonts/Roboto-Regular-webfont.eot');
+          src: url('fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+          url('fonts/Roboto-Regular-webfont.woff') format('woff'),
+          url('fonts/Roboto-Regular-webfont.ttf') format('truetype');
+        }
+
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
         }
 
-        body {
-            overflow: hidden;
+        input, select, textarea, button{
+          font-family:inherit;
+          font-size: inherit;
         }
 
-        @font-face {
-            font-face-name: 'RobotoRegular';
-            src: url('fonts/Roboto-Regular-webfont.eot');
-            src: url('fonts/Roboto-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-                 url('fonts/Roboto-Regular-webfont.woff') format('woff'),
-                 url('fonts/Roboto-Regular-webfont.ttf') format('truetype');
+        body {
+            overflow: hidden;
+            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
+            font-size: 16px;
         }
 
         .hidden {
@@ -55,12 +62,12 @@
             margin: 10px;
             margin-right: 5px;
             border: 2px solid #CCC;
-            border-radius: 10px;
+            border-radius: 0.5em;
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
         }
         /* Need to set this for the generated div inside the above to render correctly */
         #map > * {
-            border-radius: 10px;
+            border-radius: 0.5em;
         }
 
 
@@ -75,16 +82,15 @@
             border-radius: 2px 0 0 2px;
             box-sizing: border-box;
             -moz-box-sizing: border-box;
-            height: 32px;
+            height: 2em;
             outline: none;
             box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.3);
         }
 
         #origin-input,
         #destination-input {
-            background-color: #fff;
-            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
             font-size: 16px;
+            background-color: #fff;
             font-weight: 300;
             margin-left: 12px;
             padding: 0 11px 0 13px;
@@ -124,13 +130,11 @@
 
 
         .directions-information {
-            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
-            font-size: 16px;
             margin-bottom: 10px;
         }
 
         fieldset {
-            border-radius: 10px;
+            border-radius: 0.5em;
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
         }
 
@@ -155,12 +159,10 @@
 
 
         .street-view-description {
-            font-family: 'RobotoRegular', Arial, Helvetica, sans-serif;
-            font-size: 16px;
             width: 100%;
             min-height: 2em;
             padding: 0.5em;
-            border-radius: 10px 10px 0 0 ;
+            border-radius: 0.5em 0.5em 0 0 ;
             box-sizing: border-box;
 
             background-color: #CCC;
@@ -181,9 +183,9 @@
         .minimise, .maximise {
             display:inline-block;
             margin-right: 0.4em;
-            width: 16px;
-            height: 16px;
-            border-radius: 8px;
+            width: 1em;
+            height: 1em;
+            border-radius: 0.5em;
             cursor: pointer;
         }
 
@@ -221,7 +223,7 @@
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
 
             /* Required as well as value for > div below */
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 0.5em 0.5em;
         }
 
         .rolledup {
@@ -267,7 +269,7 @@
 
         /* Style the generated Streetview div requires this for chrome and safari*/
         .street-view > div {
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 0.5em 0.5em;
         }
 
 
