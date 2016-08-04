@@ -142,6 +142,9 @@
             content: " "
         }
 
+        .route-radio {
+            display: inline-block;
+        }
 
 
         /*   Panarama template  */
@@ -356,15 +359,20 @@
     </div>
 
     <div class="route-info-template">
+        <div class="route-radio">
+            <input type="radio" name="route-radio">
+        </div>
         <span class="route-description"></span>,
         <span class="duration-data"></span>
         ( <span class="distance-data"></span> )
     </div>
 
-    <input id="origin-input" class="controls" type="text" autocomplete="off"
+    <input id="origin-input" class="controls" type="text" autocomplete="off" autocorrect="off" autocapitalize="off"
+           spellcheck="false"
            placeholder="Enter an origin location">
 
-    <input id="destination-input" class="controls" type="text" autocomplete="off"
+    <input id="destination-input" class="controls" type="text" autocomplete="off" autocorrect="off" autocapitalize="off"
+           spellcheck="false"
            placeholder="Enter a destination location">
 </div>
 

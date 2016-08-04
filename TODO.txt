@@ -4,6 +4,10 @@
 ########################################
 
 
+Should templating be replaced with something like AngularJS wrapping maps/streetviews? Possibly very large
+
+Should templating be replaced with Mustache as a simplier version of the above.
+
 safari vertical line in streetview
 
 Select different routes as there will be multiple
