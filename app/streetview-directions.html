@@ -360,7 +360,7 @@
 
     <div class="route-info-template">
         <div class="route-radio">
-            <input type="radio" name="route-radio">
+            <input type="radio" name="routeradio" class="route-radio-input">
         </div>
         <span class="route-description"></span>,
         <span class="duration-data"></span>
@@ -659,8 +659,12 @@
         }
     }
 
+    function checkFirstRoute(routeRadio) {
+        routeRadio[0].setAttribute("checked", "checked");
+    }
+
     function handleDirectionsResponse(response, markers, markerLabels, map) {
-        var streetViewContainers, data = populateLatLng(response),
+        var streetViewContainers, routeRadio, data = populateLatLng(response),
                 routeInfo = populateRouteInfo(response),
                 durationDistanceData = populateDurationDistance(response);
         populateInstructions(response, data);
@@ -674,6 +678,7 @@
             createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
             createDurationDistanceDOM(".street-views .duration-distance-placeholder",
                                                                                 ".hidden .duration-distance-template");
+
             addRouteInfo(".street-views .route-description", ".street-views .distance-data",
                                                                             ".street-views .duration-data", routeInfo);
             addStreetViews(".street-views .street-view", data);
@@ -684,6 +689,9 @@
             streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
             addMinimiseListener(streetViewContainers, ".street-views .minimise");
             addMaximiseListener(streetViewContainers, ".street-views .maximise");
+
+            routeRadio = document.querySelectorAll(".street-views .route-radio-input");
+            checkFirstRoute(routeRadio);
         }
     }
 
