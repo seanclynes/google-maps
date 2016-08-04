@@ -663,7 +663,21 @@
         routeRadio[0].setAttribute("checked", "checked");
     }
 
-    function handleDirectionsResponse(response, markers, markerLabels, map) {
+    function makeRouteChangeHandler(i, directionsDisplay){
+        return function() {
+            directionsDisplay.setRouteIndex(i);
+        }
+    }
+
+    function addRouteChangeListeners(routeRadio, directionsDisplay) {
+        var i;
+
+        for (i = 0; i < routeRadio.length ; i++) {
+            routeRadio[i].addEventListener('click', makeRouteChangeHandler(i, directionsDisplay));
+        }
+    }
+
+    function handleDirectionsResponse(response, markers, markerLabels, map, directionsDisplay) {
         var streetViewContainers, routeRadio, data = populateLatLng(response),
                 routeInfo = populateRouteInfo(response),
                 durationDistanceData = populateDurationDistance(response);
@@ -692,6 +706,7 @@
 
             routeRadio = document.querySelectorAll(".street-views .route-radio-input");
             checkFirstRoute(routeRadio);
+            addRouteChangeListeners(routeRadio, directionsDisplay);
         }
     }
 
@@ -821,7 +836,7 @@
          * */
 
         directionsDisplay.addListener("directions_changed", function() {
-            handleDirectionsResponse(this.getDirections(),markers, markerLabels, map);
+            handleDirectionsResponse(this.getDirections(),markers, markerLabels, map, directionsDisplay);
         });
     }
 </script>
