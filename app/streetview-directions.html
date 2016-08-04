@@ -677,37 +677,41 @@
         }
     }
 
+    function populateAndRenderRouteInfo(response, directionsDisplay){
+        var routeRadio, routeInfo = populateRouteInfo(response);
+
+        createRouteInfoDOM(".street-views", ".hidden .directions-information", ".street-views .route-info",
+                ".hidden .route-info-template", routeInfo);
+        addRouteInfo(".street-views .route-description", ".street-views .distance-data",
+                ".street-views .duration-data", routeInfo);
+
+        routeRadio = document.querySelectorAll(".street-views .route-radio-input");
+        checkFirstRoute(routeRadio);
+        addRouteChangeListeners(routeRadio, directionsDisplay);
+    }
+
     function handleDirectionsResponse(response, markers, markerLabels, map, directionsDisplay) {
-        var streetViewContainers, routeRadio, data = populateLatLng(response),
-                routeInfo = populateRouteInfo(response),
+        var streetViewContainers, pointData = populateLatLng(response),
                 durationDistanceData = populateDurationDistance(response);
-        populateInstructions(response, data);
-        calculateHeading(data);
+        populateInstructions(response, pointData);
+        calculateHeading(pointData);
 
-        drawMarkers(data, markers, markerLabels, map);
+        drawMarkers(pointData, markers, markerLabels, map);
 
-        if (data.length > 1) {
-            createRouteInfoDOM(".street-views", ".hidden .directions-information", ".street-views .route-info",
-                                                ".hidden .route-info-template", routeInfo);
-            createStreetViewDOM(".street-views", ".hidden .panorama-template", data.length);
-            createDurationDistanceDOM(".street-views .duration-distance-placeholder",
-                                                                                ".hidden .duration-distance-template");
+        populateAndRenderRouteInfo(response, directionsDisplay);
 
-            addRouteInfo(".street-views .route-description", ".street-views .distance-data",
-                                                                            ".street-views .duration-data", routeInfo);
-            addStreetViews(".street-views .street-view", data);
-            addDescriptions(".street-views .description-content", markerLabels, data);
-            addDurationDistance(".street-views .duration-distance-template .distance-data",
-                    ".street-views .duration-distance-template .duration-data", durationDistanceData);
+        createStreetViewDOM(".street-views", ".hidden .panorama-template", pointData.length);
+        createDurationDistanceDOM(".street-views .duration-distance-placeholder",
+                                                                            ".hidden .duration-distance-template");
 
-            streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
-            addMinimiseListener(streetViewContainers, ".street-views .minimise");
-            addMaximiseListener(streetViewContainers, ".street-views .maximise");
+        addStreetViews(".street-views .street-view", pointData);
+        addDescriptions(".street-views .description-content", markerLabels, pointData);
+        addDurationDistance(".street-views .duration-distance-template .distance-data",
+                ".street-views .duration-distance-template .duration-data", durationDistanceData);
 
-            routeRadio = document.querySelectorAll(".street-views .route-radio-input");
-            checkFirstRoute(routeRadio);
-            addRouteChangeListeners(routeRadio, directionsDisplay);
-        }
+        streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
+        addMinimiseListener(streetViewContainers, ".street-views .minimise");
+        addMaximiseListener(streetViewContainers, ".street-views .maximise");
     }
 
     function route(origin_place_id, destination_place_id, travel_mode,
