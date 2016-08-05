@@ -663,17 +663,19 @@
         routeRadio[0].setAttribute("checked", "checked");
     }
 
-    function makeRouteChangeHandler(i, directionsDisplay){
+    function makeRouteChangeHandler(i){
         return function() {
-            directionsDisplay.setRouteIndex(i);
+            var event = document.createEvent('CustomEvent');
+            event.initCustomEvent('route_selected', true, true, {index: i})
+            document.dispatchEvent(event);
         }
     }
 
-    function addRouteChangeListeners(routeRadio, directionsDisplay) {
+    function addRouteChangeListeners(routeRadio) {
         var i;
 
         for (i = 0; i < routeRadio.length ; i++) {
-            routeRadio[i].addEventListener('click', makeRouteChangeHandler(i, directionsDisplay));
+            routeRadio[i].addEventListener('click', makeRouteChangeHandler(i));
         }
     }
 
@@ -853,6 +855,10 @@
 
         directionsDisplay.addListener("directions_changed", function() {
             handleDirectionsResponse(this.getDirections(),markers, map, directionsDisplay);
+        });
+
+        document.addEventListener('route_selected', function (e) {
+            console.info("Route selected:" + e.detail.index);
         });
     }
 </script>
