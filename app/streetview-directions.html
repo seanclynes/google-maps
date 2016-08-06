@@ -520,6 +520,7 @@
                 templateElementArray = document.querySelectorAll(templateSelector);
 
         try  {
+            container.innerHTML = "";
             appendTemplateCopies(container, templateElementArray[0], copyCount);
         } catch (e)  {
             console.error(e.stack);
