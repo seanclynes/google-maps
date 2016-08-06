@@ -441,8 +441,8 @@
         }
     }
 
-    function populateLatLng(response) {
-        var steps = response.routes[0].legs[0].steps;
+    function populateLatLng(response, routeIndex) {
+        var steps = response.routes[routeIndex].legs[0].steps;
         var i, latLngArray = new Array(steps.length + 1);
 
         latLngArray[0] = callLatLngGetFunctions('start_location', steps[0]);
@@ -454,8 +454,8 @@
         return latLngArray;
     }
 
-    function populateInstructions(response, streetViewData) {
-        var steps = response.routes[0].legs[0].steps;
+    function populateInstructions(response, streetViewData, routeIndex) {
+        var steps = response.routes[routeIndex].legs[0].steps;
         var i;
 
         for(i = 0 ; i < steps.length ; i++){
@@ -630,8 +630,8 @@
         return routes;
     }
 
-    function populateDurationDistance(response) {
-        var i, steps = response.routes[0].legs[0].steps,
+    function populateDurationDistance(response, routeIndex) {
+        var i, steps = response.routes[routeIndex].legs[0].steps,
                 durationDistanceData = new Array(steps.length);
 
         for(i = 0 ; i < steps.length ; i++){
@@ -717,11 +717,11 @@
         addRouteChangeListeners(routeRadio);
     }
 
-    function populateAndRenderPoints(response, markers, map){
+    function populateAndRenderPoints(response, markers, map, routeIndex){
         var markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz",
-                pointData = populateLatLng(response);
+                pointData = populateLatLng(response, routeIndex);
 
-        populateInstructions(response, pointData);
+        populateInstructions(response, pointData, routeIndex);
         calculateHeading(pointData);
 
         drawMarkers(pointData, markers, markerLabels, map);
@@ -738,19 +738,18 @@
         addMaximiseListener(streetViewContainers, ".street-views .maximise");
     }
 
-    function populateAndRenderDurationDistance(response) {
-        var durationDistanceData = populateDurationDistance(response);
+    function populateAndRenderDurationDistance(response, routeIndex) {
+        var durationDistanceData = populateDurationDistance(response, routeIndex);
 
         addDurationDistance(".street-views .duration-distance-template .distance-data",
                 ".street-views .duration-distance-template .duration-data", durationDistanceData);
     }
 
-    function handleDirectionsResponse(response, markers, map) {
-        populateAndRenderRouteInfo(response);
-        populateAndRenderPoints(response, markers, map);
+    function populateAndRenderStreetViews(response, markers, map, routeIndex) {
+        populateAndRenderPoints(response, markers, map, routeIndex);
         addMinMaxListeners();
         createDurationDistanceDOM(".street-views .duration-distance-placeholder",".hidden .duration-distance-template");
-        populateAndRenderDurationDistance(response);
+        populateAndRenderDurationDistance(response, routeIndex);
     }
 
     function route(origin_place_id, destination_place_id, travel_mode,
@@ -808,7 +807,7 @@
         /**
          * My additions to autocomplete/directions example
          * */
-        var markers = [];
+        var markers = [], routeIndex;
 
 
         var origin_place_id = null;
@@ -879,7 +878,12 @@
          * */
 
         directionsDisplay.addListener("directions_changed", function() {
-            handleDirectionsResponse(this.getDirections(),markers, map, directionsDisplay);
+            var response = this.getDirections();
+
+            routeIndex = 0;
+
+            populateAndRenderRouteInfo(response);
+            populateAndRenderStreetViews(response, markers, map, routeIndex);
         });
 
         document.addEventListener('route_selected', function (e) {
