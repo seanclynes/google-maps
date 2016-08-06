@@ -380,8 +380,15 @@
     <div id="map"></div>
 
 
-    <div class="street-views">
+    <div class="route-content">
 
+      <div class="route-summary">
+
+      </div>
+
+      <div class="street-views">
+
+      </div>
     </div>
 </div>
 
@@ -666,7 +673,7 @@
     function makeRouteChangeHandler(i){
         return function() {
             var event = document.createEvent('CustomEvent');
-            event.initCustomEvent('route_selected', true, true, {index: i})
+            event.initCustomEvent('route_selected', true, true, {index: i});
             document.dispatchEvent(event);
         }
     }
@@ -682,12 +689,12 @@
     function populateAndRenderRouteInfo(response, directionsDisplay){
         var routeRadio, routeInfo = populateRouteInfo(response);
 
-        createRouteInfoDOM(".street-views", ".hidden .directions-information", ".street-views .route-info",
+        createRouteInfoDOM(".route-summary", ".hidden .directions-information", ".route-summary .route-info",
                 ".hidden .route-info-template", routeInfo);
-        addRouteInfo(".street-views .route-description", ".street-views .distance-data",
-                ".street-views .duration-data", routeInfo);
+        addRouteInfo(".route-summary .route-description", ".route-summary .distance-data",
+                ".route-summary .duration-data", routeInfo);
 
-        routeRadio = document.querySelectorAll(".street-views .route-radio-input");
+        routeRadio = document.querySelectorAll(".route-summary .route-radio-input");
         checkFirstRoute(routeRadio);
         addRouteChangeListeners(routeRadio, directionsDisplay);
     }
