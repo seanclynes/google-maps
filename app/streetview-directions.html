@@ -118,6 +118,11 @@
         /*  route-summary children  */
 
 
+        .route-info-template {
+            display: flex;
+            justify-content: space-between;
+        }
+
         .directions-information {
             margin-bottom: 10px;
         }
@@ -127,12 +132,27 @@
             box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
         }
 
-        .route-description:after {
-            content: " "
+        .route-info-template {
+            padding: 0 1em;
+        }
+
+        .route-info-template:nth-child(even) {
+            background-color: #CCC;
+            border-radius: 0.5em;
         }
 
         .route-radio {
             display: inline-block;
+            flex:0 0 auto;
+        }
+
+        .route-description {
+            flex: 1 1 auto;
+        }
+
+        .route-duration-distance {
+            flex: 0 0 auto;
+            margin-left: 0.4em;
         }
 
 
@@ -379,9 +399,11 @@
         <div class="route-radio">
             <input type="radio" name="routeradio" class="route-radio-input">
         </div>
-        <span class="route-description"></span>,
-        <span class="duration-data"></span>
-        ( <span class="distance-data"></span> )
+        <div class="route-description"></div>
+        <div class="route-duration-distance">
+            <span class="duration-data"></span>
+            ( <span class="distance-data"></span> )
+        </div>
     </div>
 
     <input id="origin-input" class="controls" type="text" autocomplete="off" autocorrect="off" autocapitalize="off"
