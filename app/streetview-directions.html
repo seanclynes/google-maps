@@ -104,7 +104,6 @@
         }
 
 
-
         /*  route-content  */
 
 
@@ -116,31 +115,7 @@
         }
 
 
-        /*   Streetviews   */
-
-
-
-        .route-content > div {
-            padding-right: 10px;
-            margin: 10px;
-        }
-
-        .street-views {
-            box-sizing: border-box;
-            /*margin: 10px;*/
-            /*margin-left: 5px;*/
-            /*overflow: auto;*/
-            /*padding-right: 20px;*/
-        }
-
-
-
-        /*   Streetviews  children  */
-
-
-
-        /*   Route summary  */
-
+        /*  route-summary children  */
 
 
         .directions-information {
@@ -159,6 +134,25 @@
         .route-radio {
             display: inline-block;
         }
+
+
+        /*   Streetviews   */
+
+
+
+        .route-content > div {
+            padding-right: 10px;
+            margin: 10px;
+        }
+
+        .street-views {
+            box-sizing: border-box;
+        }
+
+
+
+        /*   Streetviews  children  */
+
 
 
         /*   Panarama template  */
@@ -710,7 +704,7 @@
         }
     }
 
-    function populateAndRenderRouteInfo(response, directionsDisplay){
+    function populateAndRenderRouteInfo(response){
         var routeRadio, routeInfo = populateRouteInfo(response);
 
         createRouteInfoDOM(".route-summary", ".hidden .directions-information", ".route-summary .route-info",
@@ -720,7 +714,7 @@
 
         routeRadio = document.querySelectorAll(".route-summary .route-radio-input");
         checkFirstRoute(routeRadio);
-        addRouteChangeListeners(routeRadio, directionsDisplay);
+        addRouteChangeListeners(routeRadio);
     }
 
     function populateAndRenderPoints(response, markers, map){
@@ -751,8 +745,8 @@
                 ".street-views .duration-distance-template .duration-data", durationDistanceData);
     }
 
-    function handleDirectionsResponse(response, markers, map, directionsDisplay) {
-        populateAndRenderRouteInfo(response, directionsDisplay);
+    function handleDirectionsResponse(response, markers, map) {
+        populateAndRenderRouteInfo(response);
         populateAndRenderPoints(response, markers, map);
         addMinMaxListeners();
         createDurationDistanceDOM(".street-views .duration-distance-placeholder",".hidden .duration-distance-template");
