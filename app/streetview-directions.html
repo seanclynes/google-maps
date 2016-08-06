@@ -807,7 +807,7 @@
         /**
          * My additions to autocomplete/directions example
          * */
-        var markers = [], routeIndex;
+        var markers = [];
 
 
         var origin_place_id = null;
@@ -880,14 +880,13 @@
         directionsDisplay.addListener("directions_changed", function() {
             var response = this.getDirections();
 
-            routeIndex = 0;
-
             populateAndRenderRouteInfo(response);
-            populateAndRenderStreetViews(response, markers, map, routeIndex);
+            populateAndRenderStreetViews(response, markers, map, 0);
         });
 
         document.addEventListener('route_selected', function (e) {
-            console.info("Route selected:" + e.detail.index);
+            directionsDisplay.setRouteIndex(e.detail.index);
+            populateAndRenderStreetViews(directionsDisplay.getDirections(), markers, map, e.detail.index);
         });
     }
 </script>
