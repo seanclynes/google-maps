@@ -1,0 +1,14 @@
+Commit c4c894f80505fc1d175889a2ae26c7475721c7a3 is mostly working for firefox checked radio
+
+Working intermittantly with multiple_routes branch but at times very broken
+commit a401d6d9afbe9ace4c2739479da097d942d83732
+
+Works almost 100% the first time after page reload in new tab. 10+ times in a row
+
+Breaks almost 100% when I click another radio button and stays broken.
+
+Works almost 100% when you click the first radio and it redraws the streetview.
+i.e. it doesn't cause it to enter broken state.
+
+http://stackoverflow.com/questions/7988729/firefox-remembering-radio-buttons-incorrectly
+http://www.ryancramer.com/journal/entries/radio_buttons_firefox/
