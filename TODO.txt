@@ -55,3 +55,5 @@ Support for different modes other than driving. Should be easy but not really as
 ###################################
 ## Basic prototype working       ##
 ###################################
+
+Firefox checked attribute not working.
