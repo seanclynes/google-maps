@@ -616,7 +616,8 @@
 
             markers[i] = new google.maps.Marker({
                 position: streetViewData[i],
-                label: charFromStr(i, markerLabels)
+                label: charFromStr(i, markerLabels),
+                animation: google.maps.Animation.DROP
             });
         }
         setMarkerMap(map, markers);
