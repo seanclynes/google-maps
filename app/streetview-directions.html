@@ -580,25 +580,11 @@
     }
 
     function getShowClass() {
-        var showClass;
-
-        if(isAnimateSupported()) {
-            showClass = "rolleddown";
-        }else{
-            showClass = "open";
-        }
-        return showClass;
+        return isAnimateSupported() ? "rolleddown" : "open";
     }
 
     function getHideClass() {
-        var hideClass;
-
-        if(isAnimateSupported()) {
-            hideClass = "rolledup";
-        }else{
-            hideClass = "close";
-        }
-        return hideClass;
+        return isAnimateSupported() ? "rolledup" : "close";
     }
 
     /** Required to capture the correct value of i. Don't create functions in loops
