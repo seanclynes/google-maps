@@ -14,8 +14,6 @@ Resizable boundary between maps and streetview
 
 Named description for markers using InfoWindow probably
 
-Drop markers animation
-
 Investigate and possibly use steps within step for heading as it will be a little more accurate
 
 Can I detect no street view coverage for marker? Use StreetViewService
@@ -28,7 +26,7 @@ Reset to default path after dragging line as the dragging can leave the line in 
 #########################################
 
 
-Link streetview with map while adjusting view. Only want one at a time.
+Better spacing or remove the search field from the map so that markers aren't hidden by inputs.
 
 
 ##############################################

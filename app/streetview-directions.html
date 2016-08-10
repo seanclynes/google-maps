@@ -146,6 +146,10 @@
             flex:0 0 auto;
         }
 
+        .route-radio-input {
+            cursor: pointer;
+        }
+
         .route-description {
             flex: 1 1 auto;
         }
@@ -402,7 +406,7 @@
 
     <div class="route-info-template">
         <div class="route-radio">
-            <input type="radio" name="routeradio" class="route-radio-input">
+            <input title="Select Route" type="radio" name="routeradio" class="route-radio-input">
         </div>
         <div class="route-description"></div>
         <div class="route-duration-distance">
@@ -411,12 +415,10 @@
         </div>
     </div>
 
-    <input id="origin-input" class="controls" type="text" autocomplete="off" autocorrect="off" autocapitalize="off"
-           spellcheck="false"
+    <input id="origin-input" class="controls" type="text" autocomplete="off" spellcheck="false"
            placeholder="Enter an origin location">
 
-    <input id="destination-input" class="controls" type="text" autocomplete="off" autocorrect="off" autocapitalize="off"
-           spellcheck="false"
+    <input id="destination-input" class="controls" type="text" autocomplete="off" spellcheck="false"
            placeholder="Enter a destination location">
 </div>
 
