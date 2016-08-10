@@ -574,13 +574,39 @@
         }
     }
 
+    function isAnimateSupported(){
+        var elm = document.createElement('div');
+        return elm.style.animationName !== undefined;
+    }
+
+    function getShowClass() {
+        var showClass;
+
+        if(isAnimateSupported()) {
+            showClass = "rolleddown";
+        }else{
+            showClass = "open";
+        }
+        return showClass;
+    }
+
+    function getHideClass() {
+        var hideClass;
+
+        if(isAnimateSupported()) {
+            hideClass = "rolledup";
+        }else{
+            hideClass = "close";
+        }
+        return hideClass;
+    }
+
     /** Required to capture the correct value of i. Don't create functions in loops
      * */
     function makeMinimiseHandler(i, streetViewContainers) {
         return function() {
-//            var hideClass = "rolledup", showClass = "rolleddown"
-                    var hideClass = "close", showClass = "open"
-                    , currentClass = streetViewContainers[i].className;
+            var currentClass = streetViewContainers[i].className,
+                    hideClass = getHideClass(), showClass = getShowClass();
 
             if(currentClass.indexOf(hideClass) < 0) {
                 streetViewContainers[i].className = toggleString(showClass, hideClass, currentClass);
@@ -590,9 +616,8 @@
 
     function makeMaximiseHandler(i, streetViewContainers) {
         return function() {
-//            var hideClass = "rolledup", showClass = "rolleddown"
-            var hideClass = "close", showClass = "open"
-                    , currentClass = streetViewContainers[i].className;
+          var currentClass = streetViewContainers[i].className,
+            hideClass = getHideClass(), showClass = getShowClass();
 
             if(currentClass.indexOf(hideClass) > -1) {
                 streetViewContainers[i].className = toggleString(hideClass, showClass, currentClass);
