@@ -27,23 +27,26 @@ Reset to default path after dragging line as the dragging can leave the line in 
 
 Better spacing or remove the search field from the map so that markers aren't hidden by inputs.
 
-
-##############################################
-## Minimum to be production usable demoable ##
-##############################################
-
-proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview.html
-
-export to github
-
 Add additional street views not part of directions
 Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Centre -> Moorabbin Railway station
 
 Support for different modes other than driving. Should be easy but not really as important.
 
+
+##############################################
+## Minimum to be production usable demoable ##
+##############################################
+
+
+proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview.html
+
+export to github
+
 100% Unit test coverage
 
-Display message without modal for zero results and clear previous streetviews and routeinfo
+jshint without error
+
+Investigation of use of Mustaches to replace templating code.
 
 
 ############################################
