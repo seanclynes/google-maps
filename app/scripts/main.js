@@ -432,12 +432,12 @@ function buildAutoComplete(inputId, map){
 }
 
 function makePlaceChangeHandler(changedPlace, map, origin_place, destination_place, travel_mode,
-                                directionsService, directionsDisplay) {
+                                directionsService, directionsDisplay, message) {
     return function() {
         var place = this.getPlace();
         if (!place.geometry) {
             dispatchCustomEvent('information_message', {
-                message: "Please select a valid origin and destination"
+                message: message
             });
             return;
         }
@@ -461,11 +461,11 @@ function doInit(markers, origin_place, destination_place, travel_mode, map,
 
     origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(origin_place, map, origin_place,
         destination_place, travel_mode,
-        directionsService, directionsDisplay));
+        directionsService, directionsDisplay, "Please select a valid origin"));
 
     destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destination_place, map, origin_place,
         destination_place, travel_mode,
-        directionsService, directionsDisplay));
+        directionsService, directionsDisplay, "Please select a valid destination"));
 
     directionsDisplay.addListener("directions_changed", function() {
         var response = this.getDirections();
@@ -486,6 +486,6 @@ function doInit(markers, origin_place, destination_place, travel_mode, map,
     });
 
     dispatchCustomEvent("information_message", {
-        message: "Select an origin and destination then display turn-by-turn streetview directions."
+        message: "Select your origin and destination then display turn-by-turn streetview directions."
     })
 }
