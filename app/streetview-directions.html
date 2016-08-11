@@ -147,10 +147,21 @@
     }
 
 
+
     /**
      *  DOM specific
      * */
 
+
+
+    function informationMessage(message){
+        var container = document.querySelector(".route-summary"),
+                info = document.querySelector(".information-message"),
+                clone = info.cloneNode(true);
+
+        container.appendChild(clone);
+        clone.innerHTML = message;
+    }
 
     function addDescriptions(descriptionsSelector, markerLabels, data) {
         var i, descriptions = document.querySelectorAll(descriptionsSelector);
@@ -456,9 +467,13 @@
 
                 directionsDisplay.setDirections(response);
             } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-                dispatchCustomEvent('zero_results', {});
+                dispatchCustomEvent('information_message', {
+                    message: "No directions for your origin and destination could be found"
+                });
             } else {
-                window.alert('Directions request failed due to ' + status);
+                dispatchCustomEvent('information_message', {
+                    message: "No directions could be found due to an error"
+                });
             }
         });
     }
@@ -489,15 +504,6 @@
             console.error(e.stack);
             console.error("Error initializing street views");
         }
-    }
-
-    function informationMessage(message){
-        var container = document.querySelector(".route-summary"),
-            info = document.querySelector(".information-message"),
-            clone = info.cloneNode(true);
-
-        container.appendChild(clone);
-        clone.innerHTML = message;
     }
 
 
@@ -543,7 +549,9 @@
         origin_autocomplete.addListener('place_changed', function() {
             var place = origin_autocomplete.getPlace();
             if (!place.geometry) {
-                window.alert("Autocomplete's returned place contains no geometry");
+                dispatchCustomEvent('information_message', {
+                    message: "Please select a valid origin"
+                });
                 return;
             }
             expandViewportToFitPlace(map, place);
@@ -558,7 +566,9 @@
         destination_autocomplete.addListener('place_changed', function() {
             var place = destination_autocomplete.getPlace();
             if (!place.geometry) {
-                window.alert("Autocomplete's returned place contains no geometry");
+                dispatchCustomEvent('information_message', {
+                    message: "Please select a valid destination"
+                });
                 return;
             }
             expandViewportToFitPlace(map, place);
@@ -582,10 +592,10 @@
             populateAndRenderStreetViews(directionsDisplay.getDirections(), markers, map, e.detail.index);
         });
 
-        document.addEventListener("zero_results", function ()  {
+        document.addEventListener("information_message", function (e)  {
             clearContainer(".route-summary");
             clearContainer(".street-views");
-            informationMessage("No directions for your origin and destination could be found");
+            informationMessage(e.detail.message);
         });
     }
 </script>
