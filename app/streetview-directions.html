@@ -452,8 +452,7 @@
         populateAndRenderDurationDistance(response, routeIndex);
     }
 
-    function route(origin_place_id, destination_place_id, travel_mode,
-                   directionsService, directionsDisplay) {
+    function route(origin_place_id, destination_place_id, travel_mode, directionsService, directionsDisplay) {
         if (!origin_place_id || !destination_place_id) {
             return;
         }
@@ -506,6 +505,19 @@
         }
     }
 
+    function buildAutoComplete(inputId, map){
+        var autocomplete, input = document.getElementById(inputId);
+
+        //Firefox 47.0.1 on OSX doesn't clear previous search on page loading
+        input.value = null;
+
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+        autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+
+        return autocomplete;
+    }
+
     /** Make as much code as possible testable. Even if it's a bit hacky
      * */
     function doInit(markers, origin_place_id, destination_place_id, travel_mode, map,
@@ -513,24 +525,11 @@
 
         directionsDisplay.setMap(map);
 
-        var origin_input = document.getElementById('origin-input');
-        var destination_input = document.getElementById('destination-input');
-
-        //Firefox 47.0.1 on OSX doesn't clear previous search on page loading
-        origin_input.value = null;
-        destination_input.value = null;
-
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(origin_input);
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(destination_input);
-
-        var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
-        origin_autocomplete.bindTo('bounds', map);
-        var destination_autocomplete =
-                new google.maps.places.Autocomplete(destination_input);
-        destination_autocomplete.bindTo('bounds', map);
+       var origin_autocomplete = buildAutoComplete("origin-input", map);
+        var destination_autocomplete = buildAutoComplete("destination-input", map);
 
         origin_autocomplete.addListener('place_changed', function() {
-            var place = origin_autocomplete.getPlace();
+            var place = this.getPlace();
             if (!place.geometry) {
                 dispatchCustomEvent('information_message', {
                     message: "Please select a valid origin"
@@ -547,7 +546,7 @@
         });
 
         destination_autocomplete.addListener('place_changed', function() {
-            var place = destination_autocomplete.getPlace();
+            var place = this.getPlace();
             if (!place.geometry) {
                 dispatchCustomEvent('information_message', {
                     message: "Please select a valid destination"
