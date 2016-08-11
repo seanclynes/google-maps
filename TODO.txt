@@ -48,6 +48,8 @@ jshint without error
 
 Investigation of use of Mustaches to replace templating code.
 
+Simplify and organize Javascript as much as possible. Use of "And" in function names is probably bogus, should b 2 calls
+
 
 ############################################
 ## Minimum to use in any way. For testing ##
