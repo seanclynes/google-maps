@@ -506,28 +506,11 @@
         }
     }
 
+    /** Make as much code as possible testable. Even if it's a bit hacky
+     * */
+    function doInit(markers, origin_place_id, destination_place_id, travel_mode, map,
+                    directionsService, directionsDisplay){
 
-    function initMap() {
-        /**
-         * My additions to autocomplete/directions example
-         * */
-        var markers = [];
-
-
-        var origin_place_id = null;
-        var destination_place_id = null;
-        var travel_mode = google.maps.TravelMode.DRIVING;
-        var map = new google.maps.Map(document.getElementById('map'), {
-            mapTypeControl: false,
-            center: {lat: -37.8162789, lng: 144.96424590000004},
-            zoom: 13,
-            scrollwheel: false
-        });
-        var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer({
-            suppressMarkers: true,
-            draggable: true
-        });
         directionsDisplay.setMap(map);
 
         var origin_input = document.getElementById('origin-input');
@@ -597,6 +580,29 @@
             clearContainer(".street-views");
             informationMessage(e.detail.message);
         });
+
+        dispatchCustomEvent("information_message", {
+            message: "Select an origin and destination, display turn-by-turn streetview directions."
+        })
+    }
+
+    function initMap() {
+        var markers = [];
+        var origin_place_id = null;
+        var destination_place_id = null;
+        var travel_mode = google.maps.TravelMode.DRIVING;
+        var map = new google.maps.Map(document.getElementById('map'), {
+            mapTypeControl: false,
+            center: {lat: -37.8162789, lng: 144.96424590000004},
+            zoom: 13,
+            scrollwheel: false
+        });
+        var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+            suppressMarkers: true,
+            draggable: true
+        });
+        doInit(markers, origin_place_id, destination_place_id, travel_mode, map, directionsService, directionsDisplay);
     }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-AvlmDgL5SASp1DZYxT3ZHNyiuS-SJC8&libraries=geometry,places&callback=initMap"
