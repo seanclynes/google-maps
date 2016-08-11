@@ -4,9 +4,8 @@
 ########################################
 
 
-Should templating be replaced with something like AngularJS wrapping maps/streetviews? Possibly very large
-
-Should templating be replaced with Mustache as a simplier version of the above.
+Should templating be replaced with something like AngularJS/Mustache wrapping maps/streetviews?
+Possibly very large or very hard
 
 safari vertical line in streetview
 
@@ -43,6 +42,8 @@ Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Ce
 Support for different modes other than driving. Should be easy but not really as important.
 
 100% Unit test coverage
+
+Display message without modal for zero results and clear previous streetviews and routeinfo
 
 
 ############################################
