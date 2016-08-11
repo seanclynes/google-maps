@@ -525,7 +525,7 @@
 
         directionsDisplay.setMap(map);
 
-       var origin_autocomplete = buildAutoComplete("origin-input", map);
+        var origin_autocomplete = buildAutoComplete("origin-input", map);
         var destination_autocomplete = buildAutoComplete("destination-input", map);
 
         origin_autocomplete.addListener('place_changed', function() {
@@ -538,8 +538,6 @@
             }
             expandViewportToFitPlace(map, place);
 
-            // If the place has a geometry, store its place ID and route if we have
-            // the other place ID
             origin_place_id = place.place_id;
             route(origin_place_id, destination_place_id, travel_mode,
                     directionsService, directionsDisplay);
@@ -555,8 +553,6 @@
             }
             expandViewportToFitPlace(map, place);
 
-            // If the place has a geometry, store its place ID and route if we have
-            // the other place ID
             destination_place_id = place.place_id;
             route(origin_place_id, destination_place_id, travel_mode,
                     directionsService, directionsDisplay);
