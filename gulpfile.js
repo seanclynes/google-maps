@@ -5,6 +5,7 @@ var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
+var Server = require('karma').Server;
 
 gulp.task('styles', function () {
   return gulp.src('app/styles/main.css')
@@ -68,6 +69,19 @@ gulp.task('extras', function () {
 });
 
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
+
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('tdd', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js'
+  }, done).start();
+});
 
 gulp.task('serve', ['styles', 'fonts'], function () {
   browserSync({
