@@ -365,13 +365,13 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
     populateAndRenderDurationDistance(response, routeIndex);
 }
 
-function route(origin_place_id, destination_place_id, travel_mode, directionsService, directionsDisplay) {
-    if (!origin_place_id || !destination_place_id) {
+function route(origin_place, destination_place, travel_mode, directionsService, directionsDisplay) {
+    if (!origin_place.id || !destination_place.id) {
         return;
     }
     directionsService.route({
-        origin: {'placeId': origin_place_id},
-        destination: {'placeId': destination_place_id},
+        origin: {'placeId': origin_place.id},
+        destination: {'placeId': destination_place.id},
         travelMode: travel_mode,
         provideRouteAlternatives: true
     }, function(response, status) {
@@ -431,9 +431,27 @@ function buildAutoComplete(inputId, map){
     return autocomplete;
 }
 
+function makePlaceChangeHandler(changedPlace, map, origin_place, destination_place, travel_mode,
+                                directionsService, directionsDisplay) {
+    return function() {
+        var place = this.getPlace();
+        if (!place.geometry) {
+            dispatchCustomEvent('information_message', {
+                message: "Please select a valid origin and destination"
+            });
+            return;
+        }
+        expandViewportToFitPlace(map, place);
+
+        changedPlace.id = place.place_id;
+        route(origin_place, destination_place, travel_mode,
+            directionsService, directionsDisplay);
+    }
+}
+
 /** Make as much code as possible testable. Even if it's a bit hacky
  * */
-function doInit(markers, origin_place_id, destination_place_id, travel_mode, map,
+function doInit(markers, origin_place, destination_place, travel_mode, map,
                 directionsService, directionsDisplay){
 
     directionsDisplay.setMap(map);
@@ -441,35 +459,13 @@ function doInit(markers, origin_place_id, destination_place_id, travel_mode, map
     var origin_autocomplete = buildAutoComplete("origin-input", map);
     var destination_autocomplete = buildAutoComplete("destination-input", map);
 
-    origin_autocomplete.addListener('place_changed', function() {
-        var place = this.getPlace();
-        if (!place.geometry) {
-            dispatchCustomEvent('information_message', {
-                message: "Please select a valid origin"
-            });
-            return;
-        }
-        expandViewportToFitPlace(map, place);
+    origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(origin_place, map, origin_place,
+        destination_place, travel_mode,
+        directionsService, directionsDisplay));
 
-        origin_place_id = place.place_id;
-        route(origin_place_id, destination_place_id, travel_mode,
-            directionsService, directionsDisplay);
-    });
-
-    destination_autocomplete.addListener('place_changed', function() {
-        var place = this.getPlace();
-        if (!place.geometry) {
-            dispatchCustomEvent('information_message', {
-                message: "Please select a valid destination"
-            });
-            return;
-        }
-        expandViewportToFitPlace(map, place);
-
-        destination_place_id = place.place_id;
-        route(origin_place_id, destination_place_id, travel_mode,
-            directionsService, directionsDisplay);
-    });
+    destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destination_place, map, origin_place,
+        destination_place, travel_mode,
+        directionsService, directionsDisplay));
 
     directionsDisplay.addListener("directions_changed", function() {
         var response = this.getDirections();
@@ -490,6 +486,6 @@ function doInit(markers, origin_place_id, destination_place_id, travel_mode, map
     });
 
     dispatchCustomEvent("information_message", {
-        message: "Select an origin and destination, display turn-by-turn streetview directions."
+        message: "Select an origin and destination then display turn-by-turn streetview directions."
     })
 }
