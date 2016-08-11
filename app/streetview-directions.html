@@ -47,6 +47,10 @@
         </div>
     </div>
 
+    <div class="information-message">
+
+    </div>
+
     <input id="origin-input" class="controls" type="text" autocomplete="off" spellcheck="false"
            placeholder="Enter an origin location">
 
@@ -487,6 +491,15 @@
         }
     }
 
+    function informationMessage(message){
+        var container = document.querySelector(".route-summary"),
+            info = document.querySelector(".information-message"),
+            clone = info.cloneNode(true);
+
+        container.appendChild(clone);
+        clone.innerHTML = message;
+    }
+
 
     function initMap() {
         /**
@@ -572,6 +585,7 @@
         document.addEventListener("zero_results", function ()  {
             clearContainer(".route-summary");
             clearContainer(".street-views");
+            informationMessage("No directions for your origin and destination could be found");
         });
     }
 </script>

@@ -152,6 +152,14 @@ body {
   margin-left: 0.4em;
 }
 
+.information-message {
+  padding: 0.5em;
+  font-size: larger;
+  border: 2px solid #CCC;
+  border-radius: 0.5em;
+  text-align: center;
+  box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
+}
 
 /*   Streetviews   */
 
