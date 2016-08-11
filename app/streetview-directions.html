@@ -165,6 +165,10 @@
         }
     }
 
+    function clearContainer(containerSelector) {
+        document.querySelector(containerSelector).innerHTML = "";
+    }
+
     function createRouteInfoDOM(containerSelector, templateSelector, childContainerSelector, childTemplateSelector,
                                 routeInfo) {
         var container = document.querySelector(containerSelector),
@@ -173,7 +177,7 @@
                 childTemplate = document.querySelector(childTemplateSelector);
 
         try  {
-            container.innerHTML = "";
+            clearContainer(containerSelector);
             container.appendChild( template.cloneNode(true) );
 
             childContainer = document.querySelector(childContainerSelector);
@@ -190,7 +194,7 @@
                 templateElementArray = document.querySelectorAll(templateSelector);
 
         try  {
-            container.innerHTML = "";
+            clearContainer(containerSelector);
             appendTemplateCopies(container, templateElementArray[0], copyCount);
         } catch (e)  {
             console.error(e.stack);
@@ -448,7 +452,7 @@
 
                 directionsDisplay.setDirections(response);
             } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
-                window.alert('No route could be found between the origin and destination');
+                dispatchCustomEvent('zero_results', {});
             } else {
                 window.alert('Directions request failed due to ' + status);
             }
@@ -553,11 +557,6 @@
                     directionsService, directionsDisplay);
         });
 
-        /**
-         * My additions to the original starting example
-         * https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-directions
-         * */
-
         directionsDisplay.addListener("directions_changed", function() {
             var response = this.getDirections();
 
@@ -568,6 +567,11 @@
         document.addEventListener('route_selected', function (e) {
             directionsDisplay.setRouteIndex(e.detail.index);
             populateAndRenderStreetViews(directionsDisplay.getDirections(), markers, map, e.detail.index);
+        });
+
+        document.addEventListener("zero_results", function ()  {
+            clearContainer(".route-summary");
+            clearContainer(".street-views");
         });
     }
 </script>
