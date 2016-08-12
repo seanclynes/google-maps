@@ -132,6 +132,46 @@ describe('populateInstructions', function () {
     });
 });
 
+describe('latLngLiteralToHeading', function () {
+    var LatLng, computeHeading, latLngLiteral1, latLngLiteral2;
+
+    beforeEach(function(){
+        LatLng = jasmine.createSpy('LatLng');
+        computeHeading = jasmine.createSpy('computeHeading');
+        computeHeading.and.returnValue(55);
+        window.google = {
+            maps: {
+                LatLng: LatLng,
+                geometry: {
+                    spherical: {
+                        computeHeading: computeHeading
+                    }
+                }
+            }
+        };
+        latLngLiteral1 = {
+            lat: 11,
+            lng: 22
+        };
+        latLngLiteral2 = {
+            lat: 33,
+            lng: 44
+        };
+    });
+
+    afterEach(function(){
+        delete window.google;
+    });
+
+    it('should call latLngLiteralToHeading successfully', function () {
+        var result = latLngLiteralToHeading(latLngLiteral1, latLngLiteral2);
+
+        expect(LatLng.calls.count()).toBe(2);
+        expect(computeHeading.calls.count()).toBe(1);
+        expect(result).toBe(55);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
