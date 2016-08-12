@@ -81,7 +81,7 @@
         var markers = [];
         var originPlace = { id:  null};
         var destinationPlace = { id: null};
-        var travel_mode = google.maps.TravelMode.DRIVING;
+        var travelMode = google.maps.TravelMode.DRIVING;
         var map = new google.maps.Map(document.getElementById('map'), {
             mapTypeControl: false,
             center: {lat: -37.8162789, lng: 144.96424590000004},
@@ -93,7 +93,7 @@
             suppressMarkers: true,
             draggable: true
         });
-        doInit(markers, originPlace, destinationPlace, travel_mode, map, directionsService, directionsDisplay);
+        doInit(markers, originPlace, destinationPlace, travelMode, map, directionsService, directionsDisplay);
     }
 
 </script>

@@ -441,7 +441,7 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
     populateAndRenderDurationDistance(response, routeIndex);
 }
 
-function route(originPlace, destinationPlace, travel_mode, directionsService, directionsDisplay) {
+function route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay) {
     'use strict';
 
     if (!originPlace.id || !destinationPlace.id) {
@@ -450,7 +450,7 @@ function route(originPlace, destinationPlace, travel_mode, directionsService, di
     directionsService.route({
         origin: {'placeId': originPlace.id},
         destination: {'placeId': destinationPlace.id},
-        travelMode: travel_mode,
+        travelMode: travelMode,
         provideRouteAlternatives: true
     }, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
@@ -513,7 +513,7 @@ function buildAutoComplete(inputId, map){
     return autocomplete;
 }
 
-function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace, travel_mode,
+function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace, travelMode,
                                 directionsService, directionsDisplay, message) {
     'use strict';
 
@@ -528,14 +528,14 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
         expandViewportToFitPlace(map, place);
 
         changedPlace.id = place.place_id;
-        route(originPlace, destinationPlace, travel_mode,
+        route(originPlace, destinationPlace, travelMode,
             directionsService, directionsDisplay);
     };
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
  * */
-function doInit(markers, originPlace, destinationPlace, travel_mode, map,
+function doInit(markers, originPlace, destinationPlace, travelMode, map,
                 directionsService, directionsDisplay){
     'use strict';
 
@@ -545,11 +545,11 @@ function doInit(markers, originPlace, destinationPlace, travel_mode, map,
     var destination_autocomplete = buildAutoComplete('destination-input', map);
 
     origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(originPlace, map, originPlace,
-        destinationPlace, travel_mode,
+        destinationPlace, travelMode,
         directionsService, directionsDisplay, 'Please select a valid origin'));
 
     destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destinationPlace, map, originPlace,
-        destinationPlace, travel_mode,
+        destinationPlace, travelMode,
         directionsService, directionsDisplay, 'Please select a valid destination'));
 
     directionsDisplay.addListener('directions_changed', function() {
