@@ -2,7 +2,7 @@
 function charFromStr(index, str) {
     'use strict';
 
-    return str.charAt( (index % str.length) )
+    return str.charAt( (index % str.length) );
 }
 
 function convertTo360Heading(heading) {
@@ -34,7 +34,7 @@ function callLatLngGetFunctions(propertyName, object) {
     return {
         lat: object[propertyName].lat(),
         lng: object[propertyName].lng()
-    }
+    };
 }
 
 function populateLatLng(response, routeIndex) {
@@ -46,7 +46,7 @@ function populateLatLng(response, routeIndex) {
     latLngArray[0] = callLatLngGetFunctions('start_location', steps[0]);
 
     for ( i = 0 ; i < steps.length ; i++) {
-        latLngArray[i + 1] = callLatLngGetFunctions('end_location', steps[i])
+        latLngArray[i + 1] = callLatLngGetFunctions('end_location', steps[i]);
     }
 
     return latLngArray;
@@ -149,7 +149,7 @@ function createRouteInfoDOM(containerSelector, templateSelector, childContainerS
         appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
     } catch (e)  {
         console.error(e.stack);
-        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]");
     }
 }
 
@@ -164,7 +164,7 @@ function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
         appendTemplateCopies(container, templateElementArray[0], copyCount);
     } catch (e)  {
         console.error(e.stack);
-        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]")
+        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]");
     }
 }
 
@@ -370,7 +370,7 @@ function makeRouteChangeHandler(i){
 
     return function() {
         dispatchCustomEvent('route_selected', {index: i});
-    }
+    };
 }
 
 function addRouteChangeListeners(routeRadio) {
