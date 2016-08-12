@@ -98,6 +98,40 @@ describe('populateLatLng', function () {
     });
 });
 
+describe('populateInstructions', function () {
+    var response, streetViewData, turnLeft = 'Turn left';
+
+    beforeEach(function() {
+        response = {
+            routes: [
+                {
+                    legs: [
+                        {
+                            steps: [
+                                {
+                                    instructions: turnLeft
+                                }
+                            ]
+                        }
+                    ]
+
+                }
+            ]
+        };
+        streetViewData = [
+            {},
+            {}
+        ];
+    });
+
+    it('should populateInstructions', function () {
+        populateInstructions(response, streetViewData, 0);
+
+        expect(streetViewData[0].instructions).toEqual(turnLeft);
+        expect(streetViewData[1].instructions).toEqual('You have reached your destination');
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
