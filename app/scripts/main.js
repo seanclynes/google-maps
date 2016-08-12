@@ -530,7 +530,7 @@ function makePlaceChangeHandler(changedPlace, map, origin_place, destination_pla
         changedPlace.id = place.place_id;
         route(origin_place, destination_place, travel_mode,
             directionsService, directionsDisplay);
-    }
+    };
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
@@ -572,5 +572,5 @@ function doInit(markers, origin_place, destination_place, travel_mode, map,
 
     dispatchCustomEvent('information_message', {
         message: 'Select your origin and destination then display turn-by-turn streetview directions.'
-    })
+    });
 }
