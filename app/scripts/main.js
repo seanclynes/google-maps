@@ -149,7 +149,7 @@ function createRouteInfoDOM(containerSelector, templateSelector, childContainerS
         appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
     } catch (e)  {
         console.error(e.stack);
-        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]");
+        console.error('Require template [' + templateSelector + '] target container [' + containerSelector + ']');
     }
 }
 
@@ -164,7 +164,7 @@ function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
         appendTemplateCopies(container, templateElementArray[0], copyCount);
     } catch (e)  {
         console.error(e.stack);
-        console.error("Require template [" + templateSelector + "] target container [" + containerSelector + "]");
+        console.error('Require template [' + templateSelector + '] target container [' + containerSelector + ']');
     }
 }
 
@@ -178,13 +178,13 @@ function isAnimateSupported(){
 function getShowClass() {
     'use strict';
 
-    return isAnimateSupported() ? "rolleddown" : "open";
+    return isAnimateSupported() ? 'rolleddown' : 'open';
 }
 
 function getHideClass() {
     'use strict';
 
-    return isAnimateSupported() ? "rolledup" : "close";
+    return isAnimateSupported() ? 'rolledup' : 'close';
 }
 
 /** Required to capture the correct value of i. Don't create functions in loops
@@ -354,7 +354,7 @@ function addDurationDistance(distanceSelector, durationSelector, durationDistanc
 function checkFirstRoute(routeRadio) {
     'use strict';
 
-    routeRadio[0].setAttribute("checked", "checked");
+    routeRadio[0].setAttribute('checked', 'checked');
 }
 
 function dispatchCustomEvent(eventName, data) {
@@ -388,12 +388,12 @@ function populateAndRenderRouteInfo(response){
 
     var routeRadio, routeInfo = populateRouteInfo(response);
 
-    createRouteInfoDOM(".route-summary", ".hidden .directions-information", ".route-summary .route-info",
-        ".hidden .route-info-template", routeInfo);
-    addRouteInfo(".route-summary .route-description", ".route-summary .distance-data",
-        ".route-summary .duration-data", routeInfo);
+    createRouteInfoDOM('.route-summary', '.hidden .directions-information', '.route-summary .route-info',
+        '.hidden .route-info-template', routeInfo);
+    addRouteInfo('.route-summary .route-description', '.route-summary .distance-data',
+        '.route-summary .duration-data', routeInfo);
 
-    routeRadio = document.querySelectorAll(".route-summary .route-radio-input");
+    routeRadio = document.querySelectorAll('.route-summary .route-radio-input');
     checkFirstRoute(routeRadio);
     addRouteChangeListeners(routeRadio);
 }
@@ -401,7 +401,7 @@ function populateAndRenderRouteInfo(response){
 function populateAndRenderPoints(response, markers, map, routeIndex){
     'use strict';
 
-    var markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz",
+    var markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz',
         pointData = populateLatLng(response, routeIndex);
 
     populateInstructions(response, pointData, routeIndex);
@@ -409,18 +409,18 @@ function populateAndRenderPoints(response, markers, map, routeIndex){
 
     drawMarkers(pointData, markers, markerLabels, map);
 
-    createStreetViewDOM(".street-views", ".hidden .panorama-template", pointData.length);
-    addStreetViews(".street-views .street-view", pointData);
-    addDescriptions(".street-views .description-content", markerLabels, pointData);
+    createStreetViewDOM('.street-views', '.hidden .panorama-template', pointData.length);
+    addStreetViews('.street-views .street-view', pointData);
+    addDescriptions('.street-views .description-content', markerLabels, pointData);
 }
 
 function addMinMaxListeners(){
     'use strict';
 
-    var streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
+    var streetViewContainers = document.querySelectorAll('.street-views .street-view-container');
 
-    addMinimiseListener(streetViewContainers, ".street-views .minimise");
-    addMaximiseListener(streetViewContainers, ".street-views .maximise");
+    addMinimiseListener(streetViewContainers, '.street-views .minimise');
+    addMaximiseListener(streetViewContainers, '.street-views .maximise');
 }
 
 function populateAndRenderDurationDistance(response, routeIndex) {
