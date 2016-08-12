@@ -49,6 +49,14 @@ jshint without error
 Investigation of use of Mustaches to replace templating code.
 
 Simplify and organize Javascript as much as possible. Use of "And" in function names is probably bogus, should b 2 calls
+Also the code should follow the business functionality which in this case is the UI so..
+  * Streetview
+    * description
+    * streetview
+  * Route info
+  * map
+  * messages
+  * general/utility
 
 
 ############################################

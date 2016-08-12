@@ -23,12 +23,6 @@ function toggleString(toBRemoved, toBAdded, str) {
     return str.replace(toBRemoved, '').trim() + ' ' + toBAdded;
 }
 
-
-/**
- * Google maps API specific functions
- * */
-
-
 function callLatLngGetFunctions(propertyName, object) {
     'use strict';
 
