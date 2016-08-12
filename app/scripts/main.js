@@ -441,15 +441,15 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
     populateAndRenderDurationDistance(response, routeIndex);
 }
 
-function route(originPlace, destination_place, travel_mode, directionsService, directionsDisplay) {
+function route(originPlace, destinationPlace, travel_mode, directionsService, directionsDisplay) {
     'use strict';
 
-    if (!originPlace.id || !destination_place.id) {
+    if (!originPlace.id || !destinationPlace.id) {
         return;
     }
     directionsService.route({
         origin: {'placeId': originPlace.id},
-        destination: {'placeId': destination_place.id},
+        destination: {'placeId': destinationPlace.id},
         travelMode: travel_mode,
         provideRouteAlternatives: true
     }, function(response, status) {
@@ -513,7 +513,7 @@ function buildAutoComplete(inputId, map){
     return autocomplete;
 }
 
-function makePlaceChangeHandler(changedPlace, map, originPlace, destination_place, travel_mode,
+function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace, travel_mode,
                                 directionsService, directionsDisplay, message) {
     'use strict';
 
@@ -528,14 +528,14 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destination_plac
         expandViewportToFitPlace(map, place);
 
         changedPlace.id = place.place_id;
-        route(originPlace, destination_place, travel_mode,
+        route(originPlace, destinationPlace, travel_mode,
             directionsService, directionsDisplay);
     };
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
  * */
-function doInit(markers, originPlace, destination_place, travel_mode, map,
+function doInit(markers, originPlace, destinationPlace, travel_mode, map,
                 directionsService, directionsDisplay){
     'use strict';
 
@@ -545,11 +545,11 @@ function doInit(markers, originPlace, destination_place, travel_mode, map,
     var destination_autocomplete = buildAutoComplete('destination-input', map);
 
     origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(originPlace, map, originPlace,
-        destination_place, travel_mode,
+        destinationPlace, travel_mode,
         directionsService, directionsDisplay, 'Please select a valid origin'));
 
-    destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destination_place, map, originPlace,
-        destination_place, travel_mode,
+    destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destinationPlace, map, originPlace,
+        destinationPlace, travel_mode,
         directionsService, directionsDisplay, 'Please select a valid destination'));
 
     directionsDisplay.addListener('directions_changed', function() {

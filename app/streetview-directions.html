@@ -80,7 +80,7 @@
     function initMap() {
         var markers = [];
         var originPlace = { id:  null};
-        var destination_place = { id: null};
+        var destinationPlace = { id: null};
         var travel_mode = google.maps.TravelMode.DRIVING;
         var map = new google.maps.Map(document.getElementById('map'), {
             mapTypeControl: false,
@@ -93,7 +93,7 @@
             suppressMarkers: true,
             draggable: true
         });
-        doInit(markers, originPlace, destination_place, travel_mode, map, directionsService, directionsDisplay);
+        doInit(markers, originPlace, destinationPlace, travel_mode, map, directionsService, directionsDisplay);
     }
 
 </script>
