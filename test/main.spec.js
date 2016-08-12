@@ -172,6 +172,28 @@ describe('latLngLiteralToHeading', function () {
     });
 });
 
+describe('calculateHeading', function () {
+    var latLngArray, convertTo360Heading, latLngLiteralToHeading;
+
+    beforeEach(function(){
+        latLngArray = [
+            {},
+            {}
+        ];
+        convertTo360Heading = spyOn(window, 'convertTo360Heading').and.returnValue('heading');
+        latLngLiteralToHeading = spyOn(window, 'latLngLiteralToHeading');
+    });
+
+    it('should populate headings', function () {
+        calculateHeading(latLngArray);
+
+        expect(latLngLiteralToHeading.calls.count()).toBe(2);
+        expect(convertTo360Heading.calls.count()).toBe(2);
+        expect(latLngArray[0].heading).toEqual('heading');
+        expect(latLngArray[1].heading).toEqual('heading');
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
