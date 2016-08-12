@@ -194,6 +194,33 @@ describe('calculateHeading', function () {
     });
 });
 
+describe('informationMessage', function () {
+    var cloneNode, appendChild, clone;
+
+    beforeEach(function() {
+        clone = {
+            innerHTML: null
+        };
+        cloneNode = jasmine.createSpy('cloneNode').and.returnValue(clone);
+        appendChild = jasmine.createSpy('appendChild');
+        spyOn(document, 'querySelector').and.returnValue({
+            cloneNode: cloneNode,
+            appendChild: appendChild
+        });
+    });
+
+    it('should set message', function () {
+        var message = 'A message';
+
+        informationMessage(message);
+
+        expect(document.querySelector.calls.count()).toBe(2);
+        expect(cloneNode).toHaveBeenCalledWith(true);
+        expect(appendChild).toHaveBeenCalledWith(clone);
+        expect(clone.innerHTML).toBe(message);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
