@@ -42,3 +42,36 @@ describe('toggleString', function() {
         expect(replaced.indexOf('aaa')).toBeGreaterThan(-1);
     });
 });
+
+describe('callLatLngGetFunctions', function () {
+    var propertyName = 'start_location', object, lat, lng;
+
+    beforeEach(function() {
+        object = {};
+        lat = jasmine.createSpy('lat');
+        lng = jasmine.createSpy('lng');
+        object[propertyName] = {
+            lat: lat,
+            lng: lng
+        };
+
+        object[propertyName].lat.and.returnValue(33);
+        object[propertyName].lng.and.returnValue(11);
+    });
+
+    it('should ', function () {
+        var latLng = callLatLngGetFunctions(propertyName, object);
+
+        expect(lat).toHaveBeenCalled();
+        expect(lng).toHaveBeenCalled();
+        expect(latLng.lat).toBe(33);
+        expect(latLng.lng).toBe(11);
+    });
+});
+
+xdescribe('', function () {
+
+    it('should ', function () {
+
+    });
+});
