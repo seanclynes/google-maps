@@ -1,3 +1,5 @@
+/*globals google */
+/* exported doInit */
 
 function charFromStr(index, str) {
     'use strict';
@@ -398,6 +400,30 @@ function populateAndRenderRouteInfo(response){
     addRouteChangeListeners(routeRadio);
 }
 
+function addStreetViews(streetViewSelector, data) {
+    'use strict';
+
+    var streetViewElementArray = document.querySelectorAll(streetViewSelector),
+        i, panorama;
+
+    try {
+        for (i = 0; i < data.length ; i++) {
+            panorama = new google.maps.StreetViewPanorama(
+                streetViewElementArray[i],{
+                    scrollwheel: false,
+                    pov: {
+                        heading:data[i].heading,
+                        pitch: 0
+                    },
+                    position: data[i]
+                });
+        }
+    } catch (e) {
+        console.error(e.stack);
+        console.error('Error initializing street views');
+    }
+}
+
 function populateAndRenderPoints(response, markers, map, routeIndex){
     'use strict';
 
@@ -468,36 +494,6 @@ function route(originPlace, destinationPlace, travelMode, directionsService, dir
     });
 }
 
-
-/**
- *  Multiple API dependencies
- * */
-
-
-function addStreetViews(streetViewSelector, data) {
-    'use strict';
-
-    var streetViewElementArray = document.querySelectorAll(streetViewSelector),
-        i, panorama;
-
-    try {
-        for (i = 0; i < data.length ; i++) {
-            panorama = new google.maps.StreetViewPanorama(
-                streetViewElementArray[i],{
-                    scrollwheel: false,
-                    pov: {
-                        heading:data[i].heading,
-                        pitch: 0
-                    },
-                    position: data[i]
-                });
-        }
-    } catch (e) {
-        console.error(e.stack);
-        console.error('Error initializing street views');
-    }
-}
-
 function buildAutoComplete(inputId, map){
     'use strict';
 
@@ -527,6 +523,7 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
         }
         expandViewportToFitPlace(map, place);
 
+        /*jshint camelcase: false */
         changedPlace.id = place.place_id;
         route(originPlace, destinationPlace, travelMode,
             directionsService, directionsDisplay);
@@ -541,14 +538,14 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
 
     directionsDisplay.setMap(map);
 
-    var origin_autocomplete = buildAutoComplete('origin-input', map);
-    var destination_autocomplete = buildAutoComplete('destination-input', map);
+    var originAutocomplete = buildAutoComplete('origin-input', map);
+    var destinationAutocomplete = buildAutoComplete('destination-input', map);
 
-    origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(originPlace, map, originPlace,
+    originAutocomplete.addListener('place_changed', makePlaceChangeHandler(originPlace, map, originPlace,
         destinationPlace, travelMode,
         directionsService, directionsDisplay, 'Please select a valid origin'));
 
-    destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destinationPlace, map, originPlace,
+    destinationAutocomplete.addListener('place_changed',  makePlaceChangeHandler(destinationPlace, map, originPlace,
         destinationPlace, travelMode,
         directionsService, directionsDisplay, 'Please select a valid destination'));
 
