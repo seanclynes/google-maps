@@ -81,14 +81,6 @@ function calculateHeading(latLngArray) {
     }
 }
 
-
-
-/**
- *  DOM specific
- * */
-
-
-
 function informationMessage(message){
     'use strict';
 

@@ -59,13 +59,42 @@ describe('callLatLngGetFunctions', function () {
         object[propertyName].lng.and.returnValue(11);
     });
 
-    it('should ', function () {
+    it('should populate lat/lng literal', function () {
         var latLng = callLatLngGetFunctions(propertyName, object);
 
         expect(lat).toHaveBeenCalled();
         expect(lng).toHaveBeenCalled();
         expect(latLng.lat).toBe(33);
         expect(latLng.lng).toBe(11);
+    });
+});
+
+describe('populateLatLng', function () {
+    var response;
+
+    beforeEach(function() {
+        response = {
+            routes: [
+                {
+                    legs: [
+                        {
+                            steps: [
+                                {}
+                            ]
+                        }
+                    ]
+
+                }
+            ]
+        };
+        spyOn(window, 'callLatLngGetFunctions');
+    });
+
+    it('should populateLatLng', function () {
+        var latLngArray = populateLatLng(response, 0);
+
+        expect(latLngArray.length).toBe(2);
+        expect(callLatLngGetFunctions.calls.count()).toBe(2);
     });
 });
 
