@@ -428,8 +428,8 @@ function populateAndRenderDurationDistance(response, routeIndex) {
 
     var durationDistanceData = populateDurationDistance(response, routeIndex);
 
-    addDurationDistance(".street-views .duration-distance-template .distance-data",
-        ".street-views .duration-distance-template .duration-data", durationDistanceData);
+    addDurationDistance('.street-views .duration-distance-template .distance-data',
+        '.street-views .duration-distance-template .duration-data', durationDistanceData);
 }
 
 function populateAndRenderStreetViews(response, markers, map, routeIndex) {
@@ -437,7 +437,7 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
 
     populateAndRenderPoints(response, markers, map, routeIndex);
     addMinMaxListeners();
-    createDurationDistanceDOM(".street-views .duration-distance-placeholder",".hidden .duration-distance-template");
+    createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
     populateAndRenderDurationDistance(response, routeIndex);
 }
 
@@ -458,11 +458,11 @@ function route(origin_place, destination_place, travel_mode, directionsService, 
             directionsDisplay.setDirections(response);
         } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
             dispatchCustomEvent('information_message', {
-                message: "No directions for your origin and destination could be found"
+                message: 'No directions for your origin and destination could be found'
             });
         } else {
             dispatchCustomEvent('information_message', {
-                message: "No directions could be found due to an error"
+                message: 'No directions could be found due to an error'
             });
         }
     });
@@ -494,7 +494,7 @@ function addStreetViews(streetViewSelector, data) {
         }
     } catch (e) {
         console.error(e.stack);
-        console.error("Error initializing street views");
+        console.error('Error initializing street views');
     }
 }
 
@@ -541,18 +541,18 @@ function doInit(markers, origin_place, destination_place, travel_mode, map,
 
     directionsDisplay.setMap(map);
 
-    var origin_autocomplete = buildAutoComplete("origin-input", map);
-    var destination_autocomplete = buildAutoComplete("destination-input", map);
+    var origin_autocomplete = buildAutoComplete('origin-input', map);
+    var destination_autocomplete = buildAutoComplete('destination-input', map);
 
     origin_autocomplete.addListener('place_changed', makePlaceChangeHandler(origin_place, map, origin_place,
         destination_place, travel_mode,
-        directionsService, directionsDisplay, "Please select a valid origin"));
+        directionsService, directionsDisplay, 'Please select a valid origin'));
 
     destination_autocomplete.addListener('place_changed',  makePlaceChangeHandler(destination_place, map, origin_place,
         destination_place, travel_mode,
-        directionsService, directionsDisplay, "Please select a valid destination"));
+        directionsService, directionsDisplay, 'Please select a valid destination'));
 
-    directionsDisplay.addListener("directions_changed", function() {
+    directionsDisplay.addListener('directions_changed', function() {
         var response = this.getDirections();
 
         populateAndRenderRouteInfo(response);
@@ -564,13 +564,13 @@ function doInit(markers, origin_place, destination_place, travel_mode, map,
         populateAndRenderStreetViews(directionsDisplay.getDirections(), markers, map, e.detail.index);
     });
 
-    document.addEventListener("information_message", function (e)  {
-        clearContainer(".route-summary");
-        clearContainer(".street-views");
+    document.addEventListener('information_message', function (e)  {
+        clearContainer('.route-summary');
+        clearContainer('.street-views');
         informationMessage(e.detail.message);
     });
 
-    dispatchCustomEvent("information_message", {
-        message: "Select your origin and destination then display turn-by-turn streetview directions."
+    dispatchCustomEvent('information_message', {
+        message: 'Select your origin and destination then display turn-by-turn streetview directions.'
     })
 }
