@@ -1,9 +1,13 @@
 
 function charFromStr(index, str) {
+    'use strict';
+
     return str.charAt( (index % str.length) )
 }
 
 function convertTo360Heading(heading) {
+    'use strict';
+
     if(heading < 0) {
         return Math.round(360 + heading);
     }else{
@@ -12,6 +16,8 @@ function convertTo360Heading(heading) {
 }
 
 function toggleString(toBRemoved, toBAdded, str) {
+    'use strict';
+
     return str.replace(toBRemoved, "").trim() + " " + toBAdded;
 }
 
@@ -22,6 +28,8 @@ function toggleString(toBRemoved, toBAdded, str) {
 
 
 function callLatLngGetFunctions(propertyName, object) {
+    'use strict';
+
 
     return {
         lat: object[propertyName].lat(),
@@ -30,6 +38,8 @@ function callLatLngGetFunctions(propertyName, object) {
 }
 
 function populateLatLng(response, routeIndex) {
+    'use strict';
+
     var steps = response.routes[routeIndex].legs[0].steps;
     var i, latLngArray = new Array(steps.length + 1);
 
@@ -43,6 +53,8 @@ function populateLatLng(response, routeIndex) {
 }
 
 function populateInstructions(response, streetViewData, routeIndex) {
+    'use strict';
+
     var steps = response.routes[routeIndex].legs[0].steps;
     var i;
 
@@ -53,13 +65,17 @@ function populateInstructions(response, streetViewData, routeIndex) {
 }
 
 function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
-    latLng1 = new google.maps.LatLng(latLngLiteral1.lat, latLngLiteral1.lng);
-    latLng2 = new google.maps.LatLng(latLngLiteral2.lat, latLngLiteral2.lng);
+    'use strict';
+
+    var latLng1 = new google.maps.LatLng(latLngLiteral1.lat, latLngLiteral1.lng);
+    var latLng2 = new google.maps.LatLng(latLngLiteral2.lat, latLngLiteral2.lng);
 
     return google.maps.geometry.spherical.computeHeading(latLng1 ,latLng2);
 }
 
 function calculateHeading(latLngArray) {
+    'use strict';
+
     var i;
 
     latLngArray[0].heading = convertTo360Heading(latLngLiteralToHeading(latLngArray[0], latLngArray[1]));
@@ -78,6 +94,8 @@ function calculateHeading(latLngArray) {
 
 
 function informationMessage(message){
+    'use strict';
+
     var container = document.querySelector(".route-summary"),
         info = document.querySelector(".information-message"),
         clone = info.cloneNode(true);
@@ -87,6 +105,8 @@ function informationMessage(message){
 }
 
 function addDescriptions(descriptionsSelector, markerLabels, data) {
+    'use strict';
+
     var i, descriptions = document.querySelectorAll(descriptionsSelector);
 
     for (i = 0; i < data.length ; i++) {
@@ -95,6 +115,8 @@ function addDescriptions(descriptionsSelector, markerLabels, data) {
 }
 
 function appendTemplateCopies(domContainer, domTemplate, copyCount) {
+    'use strict';
+
     var i;
 
     for (i = 0; i < copyCount; i++) {
@@ -104,11 +126,15 @@ function appendTemplateCopies(domContainer, domTemplate, copyCount) {
 }
 
 function clearContainer(containerSelector) {
+    'use strict';
+
     document.querySelector(containerSelector).innerHTML = "";
 }
 
 function createRouteInfoDOM(containerSelector, templateSelector, childContainerSelector, childTemplateSelector,
                             routeInfo) {
+    'use strict';
+
     var container = document.querySelector(containerSelector),
         template = document.querySelector(templateSelector),
         childContainer,
@@ -128,6 +154,8 @@ function createRouteInfoDOM(containerSelector, templateSelector, childContainerS
 }
 
 function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
+    'use strict';
+
     var container = document.querySelector(containerSelector),
         templateElementArray = document.querySelectorAll(templateSelector);
 
@@ -141,21 +169,29 @@ function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
 }
 
 function isAnimateSupported(){
+    'use strict';
+
     var elm = document.createElement('div');
     return elm.style.animationName !== undefined;
 }
 
 function getShowClass() {
+    'use strict';
+
     return isAnimateSupported() ? "rolleddown" : "open";
 }
 
 function getHideClass() {
+    'use strict';
+
     return isAnimateSupported() ? "rolledup" : "close";
 }
 
 /** Required to capture the correct value of i. Don't create functions in loops
  * */
 function makeMinimiseHandler(i, streetViewContainers) {
+    'use strict';
+
     return function() {
         var currentClass = streetViewContainers[i].className,
             hideClass = getHideClass(), showClass = getShowClass();
@@ -167,6 +203,8 @@ function makeMinimiseHandler(i, streetViewContainers) {
 }
 
 function makeMaximiseHandler(i, streetViewContainers) {
+    'use strict';
+
     return function() {
         var currentClass = streetViewContainers[i].className,
             hideClass = getHideClass(), showClass = getShowClass();
@@ -178,6 +216,8 @@ function makeMaximiseHandler(i, streetViewContainers) {
 }
 
 function addMinimiseListener(streetViewContainers, minimiseSelector) {
+    'use strict';
+
     var minimisers = document.querySelectorAll(minimiseSelector), i;
 
     for (i = 0; i < minimisers.length ; i++) {
@@ -186,6 +226,8 @@ function addMinimiseListener(streetViewContainers, minimiseSelector) {
 }
 
 function addMaximiseListener(streetViewContainers, maximiseSelector) {
+    'use strict';
+
     var maximisers = document.querySelectorAll(maximiseSelector), i;
 
     for (i = 0; i < maximisers.length ; i++) {
@@ -194,6 +236,8 @@ function addMaximiseListener(streetViewContainers, maximiseSelector) {
 }
 
 function setMarkerMap(map, markers) {
+    'use strict';
+
     var i;
 
     for(i = 0; i < markers.length ; i++) {
@@ -202,6 +246,8 @@ function setMarkerMap(map, markers) {
 }
 
 function drawMarkers(streetViewData, markers, markerLabels, map) {
+    'use strict';
+
     var i;
 
     setMarkerMap(null, markers);
@@ -228,6 +274,8 @@ function drawMarkers(streetViewData, markers, markerLabels, map) {
 }
 
 function expandViewportToFitPlace(map, place) {
+    'use strict';
+
     if (place.geometry.viewport) {
         map.fitBounds(place.geometry.viewport);
     } else {
@@ -237,6 +285,8 @@ function expandViewportToFitPlace(map, place) {
 }
 
 function populateRouteInfo(response){
+    'use strict';
+
     var i, routeInfo, routes = [];
 
     for(i = 0 ; i < response.routes.length ; i++) {
@@ -250,6 +300,8 @@ function populateRouteInfo(response){
 }
 
 function populateDurationDistance(response, routeIndex) {
+    'use strict';
+
     var i, steps = response.routes[routeIndex].legs[0].steps,
         durationDistanceData = new Array(steps.length);
 
@@ -262,6 +314,8 @@ function populateDurationDistance(response, routeIndex) {
 }
 
 function addRouteInfo(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
+    'use strict';
+
     var i, descriptions = document.querySelectorAll(descriptionSelector),
         distances = document.querySelectorAll(distanceSelector),
         durations = document.querySelectorAll(durationSelector);
@@ -274,6 +328,8 @@ function addRouteInfo(descriptionSelector, distanceSelector, durationSelector, r
 }
 
 function createDurationDistanceDOM(targetSelector, templateSelector) {
+    'use strict';
+
     var i, targets = document.querySelectorAll(targetSelector),
         templateElement = document.querySelector(templateSelector);
 
@@ -284,6 +340,8 @@ function createDurationDistanceDOM(targetSelector, templateSelector) {
 }
 
 function addDurationDistance(distanceSelector, durationSelector, durationDistanceData){
+    'use strict';
+
     var i, distances = document.querySelectorAll(distanceSelector),
         durations = document.querySelectorAll(durationSelector);
 
@@ -294,22 +352,30 @@ function addDurationDistance(distanceSelector, durationSelector, durationDistanc
 }
 
 function checkFirstRoute(routeRadio) {
+    'use strict';
+
     routeRadio[0].setAttribute("checked", "checked");
 }
 
 function dispatchCustomEvent(eventName, data) {
+    'use strict';
+
     var event = document.createEvent('CustomEvent');
     event.initCustomEvent(eventName, true, true, data);
     document.dispatchEvent(event);
 }
 
 function makeRouteChangeHandler(i){
+    'use strict';
+
     return function() {
         dispatchCustomEvent('route_selected', {index: i});
     }
 }
 
 function addRouteChangeListeners(routeRadio) {
+    'use strict';
+
     var i;
 
     for (i = 0; i < routeRadio.length ; i++) {
@@ -318,6 +384,8 @@ function addRouteChangeListeners(routeRadio) {
 }
 
 function populateAndRenderRouteInfo(response){
+    'use strict';
+
     var routeRadio, routeInfo = populateRouteInfo(response);
 
     createRouteInfoDOM(".route-summary", ".hidden .directions-information", ".route-summary .route-info",
@@ -331,6 +399,8 @@ function populateAndRenderRouteInfo(response){
 }
 
 function populateAndRenderPoints(response, markers, map, routeIndex){
+    'use strict';
+
     var markerLabels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz",
         pointData = populateLatLng(response, routeIndex);
 
@@ -345,6 +415,8 @@ function populateAndRenderPoints(response, markers, map, routeIndex){
 }
 
 function addMinMaxListeners(){
+    'use strict';
+
     var streetViewContainers = document.querySelectorAll(".street-views .street-view-container");
 
     addMinimiseListener(streetViewContainers, ".street-views .minimise");
@@ -352,6 +424,8 @@ function addMinMaxListeners(){
 }
 
 function populateAndRenderDurationDistance(response, routeIndex) {
+    'use strict';
+
     var durationDistanceData = populateDurationDistance(response, routeIndex);
 
     addDurationDistance(".street-views .duration-distance-template .distance-data",
@@ -359,6 +433,8 @@ function populateAndRenderDurationDistance(response, routeIndex) {
 }
 
 function populateAndRenderStreetViews(response, markers, map, routeIndex) {
+    'use strict';
+
     populateAndRenderPoints(response, markers, map, routeIndex);
     addMinMaxListeners();
     createDurationDistanceDOM(".street-views .duration-distance-placeholder",".hidden .duration-distance-template");
@@ -366,6 +442,8 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
 }
 
 function route(origin_place, destination_place, travel_mode, directionsService, directionsDisplay) {
+    'use strict';
+
     if (!origin_place.id || !destination_place.id) {
         return;
     }
@@ -397,6 +475,8 @@ function route(origin_place, destination_place, travel_mode, directionsService, 
 
 
 function addStreetViews(streetViewSelector, data) {
+    'use strict';
+
     var streetViewElementArray = document.querySelectorAll(streetViewSelector),
         i, panorama;
 
@@ -419,6 +499,8 @@ function addStreetViews(streetViewSelector, data) {
 }
 
 function buildAutoComplete(inputId, map){
+    'use strict';
+
     var autocomplete, input = document.getElementById(inputId);
 
     //Firefox 47.0.1 on OSX doesn't clear previous search on page loading
@@ -433,6 +515,8 @@ function buildAutoComplete(inputId, map){
 
 function makePlaceChangeHandler(changedPlace, map, origin_place, destination_place, travel_mode,
                                 directionsService, directionsDisplay, message) {
+    'use strict';
+
     return function() {
         var place = this.getPlace();
         if (!place.geometry) {
@@ -453,6 +537,7 @@ function makePlaceChangeHandler(changedPlace, map, origin_place, destination_pla
  * */
 function doInit(markers, origin_place, destination_place, travel_mode, map,
                 directionsService, directionsDisplay){
+    'use strict';
 
     directionsDisplay.setMap(map);
 
