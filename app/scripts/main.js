@@ -18,7 +18,7 @@ function convertTo360Heading(heading) {
 function toggleString(toBRemoved, toBAdded, str) {
     'use strict';
 
-    return str.replace(toBRemoved, "").trim() + " " + toBAdded;
+    return str.replace(toBRemoved, '').trim() + ' ' + toBAdded;
 }
 
 
@@ -61,7 +61,7 @@ function populateInstructions(response, streetViewData, routeIndex) {
     for(i = 0 ; i < steps.length ; i++){
         streetViewData[i].instructions = steps[i].instructions;
     }
-    streetViewData[i].instructions = "You have reached your destination";
+    streetViewData[i].instructions = 'You have reached your destination';
 }
 
 function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
@@ -96,8 +96,8 @@ function calculateHeading(latLngArray) {
 function informationMessage(message){
     'use strict';
 
-    var container = document.querySelector(".route-summary"),
-        info = document.querySelector(".information-message"),
+    var container = document.querySelector('.route-summary'),
+        info = document.querySelector('.information-message'),
         clone = info.cloneNode(true);
 
     container.appendChild(clone);
@@ -110,7 +110,7 @@ function addDescriptions(descriptionsSelector, markerLabels, data) {
     var i, descriptions = document.querySelectorAll(descriptionsSelector);
 
     for (i = 0; i < data.length ; i++) {
-        descriptions[i].innerHTML = "<b>" + charFromStr(i, markerLabels) + ".</b> " + data[i].instructions;
+        descriptions[i].innerHTML = '<b>' + charFromStr(i, markerLabels) + '.</b> ' + data[i].instructions;
     }
 }
 
@@ -128,7 +128,7 @@ function appendTemplateCopies(domContainer, domTemplate, copyCount) {
 function clearContainer(containerSelector) {
     'use strict';
 
-    document.querySelector(containerSelector).innerHTML = "";
+    document.querySelector(containerSelector).innerHTML = '';
 }
 
 function createRouteInfoDOM(containerSelector, templateSelector, childContainerSelector, childTemplateSelector,
