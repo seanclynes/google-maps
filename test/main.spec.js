@@ -320,6 +320,28 @@ describe('createStreetViewDOM', function () {
     });
 });
 
+describe('isAnimateSupported', function () {
+    var dom;
+
+    beforeEach(function() {
+        dom = {
+            style: {}
+        };
+        spyOn(document, 'createElement').and.returnValue(dom);
+    });
+
+    it('should return animation supported', function () {
+        dom.style.animationName = {};
+
+        expect(isAnimateSupported()).toBe(true);
+    });
+
+    it('should return animation not supported', function () {
+
+        expect(isAnimateSupported()).toBe(false);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
