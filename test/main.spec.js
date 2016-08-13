@@ -259,6 +259,23 @@ describe('appendTemplateCopies', function () {
     });
 });
 
+describe('clearContainer', function () {
+    var dom;
+
+    beforeEach(function() {
+        dom = {innerHTML: null};
+        spyOn(document, 'querySelector').and.returnValue(dom);
+    });
+
+    it('should set content to empty string', function () {
+        var selector = '.route-summary';
+        clearContainer(selector);
+
+        expect(document.querySelector).toHaveBeenCalledWith(selector);
+        expect(dom.innerHTML).toEqual('');
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
