@@ -589,6 +589,39 @@ describe('drawMarkers', function () {
     });
 });
 
+describe('expandViewportToFitPlace', function () {
+    var map, place;
+
+    beforeEach(function() {
+        map = jasmine.createSpyObj('map', ['fitBounds', 'setCenter', 'setZoom']);
+        place = {
+            geometry: {
+                viewport: null,
+                location: {}
+            }
+        }
+    });
+
+    it('should use viewport', function () {
+        place.geometry.viewport = {};
+
+        expandViewportToFitPlace(map, place);
+
+        expect(map.fitBounds).toHaveBeenCalledWith(place.geometry.viewport);
+        expect(map.setCenter).not.toHaveBeenCalled();
+        expect(map.setZoom).not.toHaveBeenCalled();
+    });
+
+    it('should use location', function () {
+
+        expandViewportToFitPlace(map, place);
+
+        expect(map.fitBounds).not.toHaveBeenCalled();
+        expect(map.setCenter).toHaveBeenCalledWith(place.geometry.location);
+        expect(map.setZoom).toHaveBeenCalledWith(17);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
