@@ -276,6 +276,30 @@ describe('clearContainer', function () {
     });
 });
 
+describe('createRouteInfoDOM', function () {
+    var dom, routeInfo;
+
+    beforeEach(function() {
+        dom = jasmine.createSpyObj('dom', ['appendChild','cloneNode']);
+        routeInfo = [{}, {}];
+        spyOn(document, 'querySelector').and.returnValue(dom);
+        spyOn(window, 'clearContainer');
+        spyOn(window, 'appendTemplateCopies');
+    });
+
+    it('should create multiple routeInfo', function () {
+        createRouteInfoDOM('.route-summary', '.hidden .directions-information',
+            '.route-summary .route-info',
+            '.hidden .route-info-template', routeInfo);
+
+        expect(document.querySelector.calls.count()).toBe(4);
+        expect(window.clearContainer.calls.count()).toBe(1);
+        expect(window.appendTemplateCopies.calls.count()).toBe(1);
+        expect(dom.appendChild.calls.count()).toBe(1);
+        expect(dom.cloneNode.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {

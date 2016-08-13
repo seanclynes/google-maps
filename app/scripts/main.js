@@ -128,17 +128,12 @@ function createRouteInfoDOM(containerSelector, templateSelector, childContainerS
         childContainer,
         childTemplate = document.querySelector(childTemplateSelector);
 
-    try  {
-        clearContainer(containerSelector);
-        container.appendChild( template.cloneNode(true) );
+    clearContainer(containerSelector);
+    container.appendChild( template.cloneNode(true) );
 
-        childContainer = document.querySelector(childContainerSelector);
+    childContainer = document.querySelector(childContainerSelector);
 
-        appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
-    } catch (e)  {
-        console.error(e.stack);
-        console.error('Require template [' + templateSelector + '] target container [' + containerSelector + ']');
-    }
+    appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
 }
 
 function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
