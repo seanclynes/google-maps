@@ -221,6 +221,26 @@ describe('informationMessage', function () {
     });
 });
 
+describe('addDescriptions', function () {
+    var descriptions, data, descriptionsSelector, markerLabels;
+
+    beforeEach(function() {
+        descriptions = [{innerHTML: null}, {innerHTML:null}];
+        data = [{instructions: 'Turn left'}, {instructions: 'You have reached your destination'}];
+        spyOn(document, 'querySelectorAll').and.returnValue(descriptions);
+        descriptionsSelector = '.street-views .description-content';
+        markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
+    });
+
+    it('should populate descriptions', function () {
+        addDescriptions(descriptionsSelector, markerLabels, data);
+
+        expect(document.querySelectorAll).toHaveBeenCalledWith(descriptionsSelector);
+        expect(descriptions[0].innerHTML).toEqual('<b>A.</b> Turn left');
+        expect(descriptions[1].innerHTML).toEqual('<b>B.</b> You have reached your destination');
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
