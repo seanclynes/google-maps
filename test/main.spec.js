@@ -454,6 +454,68 @@ describe('makeMaximiseHandler', function () {
     });
 });
 
+describe('addMinimiseListener', function () {
+    var minimisers, addEventListener, minimiseSelector, streetViewContainers;
+
+    beforeEach(function() {
+        addEventListener = jasmine.createSpy('addEventListener');
+        minimisers = [
+            {
+                addEventListener: addEventListener
+            },
+            {
+                addEventListener: addEventListener
+            }
+        ];
+        spyOn(document, 'querySelectorAll').and.returnValue(minimisers);
+        spyOn(window, 'makeMinimiseHandler');
+        minimiseSelector = '.street-views .minimise';
+        streetViewContainers = [
+            {},
+            {}
+        ];
+    });
+
+    it('should add two event listeners', function () {
+        addMinimiseListener(streetViewContainers, minimiseSelector);
+
+        expect(document.querySelectorAll.calls.count()).toBe(1);
+        expect(addEventListener.calls.count()).toBe(2);
+        expect(window.makeMinimiseHandler.calls.count()).toBe(2);
+    });
+});
+
+describe('addMaximiseListener', function () {
+    var maximisers, addEventListener, maximiseSelector, streetViewContainers;
+
+    beforeEach(function() {
+        addEventListener = jasmine.createSpy('addEventListener');
+        maximisers = [
+            {
+                addEventListener: addEventListener
+            },
+            {
+                addEventListener: addEventListener
+            }
+        ];
+        spyOn(document, 'querySelectorAll').and.returnValue(maximisers);
+        spyOn(window, 'makeMaximiseHandler');
+        maximiseSelector = '.street-views .maximise';
+        streetViewContainers = [
+            {},
+            {}
+        ];
+    });
+
+    it('should add two event listeners', function () {
+        addMaximiseListener(streetViewContainers, maximiseSelector);
+
+        expect(document.querySelectorAll.calls.count()).toBe(1);
+        expect(addEventListener.calls.count()).toBe(2);
+        expect(window.makeMaximiseHandler.calls.count()).toBe(2);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
