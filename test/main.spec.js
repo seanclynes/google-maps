@@ -540,6 +540,55 @@ describe('setMarkerMap', function () {
     });
 });
 
+describe('drawMarkers', function () {
+    var streetViewData, markers, markerLabels, map, Marker, panBy;
+
+    beforeEach(function() {
+        Marker = jasmine.createSpy('Marker');
+        google = {
+            maps: {
+                Marker: Marker,
+                Animation: {
+                    DROP: ''
+                }
+            }
+        };
+        panBy = jasmine.createSpy('panBy');
+        map = {
+            panBy: panBy
+        };
+        markers = [{}, {}, {}];
+        streetViewData = [{}, {}];
+        markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
+        spyOn(window, 'setMarkerMap');
+        spyOn(window, 'charFromStr');
+
+        jasmine.clock().install();
+    });
+
+    afterEach(function() {
+        delete window.google;
+        jasmine.clock().uninstall();
+    });
+
+    it('should apply bug fix', function () {
+        drawMarkers(streetViewData, markers, markerLabels, map);
+
+        expect(map.panBy).not.toHaveBeenCalled();
+        jasmine.clock().tick(501);
+        expect(map.panBy.calls.count()).toBe(2);
+    });
+
+    it('should populate markers', function() {
+        drawMarkers(streetViewData, markers, markerLabels, map);
+
+        expect(window.setMarkerMap.calls.count()).toBe(2);
+        expect(Marker.calls.count()).toBe(2);
+        expect(window.charFromStr.calls.count()).toBe(2);
+        expect(markers.length).toBe(2);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
