@@ -241,6 +241,24 @@ describe('addDescriptions', function () {
     });
 });
 
+describe('appendTemplateCopies', function () {
+    var domContainer, domTemplate;
+
+    beforeEach(function() {
+        domContainer = {};
+        domContainer.appendChild = jasmine.createSpy('appendChild');
+        domTemplate = {};
+        domTemplate.cloneNode = jasmine.createSpy('cloneNode');
+    });
+
+    it('should clone template twice', function () {
+        appendTemplateCopies(domContainer, domTemplate, 2);
+
+        expect(domContainer.appendChild.calls.count()).toBe(2);
+        expect(domTemplate.cloneNode.calls.count()).toBe(2);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
