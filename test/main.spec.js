@@ -678,6 +678,55 @@ describe('populateRouteInfo', function () {
     });
 });
 
+describe('populateDurationDistance', function () {
+    var response, distance1, distance2, duration1, duration2;
+
+    beforeEach(function() {
+        distance1 = '5.1 km';
+        distance2 = '5.8 km';
+        duration1 = '10 mins';
+        duration2 = '12 mins';
+
+        response = {
+            routes: [
+                {
+                    legs: [
+                        {
+                            steps: [
+                                {
+                                    distance: {
+                                        text: distance1
+                                    },
+                                    duration: {
+                                        text: duration1
+                                    }
+                                },
+                                {
+                                    distance: {
+                                        text: distance2
+                                    },
+                                    duration: {
+                                        text: duration2
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+    });
+
+    it('should populateDurationDistance for two steps', function () {
+        var durationDistance = populateDurationDistance(response, 0);
+
+        expect(durationDistance[0].duration).toBe(duration1);
+        expect(durationDistance[1].duration).toBe(duration2);
+        expect(durationDistance[0].distance).toBe(distance1);
+        expect(durationDistance[1].distance).toBe(distance2);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
