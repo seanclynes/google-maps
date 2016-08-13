@@ -516,6 +516,30 @@ describe('addMaximiseListener', function () {
     });
 });
 
+describe('setMarkerMap', function () {
+    var map, markers, setMap;
+
+    beforeEach(function() {
+        map = {};
+        setMap = jasmine.createSpy('setMap');
+        markers = [
+            {
+                setMap: setMap
+            },
+            {
+                setMap: setMap
+            }
+        ];
+    });
+
+    it('should setMap twice', function () {
+        setMarkerMap(map, markers);
+
+        expect(setMap.calls.count()).toBe(2);
+        expect(setMap).toHaveBeenCalledWith(map);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
