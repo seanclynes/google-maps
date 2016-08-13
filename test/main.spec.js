@@ -386,6 +386,74 @@ describe('getHideClass', function () {
     });
 });
 
+describe('makeMinimiseHandler', function () {
+    var streetViewContainers, hideClass;
+
+    beforeEach(function() {
+        streetViewContainers = [{
+            className: ''
+        }];
+        hideClass = 'close';
+        spyOn(window, 'getHideClass').and.returnValue(hideClass);
+        spyOn(window, 'toggleString');
+    });
+
+    it('should create a function', function () {
+        var result = makeMinimiseHandler(0, streetViewContainers);
+
+        expect(result).toEqual(jasmine.any(Function));
+    });
+
+    it('should not hide twice', function () {
+        streetViewContainers[0].className = hideClass;
+        var result = makeMinimiseHandler(0, streetViewContainers);
+        result();
+
+        expect(window.toggleString).not.toHaveBeenCalled();
+    });
+
+    it('should hide if not hidden', function() {
+        var result = makeMinimiseHandler(0, streetViewContainers);
+        result();
+
+        expect(window.toggleString).toHaveBeenCalled();
+    });
+});
+
+describe('makeMaximiseHandler', function () {
+    var streetViewContainers, hideClass;
+
+    beforeEach(function() {
+        streetViewContainers = [{
+            className: ''
+        }];
+        hideClass = 'close';
+        spyOn(window, 'getHideClass').and.returnValue(hideClass);
+        spyOn(window, 'toggleString');
+    });
+
+    it('should create a function', function () {
+        var result = makeMaximiseHandler(0, streetViewContainers);
+
+        expect(result).toEqual(jasmine.any(Function));
+    });
+
+    it('should not show twice', function () {
+        var result = makeMaximiseHandler(0, streetViewContainers);
+        result();
+
+        expect(window.toggleString).not.toHaveBeenCalled();
+    });
+
+    it('should show if hidden', function() {
+        streetViewContainers[0].className = hideClass;
+        var result = makeMaximiseHandler(0, streetViewContainers);
+        result();
+
+        expect(window.toggleString).toHaveBeenCalled();
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
