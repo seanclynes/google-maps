@@ -342,6 +342,50 @@ describe('isAnimateSupported', function () {
     });
 });
 
+describe('getShowClass', function () {
+    var dom;
+
+    beforeEach(function() {
+        dom = {
+            style: {}
+        };
+        spyOn(document, 'createElement').and.returnValue(dom);
+    });
+
+    it('should return animated show class', function () {
+        dom.style.animationName = {};
+
+        expect(getShowClass()).toEqual('rolleddown');
+    });
+
+    it('should return fallback show class', function () {
+
+        expect(getShowClass()).toEqual('open');
+    });
+});
+
+describe('getHideClass', function () {
+    var dom;
+
+    beforeEach(function() {
+        dom = {
+            style: {}
+        };
+        spyOn(document, 'createElement').and.returnValue(dom);
+    });
+
+    it('should return animated hide class', function () {
+        dom.style.animationName = {};
+
+        expect(getHideClass()).toEqual('rolledup');
+    });
+
+    it('should return fallback hide class', function () {
+
+        expect(getHideClass()).toEqual('close');
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
