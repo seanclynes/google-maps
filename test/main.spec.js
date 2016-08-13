@@ -622,6 +622,62 @@ describe('expandViewportToFitPlace', function () {
     });
 });
 
+describe('populateRouteInfo', function () {
+    var response, summary1, summary2, distance1, distance2, duration1, duration2;
+
+    beforeEach(function() {
+        summary1 = 'Footscray Rd/State Route 32';
+        summary2 = 'State Route 50';
+        distance1 = '5.1 km';
+        distance2 = '5.8 km';
+        duration1 = '10 mins';
+        duration2 = '12 mins';
+
+        response = {
+            routes: [
+                {
+                    summary: summary1,
+                    legs: [
+                        {
+                            distance: {
+                                text: distance1
+                            },
+                            duration: {
+                                text: duration1
+                            }
+                        }
+                    ]
+                },
+                {
+                    summary: summary2,
+                    legs: [
+                        {
+                            distance: {
+                                text: distance2
+                            },
+                            duration: {
+                                text: duration2
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+    });
+
+    it('should populateRouteInfo for two routes', function () {
+        var routeInfo = populateRouteInfo(response);
+
+        expect(routeInfo.length).toBe(2);
+        expect(routeInfo[0].summary).toBe(summary1);
+        expect(routeInfo[1].summary).toBe(summary2);
+        expect(routeInfo[0].distance).toBe(distance1);
+        expect(routeInfo[1].distance).toBe(distance2);
+        expect(routeInfo[0].duration).toBe(duration1);
+        expect(routeInfo[1].duration).toBe(duration2);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
