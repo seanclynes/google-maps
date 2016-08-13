@@ -300,6 +300,26 @@ describe('createRouteInfoDOM', function () {
     });
 });
 
+describe('createStreetViewDOM', function () {
+    var dom;
+
+    beforeEach(function() {
+        dom = {};
+        spyOn(document, 'querySelector').and.returnValue(dom);
+        domArray = [dom];
+        spyOn(window, 'clearContainer');
+        spyOn(window, 'appendTemplateCopies');
+    });
+
+    it('should call createStreetViewDOM successfully', function () {
+        createStreetViewDOM('.street-views', '.hidden .panorama-template', 2);
+
+        expect(document.querySelector.calls.count()).toBe(2);
+        expect(window.clearContainer.calls.count()).toBe(1);
+        expect(window.appendTemplateCopies.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {

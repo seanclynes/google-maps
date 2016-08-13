@@ -140,15 +140,10 @@ function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
     'use strict';
 
     var container = document.querySelector(containerSelector),
-        templateElementArray = document.querySelectorAll(templateSelector);
+        templateElement = document.querySelector(templateSelector);
 
-    try  {
-        clearContainer(containerSelector);
-        appendTemplateCopies(container, templateElementArray[0], copyCount);
-    } catch (e)  {
-        console.error(e.stack);
-        console.error('Require template [' + templateSelector + '] target container [' + containerSelector + ']');
-    }
+    clearContainer(containerSelector);
+    appendTemplateCopies(container, templateElement, copyCount);
 }
 
 function isAnimateSupported(){
