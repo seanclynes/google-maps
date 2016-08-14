@@ -1052,6 +1052,97 @@ describe('populateAndRenderStreetViews', function () {
     });
 });
 
+describe('route', function () {
+    var originPlace, destinationPlace, travelMode, directionsService,directionsDisplay, routeVar,
+        setDirections, returnStatus;
+
+    beforeEach(function() {
+
+        google = {
+            maps: {
+                DirectionsStatus: {
+                    OK: 'OK',
+                    ZERO_RESULTS: 'ZERO_RESULTS',
+                    UNKNOWN_ERROR: 'UNKNOWN_ERROR'
+                },
+                TravelMode: {
+                    DRIVING: 'DRIVING'
+                }
+            }
+        };
+        originPlace = {
+            id: 'id1'
+        };
+        destinationPlace = {
+            id: 'id2'
+        };
+        travelMode = google.maps.TravelMode.DRIVING;
+        routeVar = jasmine.createSpy('route').and.callFake(function(config, callback) {
+            callback({}, returnStatus);
+        });
+        directionsService = {
+            route: routeVar
+        };
+        setDirections = jasmine.createSpy('setDirections');
+        directionsDisplay = {
+            setDirections: setDirections
+        }
+        spyOn(window, 'dispatchCustomEvent');
+    });
+
+    afterEach(function() {
+        delete window.google;
+    });
+
+    it('should return for empty origin', function() {
+        originPlace.id = null;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).not.toHaveBeenCalled();
+    });
+
+    it('should return for empty destination', function() {
+        destinationPlace.id = null;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).not.toHaveBeenCalled();
+    });
+
+    it('should return for empty destination and origin', function() {
+        originPlace.id = null;
+        destinationPlace.id = null;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).not.toHaveBeenCalled();
+    });
+
+    it('should display directions for OK status', function () {
+        returnStatus = google.maps.DirectionsStatus.OK;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).toHaveBeenCalled();
+        expect(directionsDisplay.setDirections).toHaveBeenCalled();
+    });
+
+    it('should display message for ZERO_RESULTS status', function () {
+        returnStatus = google.maps.DirectionsStatus.ZERO_RESULTS;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).toHaveBeenCalled();
+        expect(directionsDisplay.setDirections).not.toHaveBeenCalled();
+        expect(window.dispatchCustomEvent).toHaveBeenCalled();
+    });
+
+    it('should display message for other status', function () {
+        returnStatus = google.maps.DirectionsStatus.UNKNOWN_ERROR;
+        route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay);
+
+        expect(directionsService.route).toHaveBeenCalled();
+        expect(directionsDisplay.setDirections).not.toHaveBeenCalled();
+        expect(window.dispatchCustomEvent).toHaveBeenCalled();
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
@@ -1062,3 +1153,5 @@ xdescribe('', function () {
 
     });
 });
+
+
