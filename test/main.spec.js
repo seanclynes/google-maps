@@ -1186,6 +1186,63 @@ describe('buildAutoComplete', function () {
     });
 });
 
+describe('makePlaceChangeHandler', function () {
+    var changedPlace, place, getPlace, that;
+
+    beforeEach(function() {
+        changedPlace = {
+            id: null
+        };
+        place = {
+            geometry: {},
+            place_id: 'place1'
+        };
+        getPlace = jasmine.createSpy('getPlace').and.returnValue(place);
+        that = {
+            getPlace: getPlace
+        };
+        spyOn(window, 'dispatchCustomEvent');
+        spyOn(window, 'expandViewportToFitPlace');
+        spyOn(window, 'route');
+
+        google = {
+            maps: {
+                TravelMode: {
+                    DRIVING: 'DRIVING'
+                }
+            }
+        };
+    });
+
+    it('should create a function', function () {
+        var result = makePlaceChangeHandler(changedPlace, {}, {}, {},
+            google.maps.TravelMode.DRIVING, {}, {}, 'message');
+
+        expect(result).toEqual(jasmine.any(Function));
+    });
+
+    it('should send message for no geometry', function() {
+        place.geometry = null;
+
+        that.result = makePlaceChangeHandler(changedPlace, {}, {}, {},
+            google.maps.TravelMode.DRIVING, {}, {}, 'message');
+        that.result();
+
+        expect(window.dispatchCustomEvent).toHaveBeenCalled();
+        expect(window.expandViewportToFitPlace).not.toHaveBeenCalled();
+    });
+
+    it('should route if geometry is present', function() {
+        that.result = makePlaceChangeHandler(changedPlace, {}, {}, {},
+            google.maps.TravelMode.DRIVING, {}, {}, 'message');
+        that.result();
+
+        expect(window.dispatchCustomEvent).not.toHaveBeenCalled();
+        expect(window.expandViewportToFitPlace).toHaveBeenCalled();
+        expect(window.route).toHaveBeenCalled();
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
