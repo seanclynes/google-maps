@@ -382,21 +382,16 @@ function addStreetViews(streetViewSelector, data) {
     var streetViewElementArray = document.querySelectorAll(streetViewSelector),
         i, panorama;
 
-    try {
-        for (i = 0; i < data.length ; i++) {
-            panorama = new google.maps.StreetViewPanorama(
-                streetViewElementArray[i],{
-                    scrollwheel: false,
-                    pov: {
-                        heading:data[i].heading,
-                        pitch: 0
-                    },
-                    position: data[i]
-                });
-        }
-    } catch (e) {
-        console.error(e.stack);
-        console.error('Error initializing street views');
+    for (i = 0; i < data.length ; i++) {
+        panorama = new google.maps.StreetViewPanorama(
+            streetViewElementArray[i],{
+                scrollwheel: false,
+                pov: {
+                    heading:data[i].heading,
+                    pitch: 0
+                },
+                position: data[i]
+            });
     }
 }
 
