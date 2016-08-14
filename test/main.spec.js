@@ -943,6 +943,33 @@ describe('populateAndRenderRouteInfo', function () {
     });
 });
 
+describe('addStreetViews', function () {
+    var StreetViewPanorama, data, streetViewElementArray;
+
+    beforeEach(function() {
+        data = [{heading: 90}];
+        streetViewElementArray = [{}];
+        spyOn(document, 'querySelectorAll').and.returnValue(streetViewElementArray);
+        StreetViewPanorama = jasmine.createSpy('StreetViewPanorama');
+        google = {
+            maps: {
+                StreetViewPanorama: StreetViewPanorama
+            }
+        }
+    });
+
+    afterEach(function() {
+        delete window.google;
+    });
+
+    it('should call addStreetViews successfully', function () {
+        addStreetViews('.street-views .street-view', data);
+
+        expect(document.querySelectorAll.calls.count()).toBe(1);
+        expect(StreetViewPanorama.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
