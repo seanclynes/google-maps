@@ -829,6 +829,51 @@ describe('addDurationDistance', function () {
     });
 });
 
+describe('checkFirstRoute', function () {
+    var routeRadio, setAttribute;
+
+    beforeEach(function() {
+        setAttribute = jasmine.createSpy('setAttribute');
+        routeRadio = [
+            {
+                setAttribute: setAttribute
+            },
+            {
+                setAttribute: setAttribute
+            }
+        ];
+    });
+
+    it('should call checkFirstRoute and setAttribute', function () {
+        checkFirstRoute(routeRadio);
+
+        expect(setAttribute.calls.count()).toBe(1);
+    });
+});
+
+describe('dispatchCustomEvent', function () {
+    var initCustomEvent, event;
+
+    beforeEach(function() {
+        initCustomEvent = jasmine.createSpy('initCustomEvent');
+        event = {
+            initCustomEvent: initCustomEvent
+        };
+        spyOn(document, 'createEvent').and.returnValue(event);
+        spyOn(document, 'dispatchEvent');
+    });
+
+    it('should dispatchCustomEvent', function () {
+        dispatchCustomEvent('information_message', {
+            message: 'Select your origin and destination then display turn-by-turn streetview directions.'
+        });
+
+        expect(document.createEvent.calls.count()).toBe(1);
+        expect(event.initCustomEvent.calls.count()).toBe(1);
+        expect(document.dispatchEvent.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
