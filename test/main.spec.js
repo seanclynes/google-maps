@@ -1086,7 +1086,7 @@ describe('route', function () {
         setDirections = jasmine.createSpy('setDirections');
         directionsDisplay = {
             setDirections: setDirections
-        }
+        };
         spyOn(window, 'dispatchCustomEvent');
     });
 
@@ -1140,6 +1140,49 @@ describe('route', function () {
         expect(directionsService.route).toHaveBeenCalled();
         expect(directionsDisplay.setDirections).not.toHaveBeenCalled();
         expect(window.dispatchCustomEvent).toHaveBeenCalled();
+    });
+});
+
+describe('buildAutoComplete', function () {
+    var input, map, bindTo, autoReturn, Autocomplete;
+
+    beforeEach(function() {
+        input = {
+            value: 'a value'
+        };
+        spyOn(document, 'getElementById').and.returnValue(input);
+        bindTo = jasmine.createSpy('bindTo');
+        autoReturn = {
+            bindTo: bindTo
+        };
+        Autocomplete = jasmine.createSpy('Autocomplete').and.returnValue(autoReturn);
+        google = {
+            maps: {
+                ControlPosition: {
+                    TOP_LEFT: 'TOP_LEFT'
+                },
+                places: {
+                    Autocomplete: Autocomplete
+                }
+            }
+        };
+        map = {
+            controls: {
+                TOP_LEFT: []
+            }
+        };
+    });
+
+    afterEach(function() {
+        delete window.google;
+    });
+
+    it('should call buildAutoComplete successfully', function () {
+        var autoReturn = buildAutoComplete('123', map);
+
+        expect(document.getElementById).toHaveBeenCalled();
+        expect(map.controls[google.maps.ControlPosition.TOP_LEFT].length).toBe(1);
+        expect(autoReturn.bindTo).toHaveBeenCalled();
     });
 });
 
