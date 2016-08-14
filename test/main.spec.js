@@ -751,13 +751,45 @@ describe('addRouteInfo', function () {
         });
     });
 
-    it('should ', function () {
+    it('should addRouteInfo successfully', function () {
         addRouteInfo('.route-summary .route-description', '.route-summary .distance-data',
             '.route-summary .duration-data', routeInfo);
 
       expect(descriptions[0].innerHTML).toBe(routeInfo[0].summary);
       expect(distances[0].innerHTML).toBe(routeInfo[0].distance);
       expect(durations[0].innerHTML).toBe(routeInfo[0].duration);
+    });
+});
+
+describe('createDurationDistanceDOM', function () {
+    var targets, templateElement, appendChild, cloneNode;
+
+    beforeEach(function() {
+        appendChild = jasmine.createSpy('appendChild');
+        cloneNode = jasmine.createSpy('cloneNode');
+        targets = [
+            {
+                appendChild: appendChild
+            },
+            {
+                appendChild: appendChild
+            },
+            {
+                appendChild: appendChild
+            }
+        ];
+        templateElement = {
+            cloneNode: cloneNode
+        };
+        spyOn(document, 'querySelectorAll').and.returnValue(targets);
+        spyOn(document, 'querySelector').and.returnValue(templateElement);
+    });
+
+    it('should call createDurationDistanceDOM successfully', function () {
+        createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
+
+        expect(cloneNode.calls.count()).toBe(2);
+        expect(appendChild.calls.count()).toBe(2);
     });
 });
 
