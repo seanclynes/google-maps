@@ -916,6 +916,33 @@ describe('addRouteChangeListeners', function () {
     });
 });
 
+describe('populateAndRenderRouteInfo', function () {
+    var response, routeInfo, routeRadio;
+
+    beforeEach(function() {
+        response = {};
+        routeInfo = [{}];
+        routeRadio = [{}];
+        spyOn(window, 'populateRouteInfo').and.returnValue(routeInfo);
+        spyOn(window, 'createRouteInfoDOM');
+        spyOn(window, 'addRouteInfo');
+        spyOn(document, 'querySelectorAll').and.returnValue(routeRadio);
+        spyOn(window, 'checkFirstRoute');
+        spyOn(window, 'addRouteChangeListeners');
+    });
+
+    it('should populateAndRenderRouteInfo', function () {
+        populateAndRenderRouteInfo(response);
+
+        expect(window.populateRouteInfo).toHaveBeenCalled();
+        expect(window.createRouteInfoDOM).toHaveBeenCalled();
+        expect(window.addRouteInfo).toHaveBeenCalled();
+        expect(document.querySelectorAll).toHaveBeenCalled();
+        expect(window.checkFirstRoute).toHaveBeenCalled();
+        expect(window.addRouteChangeListeners).toHaveBeenCalled();
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
