@@ -793,6 +793,42 @@ describe('createDurationDistanceDOM', function () {
     });
 });
 
+describe('addDurationDistance', function () {
+    var durationDistanceData, distances, durations, duration1, distance1;
+
+    beforeEach(function() {
+        duration1 = '7 mins';
+        distance1 = '1.8 km';
+        durationDistanceData = [
+            {
+                duration: duration1,
+                distance: distance1
+            }
+        ];
+        distances = [
+            {}
+        ];
+        durations = [
+            {}
+        ];
+        spyOn(document, 'querySelectorAll').and.callFake(function(selector) {
+            if ('.street-views .duration-distance-template .distance-data' === selector) {
+                return distances;
+            } else {
+                return durations;
+            }
+        });
+    });
+
+    it('should populate duration and distance values', function () {
+        addDurationDistance('.street-views .duration-distance-template .distance-data',
+            '.street-views .duration-distance-template .duration-data', durationDistanceData);
+
+        expect(durations[0].innerHTML).toBe(duration1);
+        expect(distances[0].innerHTML).toBe(distance1);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
