@@ -1,5 +1,4 @@
 /*globals google */
-/* exported doInit */
 
 function charFromStr(index, str) {
     'use strict';
@@ -542,3 +541,26 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
         message: 'Select your origin and destination then display turn-by-turn streetview directions.'
     });
 }
+
+/* exported initMap */
+function initMap() {
+    'use strict';
+
+    var markers = [];
+    var originPlace = { id:  null};
+    var destinationPlace = { id: null};
+    var travelMode = google.maps.TravelMode.DRIVING;
+    var map = new google.maps.Map(document.getElementById('map'), {
+        mapTypeControl: false,
+        center: {lat: -37.8162789, lng: 144.96424590000004},
+        zoom: 13,
+        scrollwheel: false
+    });
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer({
+        suppressMarkers: true,
+        draggable: true
+    });
+    doInit(markers, originPlace, destinationPlace, travelMode, map, directionsService, directionsDisplay);
+}
+
