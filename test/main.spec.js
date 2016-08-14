@@ -970,6 +970,52 @@ describe('addStreetViews', function () {
     });
 });
 
+describe('populateAndRenderPoints', function () {
+    var pointData;
+
+    beforeEach(function() {
+        pointData = [{}];
+        spyOn(window, 'populateLatLng').and.returnValue(pointData);
+        spyOn(window, 'populateInstructions');
+        spyOn(window, 'calculateHeading');
+        spyOn(window, 'drawMarkers');
+        spyOn(window, 'createStreetViewDOM');
+        spyOn(window, 'addStreetViews');
+        spyOn(window, 'addDescriptions');
+    });
+
+    it('should ', function () {
+        populateAndRenderPoints({}, [], {}, 0);
+
+        expect(window.populateLatLng.calls.count()).toBe(1);
+        expect(window.populateInstructions.calls.count()).toBe(1);
+        expect(window.calculateHeading.calls.count()).toBe(1);
+        expect(window.drawMarkers.calls.count()).toBe(1);
+        expect(window.createStreetViewDOM.calls.count()).toBe(1);
+        expect(window.addStreetViews.calls.count()).toBe(1);
+        expect(window.addDescriptions.calls.count()).toBe(1);
+    });
+});
+
+describe('addMinMaxListeners', function () {
+    var streetViewContainers;
+
+    beforeEach(function() {
+        streetViewContainers = [{}, {}];
+        spyOn(document, 'querySelectorAll').and.returnValue(streetViewContainers);
+        spyOn(window, 'addMinimiseListener');
+        spyOn(window, 'addMaximiseListener');
+    });
+
+    it('should call addMinMaxListeners successfully', function () {
+        addMinMaxListeners();
+
+        expect(document.querySelectorAll.calls.count()).toBe(1);
+        expect(window.addMinimiseListener.calls.count()).toBe(1);
+        expect(window.addMaximiseListener.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
