@@ -874,7 +874,53 @@ describe('dispatchCustomEvent', function () {
     });
 });
 
+describe('makeRouteChangeHandler', function () {
+
+    beforeEach(function() {
+        spyOn(window, 'dispatchCustomEvent');
+    });
+
+    it('should create a function', function () {
+        var result = makeRouteChangeHandler(0);
+
+        expect(result).toEqual(jasmine.any(Function));
+    });
+
+    it('should create handler that dispatches event', function () {
+        var result = makeRouteChangeHandler(0);
+        result();
+        expect(window.dispatchCustomEvent.calls.count()).toBe(1);
+    });
+});
+
+describe('addRouteChangeListeners', function () {
+    var routeRadio, addEventListener;
+
+    beforeEach(function() {
+        addEventListener = jasmine.createSpy('addEventListener');
+        routeRadio = [
+            {
+                addEventListener: addEventListener
+            },
+            {
+                addEventListener: addEventListener
+            }
+        ];
+        spyOn(window, 'makeRouteChangeHandler');
+    });
+
+    it('should add one click listener', function () {
+        addRouteChangeListeners(routeRadio);
+
+        expect(addEventListener.calls.count()).toBe(2);
+    });
+});
+
 xdescribe('', function () {
+
+    beforeEach(function() {
+
+    });
 
     it('should ', function () {
 
