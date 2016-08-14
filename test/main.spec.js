@@ -1016,6 +1016,42 @@ describe('addMinMaxListeners', function () {
     });
 });
 
+describe('populateAndRenderDurationDistance', function () {
+    var durationDistanceData;
+
+    beforeEach(function() {
+        durationDistanceData = [{}];
+        spyOn(window, 'populateDurationDistance').and.returnValue(durationDistanceData);
+        spyOn(window, 'addDurationDistance');
+    });
+
+    it('should call populateAndRenderDurationDistance successfully', function () {
+        populateAndRenderDurationDistance({}, 0);
+
+        expect(window.populateDurationDistance.calls.count()).toBe(1);
+        expect(window.addDurationDistance.calls.count()).toBe(1);
+    });
+});
+
+describe('populateAndRenderStreetViews', function () {
+
+    beforeEach(function() {
+        spyOn(window, 'populateAndRenderPoints');
+        spyOn(window, 'addMinMaxListeners');
+        spyOn(window, 'createDurationDistanceDOM');
+        spyOn(window, 'populateAndRenderDurationDistance');
+    });
+
+    it('should call populateAndRenderStreetViews successfully', function () {
+        populateAndRenderStreetViews({}, [{}], {}, 0);
+
+        expect(window.populateAndRenderPoints.calls.count()).toBe(1);
+        expect(window.addMinMaxListeners.calls.count()).toBe(1);
+        expect(window.createDurationDistanceDOM.calls.count()).toBe(1);
+        expect(window.populateAndRenderDurationDistance.calls.count()).toBe(1);
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
