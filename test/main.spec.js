@@ -727,6 +727,40 @@ describe('populateDurationDistance', function () {
     });
 });
 
+describe('addRouteInfo', function () {
+    var descriptions, distances, durations, routeInfo;
+
+    beforeEach(function() {
+        descriptions = [{}];
+        distances = [{}];
+        durations = [{}];
+        routeInfo = [{
+            summary: 'State Route 50',
+            distance: '5.8 km',
+            duration: '12 mins'
+        }];
+
+        spyOn(document, 'querySelectorAll').and.callFake(function(selector) {
+            if('.route-summary .route-description' === selector) {
+                return descriptions;
+            } else if('.route-summary .distance-data' === selector) {
+                return distances;
+            } else {
+                return durations;
+            }
+        });
+    });
+
+    it('should ', function () {
+        addRouteInfo('.route-summary .route-description', '.route-summary .distance-data',
+            '.route-summary .duration-data', routeInfo);
+
+      expect(descriptions[0].innerHTML).toBe(routeInfo[0].summary);
+      expect(distances[0].innerHTML).toBe(routeInfo[0].distance);
+      expect(durations[0].innerHTML).toBe(routeInfo[0].duration);
+    });
+});
+
 xdescribe('', function () {
 
     it('should ', function () {
