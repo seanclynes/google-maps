@@ -42,10 +42,6 @@ proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview
 
 export to github
 
-100% Unit test coverage
-
-jshint without error
-
 Investigation of use of Mustaches to replace templating code.
 
 Simplify and organize Javascript as much as possible. Use of "And" in function names is probably bogus, should b 2 calls

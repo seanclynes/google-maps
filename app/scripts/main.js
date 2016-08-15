@@ -533,12 +533,12 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
 
     document.addEventListener('information_message', function (e)  {
         clearContainer('.route-summary');
-        clearContainer('.street-views');
+        //clearContainer('.street-views');
         informationMessage(e.detail.message);
     });
 
     dispatchCustomEvent('information_message', {
-        message: 'Select your origin and destination then display turn-by-turn streetview directions.'
+        message: 'Select your origin and destination to display turn-by-turn Google Streetview directions.'
     });
 }
 
