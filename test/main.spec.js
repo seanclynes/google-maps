@@ -1243,6 +1243,130 @@ describe('makePlaceChangeHandler', function () {
     });
 });
 
+describe('doInit', function () {
+    var directionsDisplay, setMap, addListener, autocomplete, ddaddListener, ddListener, docListeners;
+
+    beforeEach(function() {
+        setMap = jasmine.createSpy('setMap');
+        ddaddListener = jasmine.createSpy('addListener').and.callFake(function(type, funk) {
+            ddListener = funk;
+        });
+        directionsDisplay = {
+            setMap: setMap,
+            addListener: ddaddListener
+        };
+
+        spyOn(window, 'makePlaceChangeHandler');
+        addListener = jasmine.createSpy('addListener');
+        autocomplete = {
+            addListener: addListener
+        };
+        spyOn(window, 'buildAutoComplete').and.returnValue(autocomplete);
+
+        docListeners = {};
+        spyOn(document, 'addEventListener').and.callFake(function(type, funk) {
+            docListeners[type] = funk;
+        });
+
+        spyOn(window, 'dispatchCustomEvent');
+
+        google = {
+            maps: {
+                TravelMode: {
+                    DRIVING: 'DRIVING'
+                }
+            }
+        };
+    });
+
+    afterEach(function() {
+        delete window.google;
+    });
+
+    it('should call doInit successfully', function () {
+        doInit([{}], {}, {}, google.maps.TravelMode.DRIVING, {}, {}, directionsDisplay);
+
+        expect(setMap.calls.count()).toBe(1);
+        expect(window.buildAutoComplete.calls.count()).toBe(2);
+        expect(window.makePlaceChangeHandler.calls.count()).toBe(2);
+        expect(autocomplete.addListener.calls.count()).toBe(2);
+        expect(directionsDisplay.addListener.calls.count()).toBe(1);
+        expect(document.addEventListener.calls.count()).toBe(2);
+        expect(window.dispatchCustomEvent.calls.count()).toBe(1);
+    });
+
+    describe('directions_changed handler', function() {
+        var getDirections, that, response = {};
+
+        beforeEach(function() {
+            getDirections = jasmine.createSpy('getDirections').and.returnValue(response);
+            that = {
+                getDirections: getDirections
+            };
+            spyOn(window, 'populateAndRenderRouteInfo');
+            spyOn(window, 'populateAndRenderStreetViews');
+        });
+
+        it('should execute directions_changed handler', function() {
+            doInit([{}], {}, {}, google.maps.TravelMode.DRIVING, {}, {}, directionsDisplay);
+            that.callback = ddListener;
+
+            that.callback();
+
+            expect(getDirections).toHaveBeenCalled();
+            expect(window.populateAndRenderRouteInfo).toHaveBeenCalledWith(response);
+            expect(window.populateAndRenderStreetViews).toHaveBeenCalled();
+        });
+    });
+
+    describe('route_selected', function() {
+        var event, directionsDisplay;
+
+        beforeEach(function() {
+            event = {
+                detail: {
+                    index: 0
+                }
+            };
+            directionsDisplay = jasmine.createSpyObj('directionsDisplay', [
+                'setMap', 'addListener', 'setRouteIndex', 'getDirections']);
+            spyOn(window, 'populateAndRenderStreetViews');
+        });
+
+        it('should call handler successfully', function() {
+            doInit([{}], {}, {}, google.maps.TravelMode.DRIVING, {}, {}, directionsDisplay);
+            docListeners['route_selected'](event);
+
+            expect(directionsDisplay.setRouteIndex).toHaveBeenCalledWith(0);
+            expect(directionsDisplay.getDirections).toHaveBeenCalled();
+            expect(window.populateAndRenderStreetViews).toHaveBeenCalled();
+        });
+    });
+
+    describe('information_message', function() {
+        var event, message;
+
+        beforeEach(function() {
+            message = 'message';
+            event = {
+                detail: {
+                    message: message
+                }
+            };
+            spyOn(window, 'clearContainer');
+            spyOn(window, 'informationMessage');
+        });
+
+        it('should call handler successfully', function() {
+            doInit([{}], {}, {}, google.maps.TravelMode.DRIVING, {}, {}, directionsDisplay);
+            docListeners['information_message'](event);
+
+            expect(window.clearContainer.calls.count()).toBe(2);
+            expect(window.informationMessage).toHaveBeenCalledWith(message);
+        });
+    });
+});
+
 xdescribe('', function () {
 
     beforeEach(function() {
