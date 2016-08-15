@@ -1367,15 +1367,45 @@ describe('doInit', function () {
     });
 });
 
-xdescribe('', function () {
+describe('initMap', function () {
+    var Map, DirectionsService, DirectionsRenderer,mapValue,directionsServiceValue,directionsRendererValue;
 
     beforeEach(function() {
-
+        mapValue = {};
+        Map = jasmine.createSpy('Map').and.returnValue(mapValue);
+        directionsServiceValue = {};
+        DirectionsService = jasmine.createSpy('DirectionsService').and.returnValue(directionsServiceValue);
+        directionsRendererValue = {};
+        DirectionsRenderer = jasmine.createSpy('DirectionsRenderer').and.returnValue(directionsRendererValue);
+        google = {
+            maps: {
+                Map: Map,
+                DirectionsService: DirectionsService,
+                DirectionsRenderer: DirectionsRenderer,
+                TravelMode: {
+                    DRIVING: 'DRIVING'
+                }
+            }
+        };
+        spyOn(document, 'getElementById');
+        spyOn(window, 'doInit');
     });
 
-    it('should ', function () {
+    afterEach(function() {
+        delete window.google;
+    });
 
+    it('should call initMap successfully', function () {
+        initMap();
+
+        expect(document.getElementById).toHaveBeenCalled();
+        expect(Map).toHaveBeenCalled();
+        expect(DirectionsService).toHaveBeenCalled();
+        expect(DirectionsRenderer).toHaveBeenCalled();
+        expect(window.doInit).toHaveBeenCalledWith([], { id:  null}, { id: null},
+            google.maps.TravelMode.DRIVING, mapValue, directionsServiceValue, directionsRendererValue);
     });
 });
+
 
 
