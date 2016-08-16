@@ -1243,6 +1243,36 @@ describe('makePlaceChangeHandler', function () {
     });
 });
 
+describe('displayLandingPage', function() {
+    var appendChild, cloneNode;
+
+    beforeEach(function() {
+        appendChild = jasmine.createSpy('appendChild');
+        cloneNode = jasmine.createSpy('template');
+        spyOn(window, 'clearContainer');
+        spyOn(document, 'querySelector').and.callFake(function(selector){
+            if('.street-views' === selector) {
+                return {
+                    appendChild: appendChild
+                };
+            } else {
+                return {
+                    cloneNode: cloneNode
+                };
+            }
+        });
+    });
+
+    it('should call displayLandingPage successfully', function() {
+        displayLandingPage();
+
+        expect(window.clearContainer.calls.count()).toBe(2);
+        expect(document.querySelector.calls.count()).toBe(2);
+        expect(cloneNode).toHaveBeenCalled();
+        expect(appendChild).toHaveBeenCalled();
+    });
+});
+
 describe('doInit', function () {
     var directionsDisplay, setMap, addListener, autocomplete, ddaddListener, ddListener, docListeners;
 
@@ -1277,6 +1307,7 @@ describe('doInit', function () {
                 }
             }
         };
+        spyOn(window, 'displayLandingPage');
     });
 
     afterEach(function() {
@@ -1292,7 +1323,7 @@ describe('doInit', function () {
         expect(autocomplete.addListener.calls.count()).toBe(2);
         expect(directionsDisplay.addListener.calls.count()).toBe(1);
         expect(document.addEventListener.calls.count()).toBe(2);
-        expect(window.dispatchCustomEvent.calls.count()).toBe(1);
+        expect(window.displayLandingPage.calls.count()).toBe(1);
     });
 
     describe('directions_changed handler', function() {

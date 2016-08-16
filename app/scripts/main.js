@@ -454,7 +454,7 @@ function route(originPlace, destinationPlace, travelMode, directionsService, dir
             directionsDisplay.setDirections(response);
         } else if (status === google.maps.DirectionsStatus.ZERO_RESULTS) {
             dispatchCustomEvent('information_message', {
-                message: 'No directions for your origin and destination could be found'
+                message: 'No directions for your start and end locations could be found'
             });
         } else {
             dispatchCustomEvent('information_message', {
@@ -500,6 +500,17 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
     };
 }
 
+function displayLandingPage() {
+    var container, template;
+
+    clearContainer('.route-summary');
+    clearContainer('.street-views');
+    container = document.querySelector('.street-views');
+    template = document.querySelector('.hidden .landing-page-template');
+
+    container.appendChild(template.cloneNode(true));
+}
+
 /** Make as much code as possible testable. Even if it's a bit hacky
  * */
 function doInit(markers, originPlace, destinationPlace, travelMode, map,
@@ -533,14 +544,10 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
 
     document.addEventListener('information_message', function (e)  {
         clearContainer('.route-summary');
-        //FIXME: Prototype code
-        //clearContainer('.street-views');
-        //informationMessage(e.detail.message);
+        clearContainer('.street-views');
+        informationMessage(e.detail.message);
     });
-
-    dispatchCustomEvent('information_message', {
-        message: 'Select your start and end locations to display turn-by-turn Google Streetview directions.'
-    });
+    displayLandingPage();
 }
 
 /* exported initMap */
