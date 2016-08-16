@@ -513,11 +513,11 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
 
     originAutocomplete.addListener('place_changed', makePlaceChangeHandler(originPlace, map, originPlace,
         destinationPlace, travelMode,
-        directionsService, directionsDisplay, 'Please select a valid origin'));
+        directionsService, directionsDisplay, 'Please select a valid start location'));
 
     destinationAutocomplete.addListener('place_changed',  makePlaceChangeHandler(destinationPlace, map, originPlace,
         destinationPlace, travelMode,
-        directionsService, directionsDisplay, 'Please select a valid destination'));
+        directionsService, directionsDisplay, 'Please select a valid end location'));
 
     directionsDisplay.addListener('directions_changed', function() {
         var response = this.getDirections();
@@ -533,12 +533,13 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
 
     document.addEventListener('information_message', function (e)  {
         clearContainer('.route-summary');
+        //FIXME: Prototype code
         //clearContainer('.street-views');
-        informationMessage(e.detail.message);
+        //informationMessage(e.detail.message);
     });
 
     dispatchCustomEvent('information_message', {
-        message: 'Select your origin and destination to display turn-by-turn Google Streetview directions.'
+        message: 'Select your start and end locations to display turn-by-turn Google Streetview directions.'
     });
 }
 

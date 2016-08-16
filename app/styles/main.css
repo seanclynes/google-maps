@@ -161,6 +161,25 @@ body {
   box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
 }
 
+.landing-message {
+  padding: 0.5em;
+  font-size: larger;
+  text-align: center;
+}
+
+.landing-img-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.small-image {
+  display: none;
+}
+
+.large-image {
+}
+
 /*   Streetviews   */
 
 
@@ -372,6 +391,14 @@ body {
   #origin-input,
   #destination-input {
     width: 150px;
+  }
+
+  .small-image {
+    display: inline;
+  }
+
+  .large-image {
+    display: none;
   }
 }
 

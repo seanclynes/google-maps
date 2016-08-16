@@ -32,6 +32,8 @@ Support for waypoints e.g. 19 Scanlan st Bentleigh East -> Southland Shopping Ce
 
 Support for different modes other than driving. Should be easy but not really as important.
 
+Ability to link to directions probably with just encoded places as url parameters.
+
 
 ##############################################
 ## Minimum to be production usable demoable ##
@@ -39,6 +41,8 @@ Support for different modes other than driving. Should be easy but not really as
 
 
 proper top level domain trippreview.seanclynes.com or seanclynes.com/trippreview.html
+
+limit my key usage to top level domain i.e. seanclynes.com
 
 export to github
 
@@ -53,6 +57,8 @@ Also the code should follow the business functionality which in this case is the
   * map
   * messages
   * general/utility
+
+Origin and destination seem a bit nerdy. Maybe Start location and End location would be better.
 
 
 ############################################
