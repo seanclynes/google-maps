@@ -501,6 +501,8 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
 }
 
 function displayLandingPage() {
+    'use strict';
+
     var container, template;
 
     clearContainer('.route-summary');
