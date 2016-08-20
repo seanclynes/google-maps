@@ -60,6 +60,10 @@ Also the code should follow the business functionality which in this case is the
   * messages
   * general/utility
 
+Dist build
+    * concat of vendor bower deps to output
+    * rewriting of html references
+
 
 ############################################
 ## Minimum to use in any way. For testing ##
