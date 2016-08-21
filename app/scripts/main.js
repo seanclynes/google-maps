@@ -582,13 +582,16 @@ function mustachePrototype() {
     var routeInfo = {
             routeInfo: populateRouteInfo(response)
         },
-        stepInfo = populateStepDescriptionInfo(response, 0);
+        stepInfo = {
+            stepInfo: populateStepDescriptionInfo(response, 0)
+        };
 
 
     clearContainer('.route-summary');
     clearContainer('.street-views');
 
     console.info(Mustache.render(document.querySelector('.hidden .route-info-mustache').outerHTML, routeInfo));
+    console.info(Mustache.render(document.querySelector('.hidden .panorama-mustache').outerHTML, stepInfo));
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky

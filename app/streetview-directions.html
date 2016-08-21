@@ -109,6 +109,29 @@
             </div>
         {{/routeInfo}}
     </div>
+
+    <div class="panorama-mustache">
+        {{#stepInfo}}
+            <div>
+                <div class="street-view-description">
+                    <div class="min-max">
+                        <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>
+                    </div>
+                    <div class="description-content">
+                        {{{instructions}}}
+                    </div>
+                    <div class="duration-distance-placeholder">
+                        Travel
+                        {{duration}}
+                        ( {{distance}} )
+                    </div>
+                </div>
+                <div class="street-view-container">
+                    <div class="street-view"></div>
+                </div>
+            </div>
+        {{/stepInfo}}
+    </div>
 </div>
 
 <div class="container">
