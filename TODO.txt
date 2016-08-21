@@ -49,6 +49,9 @@ limit my key usage to top level domain i.e. seanclynes.com
 export to github
 
 Investigation of use of Mustaches to replace templating code.
+  * Spike with hard coded JSON and template to work out what needs to b done
+  * Factor out response parsing code and do all of it upfront
+  * Replace DOM code and additional templates with {{}}
 
 Simplify and organize Javascript as much as possible. Use of "And" in function names is probably bogus, should b 2 calls
 Also the code should follow the business functionality which in this case is the UI so..
