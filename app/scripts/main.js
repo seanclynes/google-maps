@@ -276,7 +276,7 @@ function populateRouteInfo(response){
     return routes;
 }
 
-function populateDurationDistance(response, routeIndex) {
+function populateStepDescriptionInfo(response, routeIndex) {
     'use strict';
 
     var i, steps = response.routes[routeIndex].legs[0].steps,
@@ -284,6 +284,7 @@ function populateDurationDistance(response, routeIndex) {
 
     for(i = 0 ; i < steps.length ; i++){
         durationDistanceData[i] = {};
+        durationDistanceData[i].instructions = steps[i].instructions;
         durationDistanceData[i].duration = steps[i].duration.text;
         durationDistanceData[i].distance = steps[i].distance.text;
     }
@@ -422,7 +423,7 @@ function addMinMaxListeners(){
 function populateAndRenderDurationDistance(response, routeIndex) {
     'use strict';
 
-    var durationDistanceData = populateDurationDistance(response, routeIndex);
+    var durationDistanceData = populateStepDescriptionInfo(response, routeIndex);
 
     addDurationDistance('.street-views .duration-distance-template .distance-data',
         '.street-views .duration-distance-template .duration-data', durationDistanceData);
@@ -500,17 +501,90 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
     };
 }
 
-function displayLandingPage() {
+//function displayLandingPage() {
+//    'use strict';
+//
+//    var container, template;
+//
+//    clearContainer('.route-summary');
+//    clearContainer('.street-views');
+//    container = document.querySelector('.street-views');
+//    template = document.querySelector('.hidden .landing-page-template');
+//
+//    container.appendChild(template.cloneNode(true));
+//}
+
+function mustachePrototype() {
     'use strict';
 
-    var container, template;
+    var response = {
+        routes: [
+            {
+                summary: 'Canterbury Rd',
+                legs: [
+                    {
+                        duration: {
+                            text: '7 mins'
+                        },
+                        distance: {
+                            text: '2.6 km'
+                        },
+                        steps: [
+                            {
+                                instructions: 'Head west on Inkerman St toward Barkly St/State Route 29',
+                                duration: {
+                                    text: '1 min'
+                                },
+                                distance: {
+                                    text: '17 m'
+                                }
+                            },
+                            {
+                                instructions: 'Slight left onto Nepean Hwy/St Kilda Rd/State Route 29/State Route 3',
+                                duration: {
+                                    text: '1 min'
+                                },
+                                distance: {
+                                    text: '71 m'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                summary: 'State Route 29',
+                legs: [
+                    {
+                        duration: {
+                            text: '6 mins'
+                        },
+                        distance: {
+                            text: '1.6 km'
+                        },
+                        steps: [
+                            {
+                                instructions: 'Turn right at the 1st cross street onto Barkly St/State Route 29',
+                                duration: {
+                                    text: '3 mins'
+                                },
+                                distance: {
+                                    text: '0.7 km'
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
+
+    var routeInfo = populateRouteInfo(response),
+        stepInfo = populateStepDescriptionInfo(response, 0);
+
 
     clearContainer('.route-summary');
     clearContainer('.street-views');
-    container = document.querySelector('.street-views');
-    template = document.querySelector('.hidden .landing-page-template');
-
-    container.appendChild(template.cloneNode(true));
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
@@ -549,7 +623,8 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
         clearContainer('.street-views');
         informationMessage(e.detail.message);
     });
-    displayLandingPage();
+    //displayLandingPage();
+    mustachePrototype();
 }
 
 /* exported initMap */

@@ -718,7 +718,7 @@ describe('populateDurationDistance', function () {
     });
 
     it('should populateDurationDistance for two steps', function () {
-        var durationDistance = populateDurationDistance(response, 0);
+        var durationDistance = populateStepDescriptionInfo(response, 0);
 
         expect(durationDistance[0].duration).toBe(duration1);
         expect(durationDistance[1].duration).toBe(duration2);
@@ -1028,7 +1028,7 @@ describe('populateAndRenderDurationDistance', function () {
     it('should call populateAndRenderDurationDistance successfully', function () {
         populateAndRenderDurationDistance({}, 0);
 
-        expect(window.populateDurationDistance.calls.count()).toBe(1);
+        expect(window.populateStepDescriptionInfo.calls.count()).toBe(1);
         expect(window.addDurationDistance.calls.count()).toBe(1);
     });
 });
