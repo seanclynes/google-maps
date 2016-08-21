@@ -94,6 +94,21 @@
 
     <input id="destination-input" class="controls" type="text" autocomplete="off" spellcheck="false"
            placeholder="Enter an end location">
+
+    <div class="route-info-mustache">
+        {{#routeInfo}}
+           <div>
+                <div class="route-radio">
+                    <input title="Select Route" type="radio" name="routeradio" class="route-radio-input">
+                </div>
+                <div class="route-description">{{summary}}</div>
+                <div class="route-duration-distance">
+                    {{duration}}
+                    ( {{distance}} )
+                </div>
+            </div>
+        {{/routeInfo}}
+    </div>
 </div>
 
 <div class="container">

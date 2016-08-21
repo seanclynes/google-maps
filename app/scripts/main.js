@@ -1,4 +1,4 @@
-/*globals google */
+/*globals google, Mustache */
 
 function charFromStr(index, str) {
     'use strict';
@@ -579,12 +579,16 @@ function mustachePrototype() {
         ]
     };
 
-    var routeInfo = populateRouteInfo(response),
+    var routeInfo = {
+            routeInfo: populateRouteInfo(response)
+        },
         stepInfo = populateStepDescriptionInfo(response, 0);
 
 
     clearContainer('.route-summary');
     clearContainer('.street-views');
+
+    console.info(Mustache.render(document.querySelector('.hidden .route-info-mustache').outerHTML, routeInfo));
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
