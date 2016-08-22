@@ -47,18 +47,6 @@ function populateLatLng(response, routeIndex) {
     return latLngArray;
 }
 
-function populateInstructions(response, streetViewData, routeIndex) {
-    'use strict';
-
-    var steps = response.routes[routeIndex].legs[0].steps;
-    var i;
-
-    for(i = 0 ; i < steps.length ; i++){
-        streetViewData[i].instructions = steps[i].instructions;
-    }
-    streetViewData[i].instructions = 'You have reached your destination';
-}
-
 function latLngLiteralToHeading(latLngLiteral1, latLngLiteral2) {
     'use strict';
 
@@ -91,58 +79,10 @@ function informationMessage(message){
     clone.innerHTML = message;
 }
 
-function addDescriptions(descriptionsSelector, markerLabels, data) {
-    'use strict';
-
-    var i, descriptions = document.querySelectorAll(descriptionsSelector);
-
-    for (i = 0; i < data.length ; i++) {
-        descriptions[i].innerHTML = '<b>' + charFromStr(i, markerLabels) + '.</b> ' + data[i].instructions;
-    }
-}
-
-function appendTemplateCopies(domContainer, domTemplate, copyCount) {
-    'use strict';
-
-    var i;
-
-    for (i = 0; i < copyCount; i++) {
-
-        domContainer.appendChild( domTemplate.cloneNode(true) );
-    }
-}
-
 function clearContainer(containerSelector) {
     'use strict';
 
     document.querySelector(containerSelector).innerHTML = '';
-}
-
-function createRouteInfoDOM(containerSelector, templateSelector, childContainerSelector, childTemplateSelector,
-                            routeInfo) {
-    'use strict';
-
-    var container = document.querySelector(containerSelector),
-        template = document.querySelector(templateSelector),
-        childContainer,
-        childTemplate = document.querySelector(childTemplateSelector);
-
-    clearContainer(containerSelector);
-    container.appendChild( template.cloneNode(true) );
-
-    childContainer = document.querySelector(childContainerSelector);
-
-    appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
-}
-
-function  createStreetViewDOM(containerSelector, templateSelector, copyCount) {
-    'use strict';
-
-    var container = document.querySelector(containerSelector),
-        templateElement = document.querySelector(templateSelector);
-
-    clearContainer(containerSelector);
-    appendTemplateCopies(container, templateElement, copyCount);
 }
 
 function isAnimateSupported(){
@@ -287,51 +227,13 @@ function populateStepDescriptionInfo(response, routeIndex, markerLabels) {
         durationDistanceData[i].instructions = '<b>' + charFromStr(i, markerLabels) + '.</b> ' + steps[i].instructions;
         durationDistanceData[i].duration = steps[i].duration.text;
         durationDistanceData[i].distance = steps[i].distance.text;
-        durationDistanceData[i].duration_distance = 'Travel ' + durationDistanceData[i].duration +
+        durationDistanceData[i].durationDistance = 'Travel ' + durationDistanceData[i].duration +
                                                     ' (' + durationDistanceData[i].distance + ')';
     }
     durationDistanceData[i] = {};
     durationDistanceData[i].instructions = '<b>' + charFromStr(i, markerLabels) + '.</b> ' +
                                                                                     'You have reached your destination';
     return durationDistanceData;
-}
-
-function addRouteInfo(descriptionSelector, distanceSelector, durationSelector, routeInfo) {
-    'use strict';
-
-    var i, descriptions = document.querySelectorAll(descriptionSelector),
-        distances = document.querySelectorAll(distanceSelector),
-        durations = document.querySelectorAll(durationSelector);
-
-    for(i = 0 ; i < routeInfo.length ; i++) {
-        descriptions[i].innerHTML = routeInfo[i].summary;
-        distances[i].innerHTML = routeInfo[i].distance;
-        durations[i].innerHTML = routeInfo[i].duration;
-    }
-}
-
-function createDurationDistanceDOM(targetSelector, templateSelector) {
-    'use strict';
-
-    var i, targets = document.querySelectorAll(targetSelector),
-        templateElement = document.querySelector(templateSelector);
-
-    for( i = 0 ; i < (targets.length - 1) ; i++) {
-        targets[i].appendChild(templateElement.cloneNode(true));
-    }
-
-}
-
-function addDurationDistance(distanceSelector, durationSelector, durationDistanceData){
-    'use strict';
-
-    var i, distances = document.querySelectorAll(distanceSelector),
-        durations = document.querySelectorAll(durationSelector);
-
-    for( i = 0; i < durations.length ; i++) {
-        durations[i].innerHTML = durationDistanceData[i].duration;
-        distances[i].innerHTML = durationDistanceData[i].distance;
-    }
 }
 
 function checkFirstRoute(routeRadio) {
@@ -401,20 +303,15 @@ function addStreetViews(streetViewSelector, data) {
     }
 }
 
-function populateAndRenderPoints(response, markers, map, routeIndex){
+function populateAndRenderPoints(response, markers, map, routeIndex, markerLabels){
     'use strict';
 
-    var markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz',
-        pointData = populateLatLng(response, routeIndex);
-
-    populateInstructions(response, pointData, routeIndex);
+    var pointData = populateLatLng(response, routeIndex);
     calculateHeading(pointData);
 
     drawMarkers(pointData, markers, markerLabels, map);
 
-    createStreetViewDOM('.street-views', '.hidden .panorama-template', pointData.length);
     addStreetViews('.street-views .street-view', pointData);
-    addDescriptions('.street-views .description-content', markerLabels, pointData);
 }
 
 function addMinMaxListeners(){
@@ -426,22 +323,19 @@ function addMinMaxListeners(){
     addMaximiseListener(streetViewContainers, '.street-views .maximise');
 }
 
-function populateAndRenderDurationDistance(response, routeIndex) {
-    'use strict';
-
-    var durationDistanceData = populateStepDescriptionInfo(response, routeIndex);
-
-    addDurationDistance('.street-views .duration-distance-template .distance-data',
-        '.street-views .duration-distance-template .duration-data', durationDistanceData);
-}
-
 function populateAndRenderStreetViews(response, markers, map, routeIndex) {
     'use strict';
 
-    populateAndRenderPoints(response, markers, map, routeIndex);
+    var markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz',
+        stepInfo = {
+          stepInfo: populateStepDescriptionInfo(response, routeIndex, markerLabels)
+        };
+
+    var mustacheStreetview = document.querySelector('.hidden .panorama-mustache').outerHTML;
+    document.querySelector('.street-views').innerHTML = Mustache.render(mustacheStreetview, stepInfo);
+
+    populateAndRenderPoints(response, markers, map, routeIndex, markerLabels);
     addMinMaxListeners();
-    //createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
-    //populateAndRenderDurationDistance(response, routeIndex);
 }
 
 function route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay) {
@@ -507,102 +401,17 @@ function makePlaceChangeHandler(changedPlace, map, originPlace, destinationPlace
     };
 }
 
-//function displayLandingPage() {
-//    'use strict';
-//
-//    var container, template;
-//
-//    clearContainer('.route-summary');
-//    clearContainer('.street-views');
-//    container = document.querySelector('.street-views');
-//    template = document.querySelector('.hidden .landing-page-template');
-//
-//    container.appendChild(template.cloneNode(true));
-//}
-
-function mustachePrototype() {
+function displayLandingPage() {
     'use strict';
 
-    var response = {
-        routes: [
-            {
-                summary: '<b>Canterbury Rd</b>',
-                legs: [
-                    {
-                        duration: {
-                            text: '7 mins'
-                        },
-                        distance: {
-                            text: '2.6 km'
-                        },
-                        steps: [
-                            {
-                                instructions: '<b>Head west</b> on Inkerman St toward Barkly St/State Route 29',
-                                duration: {
-                                    text: '1 min'
-                                },
-                                distance: {
-                                    text: '17 m'
-                                }
-                            },
-                            {
-                                instructions: 'Slight left onto <b>Nepean Hwy/St Kilda Rd/State Route 29/State Route 3</b>',
-                                duration: {
-                                    text: '1 min'
-                                },
-                                distance: {
-                                    text: '71 m'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                summary: 'State Route 29',
-                legs: [
-                    {
-                        duration: {
-                            text: '6 mins'
-                        },
-                        distance: {
-                            text: '1.6 km'
-                        },
-                        steps: [
-                            {
-                                instructions: 'Turn right at the 1st cross street onto Barkly St/State Route 29',
-                                duration: {
-                                    text: '3 mins'
-                                },
-                                distance: {
-                                    text: '0.7 km'
-                                }
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
-    };
+    var container, template;
 
+    clearContainer('.route-summary');
+    clearContainer('.street-views');
+    container = document.querySelector('.street-views');
+    template = document.querySelector('.hidden .landing-page-template');
 
-  var markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
-  var routeInfo = {
-            routeInfo: populateRouteInfo(response)
-        },
-        stepInfo = {
-            stepInfo: populateStepDescriptionInfo(response, 0, markerLabels)
-        };
-
-
-    var mustacheRoute = document.querySelector('.hidden .route-info-mustache').outerHTML;
-    document.querySelector('.route-summary').innerHTML = Mustache.render(mustacheRoute, routeInfo);
-
-    var mustacheStreetview = document.querySelector('.hidden .panorama-mustache').outerHTML;
-    document.querySelector('.street-views').innerHTML = Mustache.render(mustacheStreetview, stepInfo);
-
-    var routeRadio = document.querySelectorAll('.route-summary .route-radio-input');
-    checkFirstRoute(routeRadio);
+    container.appendChild(template.cloneNode(true));
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky
@@ -641,8 +450,7 @@ function doInit(markers, originPlace, destinationPlace, travelMode, map,
         clearContainer('.street-views');
         informationMessage(e.detail.message);
     });
-    //displayLandingPage();
-    mustachePrototype();
+    displayLandingPage();
 }
 
 /* exported initMap */

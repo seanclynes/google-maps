@@ -98,40 +98,6 @@ describe('populateLatLng', function () {
     });
 });
 
-describe('populateInstructions', function () {
-    var response, streetViewData, turnLeft = 'Turn left';
-
-    beforeEach(function() {
-        response = {
-            routes: [
-                {
-                    legs: [
-                        {
-                            steps: [
-                                {
-                                    instructions: turnLeft
-                                }
-                            ]
-                        }
-                    ]
-
-                }
-            ]
-        };
-        streetViewData = [
-            {},
-            {}
-        ];
-    });
-
-    it('should populateInstructions', function () {
-        populateInstructions(response, streetViewData, 0);
-
-        expect(streetViewData[0].instructions).toEqual(turnLeft);
-        expect(streetViewData[1].instructions).toEqual('You have reached your destination');
-    });
-});
-
 describe('latLngLiteralToHeading', function () {
     var LatLng, computeHeading, latLngLiteral1, latLngLiteral2;
 
@@ -221,44 +187,6 @@ describe('informationMessage', function () {
     });
 });
 
-describe('addDescriptions', function () {
-    var descriptions, data, descriptionsSelector, markerLabels;
-
-    beforeEach(function() {
-        descriptions = [{innerHTML: null}, {innerHTML:null}];
-        data = [{instructions: 'Turn left'}, {instructions: 'You have reached your destination'}];
-        spyOn(document, 'querySelectorAll').and.returnValue(descriptions);
-        descriptionsSelector = '.street-views .description-content';
-        markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
-    });
-
-    it('should populate descriptions', function () {
-        addDescriptions(descriptionsSelector, markerLabels, data);
-
-        expect(document.querySelectorAll).toHaveBeenCalledWith(descriptionsSelector);
-        expect(descriptions[0].innerHTML).toEqual('<b>A.</b> Turn left');
-        expect(descriptions[1].innerHTML).toEqual('<b>B.</b> You have reached your destination');
-    });
-});
-
-describe('appendTemplateCopies', function () {
-    var domContainer, domTemplate;
-
-    beforeEach(function() {
-        domContainer = {};
-        domContainer.appendChild = jasmine.createSpy('appendChild');
-        domTemplate = {};
-        domTemplate.cloneNode = jasmine.createSpy('cloneNode');
-    });
-
-    it('should clone template twice', function () {
-        appendTemplateCopies(domContainer, domTemplate, 2);
-
-        expect(domContainer.appendChild.calls.count()).toBe(2);
-        expect(domTemplate.cloneNode.calls.count()).toBe(2);
-    });
-});
-
 describe('clearContainer', function () {
     var dom;
 
@@ -273,50 +201,6 @@ describe('clearContainer', function () {
 
         expect(document.querySelector).toHaveBeenCalledWith(selector);
         expect(dom.innerHTML).toEqual('');
-    });
-});
-
-describe('createRouteInfoDOM', function () {
-    var dom, routeInfo;
-
-    beforeEach(function() {
-        dom = jasmine.createSpyObj('dom', ['appendChild','cloneNode']);
-        routeInfo = [{}, {}];
-        spyOn(document, 'querySelector').and.returnValue(dom);
-        spyOn(window, 'clearContainer');
-        spyOn(window, 'appendTemplateCopies');
-    });
-
-    it('should create multiple routeInfo', function () {
-        createRouteInfoDOM('.route-summary', '.hidden .directions-information',
-            '.route-summary .route-info',
-            '.hidden .route-info-template', routeInfo);
-
-        expect(document.querySelector.calls.count()).toBe(4);
-        expect(window.clearContainer.calls.count()).toBe(1);
-        expect(window.appendTemplateCopies.calls.count()).toBe(1);
-        expect(dom.appendChild.calls.count()).toBe(1);
-        expect(dom.cloneNode.calls.count()).toBe(1);
-    });
-});
-
-describe('createStreetViewDOM', function () {
-    var dom;
-
-    beforeEach(function() {
-        dom = {};
-        spyOn(document, 'querySelector').and.returnValue(dom);
-        domArray = [dom];
-        spyOn(window, 'clearContainer');
-        spyOn(window, 'appendTemplateCopies');
-    });
-
-    it('should call createStreetViewDOM successfully', function () {
-        createStreetViewDOM('.street-views', '.hidden .panorama-template', 2);
-
-        expect(document.querySelector.calls.count()).toBe(2);
-        expect(window.clearContainer.calls.count()).toBe(1);
-        expect(window.appendTemplateCopies.calls.count()).toBe(1);
     });
 });
 
@@ -678,10 +562,12 @@ describe('populateRouteInfo', function () {
     });
 });
 
-describe('populateDurationDistance', function () {
-    var response, distance1, distance2, duration1, duration2;
+describe('populateStepDescriptionInfo', function () {
+    var response, instructions1, instructions2, distance1, distance2, duration1, duration2, markerLabels;
 
     beforeEach(function() {
+        instructions1 = 'Turn left';
+        instructions2 = 'Turn right';
         distance1 = '5.1 km';
         distance2 = '5.8 km';
         duration1 = '10 mins';
@@ -694,6 +580,7 @@ describe('populateDurationDistance', function () {
                         {
                             steps: [
                                 {
+                                    instructions: instructions1,
                                     distance: {
                                         text: distance1
                                     },
@@ -702,6 +589,7 @@ describe('populateDurationDistance', function () {
                                     }
                                 },
                                 {
+                                    instructions: instructions2,
                                     distance: {
                                         text: distance2
                                     },
@@ -715,117 +603,20 @@ describe('populateDurationDistance', function () {
                 }
             ]
         };
+      markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz'
     });
 
-    it('should populateDurationDistance for two steps', function () {
-        var durationDistance = populateStepDescriptionInfo(response, 0);
+    it('should populateStepDescriptionInfo for two steps', function () {
+        var durationDistance = populateStepDescriptionInfo(response, 0, markerLabels);
 
+        expect(durationDistance[0].instructions).toEqual('<b>A.</b> ' + instructions1);
+        expect(durationDistance[1].instructions).toEqual('<b>B.</b> ' + instructions2);
         expect(durationDistance[0].duration).toBe(duration1);
         expect(durationDistance[1].duration).toBe(duration2);
         expect(durationDistance[0].distance).toBe(distance1);
         expect(durationDistance[1].distance).toBe(distance2);
-    });
-});
-
-describe('addRouteInfo', function () {
-    var descriptions, distances, durations, routeInfo;
-
-    beforeEach(function() {
-        descriptions = [{}];
-        distances = [{}];
-        durations = [{}];
-        routeInfo = [{
-            summary: 'State Route 50',
-            distance: '5.8 km',
-            duration: '12 mins'
-        }];
-
-        spyOn(document, 'querySelectorAll').and.callFake(function(selector) {
-            if('.route-summary .route-description' === selector) {
-                return descriptions;
-            } else if('.route-summary .distance-data' === selector) {
-                return distances;
-            } else {
-                return durations;
-            }
-        });
-    });
-
-    it('should addRouteInfo successfully', function () {
-        addRouteInfo('.route-summary .route-description', '.route-summary .distance-data',
-            '.route-summary .duration-data', routeInfo);
-
-      expect(descriptions[0].innerHTML).toBe(routeInfo[0].summary);
-      expect(distances[0].innerHTML).toBe(routeInfo[0].distance);
-      expect(durations[0].innerHTML).toBe(routeInfo[0].duration);
-    });
-});
-
-describe('createDurationDistanceDOM', function () {
-    var targets, templateElement, appendChild, cloneNode;
-
-    beforeEach(function() {
-        appendChild = jasmine.createSpy('appendChild');
-        cloneNode = jasmine.createSpy('cloneNode');
-        targets = [
-            {
-                appendChild: appendChild
-            },
-            {
-                appendChild: appendChild
-            },
-            {
-                appendChild: appendChild
-            }
-        ];
-        templateElement = {
-            cloneNode: cloneNode
-        };
-        spyOn(document, 'querySelectorAll').and.returnValue(targets);
-        spyOn(document, 'querySelector').and.returnValue(templateElement);
-    });
-
-    it('should call createDurationDistanceDOM successfully', function () {
-        createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
-
-        expect(cloneNode.calls.count()).toBe(2);
-        expect(appendChild.calls.count()).toBe(2);
-    });
-});
-
-describe('addDurationDistance', function () {
-    var durationDistanceData, distances, durations, duration1, distance1;
-
-    beforeEach(function() {
-        duration1 = '7 mins';
-        distance1 = '1.8 km';
-        durationDistanceData = [
-            {
-                duration: duration1,
-                distance: distance1
-            }
-        ];
-        distances = [
-            {}
-        ];
-        durations = [
-            {}
-        ];
-        spyOn(document, 'querySelectorAll').and.callFake(function(selector) {
-            if ('.street-views .duration-distance-template .distance-data' === selector) {
-                return distances;
-            } else {
-                return durations;
-            }
-        });
-    });
-
-    it('should populate duration and distance values', function () {
-        addDurationDistance('.street-views .duration-distance-template .distance-data',
-            '.street-views .duration-distance-template .duration-data', durationDistanceData);
-
-        expect(durations[0].innerHTML).toBe(duration1);
-        expect(distances[0].innerHTML).toBe(distance1);
+        expect(durationDistance[0].durationDistance).toEqual('Travel ' + duration1 + ' (' + distance1 + ')');
+        expect(durationDistance[1].durationDistance).toEqual('Travel ' + duration2 + ' (' + distance2 + ')');
     });
 });
 
@@ -924,19 +715,32 @@ describe('populateAndRenderRouteInfo', function () {
         routeInfo = [{}];
         routeRadio = [{}];
         spyOn(window, 'populateRouteInfo').and.returnValue(routeInfo);
-        spyOn(window, 'createRouteInfoDOM');
-        spyOn(window, 'addRouteInfo');
         spyOn(document, 'querySelectorAll').and.returnValue(routeRadio);
+        spyOn(document, 'querySelector').and.callFake(function(selector) {
+          if('.hidden .route-info-mustache' === selector) {
+            return {
+              outerHTML: ''
+            };
+          } else {
+            return {};
+          }
+        });
         spyOn(window, 'checkFirstRoute');
         spyOn(window, 'addRouteChangeListeners');
+        Mustache = {
+          render: function() {}
+        };
+    });
+
+    afterEach(function() {
+        delete window.Mustache;
     });
 
     it('should populateAndRenderRouteInfo', function () {
         populateAndRenderRouteInfo(response);
 
         expect(window.populateRouteInfo).toHaveBeenCalled();
-        expect(window.createRouteInfoDOM).toHaveBeenCalled();
-        expect(window.addRouteInfo).toHaveBeenCalled();
+        expect(document.querySelector.calls.count()).toBe(2);
         expect(document.querySelectorAll).toHaveBeenCalled();
         expect(window.checkFirstRoute).toHaveBeenCalled();
         expect(window.addRouteChangeListeners).toHaveBeenCalled();
@@ -976,24 +780,18 @@ describe('populateAndRenderPoints', function () {
     beforeEach(function() {
         pointData = [{}];
         spyOn(window, 'populateLatLng').and.returnValue(pointData);
-        spyOn(window, 'populateInstructions');
         spyOn(window, 'calculateHeading');
         spyOn(window, 'drawMarkers');
-        spyOn(window, 'createStreetViewDOM');
         spyOn(window, 'addStreetViews');
-        spyOn(window, 'addDescriptions');
     });
 
     it('should ', function () {
         populateAndRenderPoints({}, [], {}, 0);
 
         expect(window.populateLatLng.calls.count()).toBe(1);
-        expect(window.populateInstructions.calls.count()).toBe(1);
         expect(window.calculateHeading.calls.count()).toBe(1);
         expect(window.drawMarkers.calls.count()).toBe(1);
-        expect(window.createStreetViewDOM.calls.count()).toBe(1);
         expect(window.addStreetViews.calls.count()).toBe(1);
-        expect(window.addDescriptions.calls.count()).toBe(1);
     });
 });
 
@@ -1016,30 +814,33 @@ describe('addMinMaxListeners', function () {
     });
 });
 
-describe('populateAndRenderDurationDistance', function () {
-    var durationDistanceData;
-
-    beforeEach(function() {
-        durationDistanceData = [{}];
-        spyOn(window, 'populateDurationDistance').and.returnValue(durationDistanceData);
-        spyOn(window, 'addDurationDistance');
-    });
-
-    it('should call populateAndRenderDurationDistance successfully', function () {
-        populateAndRenderDurationDistance({}, 0);
-
-        expect(window.populateStepDescriptionInfo.calls.count()).toBe(1);
-        expect(window.addDurationDistance.calls.count()).toBe(1);
-    });
-});
-
 describe('populateAndRenderStreetViews', function () {
+    var template, target;
 
     beforeEach(function() {
+        template = {
+          outerHTML: ''
+        };
+        target = {
+          innerHTML: ''
+        };
         spyOn(window, 'populateAndRenderPoints');
         spyOn(window, 'addMinMaxListeners');
-        spyOn(window, 'createDurationDistanceDOM');
-        spyOn(window, 'populateAndRenderDurationDistance');
+        spyOn(window, 'populateStepDescriptionInfo');
+        spyOn(document, 'querySelector').and.callFake(function (selector) {
+            if('.hidden .panorama-mustache' === selector) {
+              return template;
+            } else {
+              return target;
+            }
+        });
+        Mustache = {
+          render: function() {}
+        };
+    });
+
+    afterEach(function() {
+      delete window.Mustache;
     });
 
     it('should call populateAndRenderStreetViews successfully', function () {
@@ -1047,8 +848,6 @@ describe('populateAndRenderStreetViews', function () {
 
         expect(window.populateAndRenderPoints.calls.count()).toBe(1);
         expect(window.addMinMaxListeners.calls.count()).toBe(1);
-        expect(window.createDurationDistanceDOM.calls.count()).toBe(1);
-        expect(window.populateAndRenderDurationDistance.calls.count()).toBe(1);
     });
 });
 
