@@ -276,7 +276,7 @@ function populateRouteInfo(response){
     return routes;
 }
 
-function populateStepDescriptionInfo(response, routeIndex) {
+function populateStepDescriptionInfo(response, routeIndex, markerLabels) {
     'use strict';
 
     var i, steps = response.routes[routeIndex].legs[0].steps,
@@ -284,14 +284,15 @@ function populateStepDescriptionInfo(response, routeIndex) {
 
     for(i = 0 ; i < steps.length ; i++){
         durationDistanceData[i] = {};
-        durationDistanceData[i].instructions = steps[i].instructions;
+        durationDistanceData[i].instructions = '<b>' + charFromStr(i, markerLabels) + '.</b> ' + steps[i].instructions;
         durationDistanceData[i].duration = steps[i].duration.text;
         durationDistanceData[i].distance = steps[i].distance.text;
         durationDistanceData[i].duration_distance = 'Travel ' + durationDistanceData[i].duration +
                                                     ' (' + durationDistanceData[i].distance + ')';
     }
     durationDistanceData[i] = {};
-    durationDistanceData[i].instructions = 'You have reached your destination';
+    durationDistanceData[i].instructions = '<b>' + charFromStr(i, markerLabels) + '.</b> ' +
+                                                                                    'You have reached your destination';
     return durationDistanceData;
 }
 
@@ -439,8 +440,8 @@ function populateAndRenderStreetViews(response, markers, map, routeIndex) {
 
     populateAndRenderPoints(response, markers, map, routeIndex);
     addMinMaxListeners();
-    createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
-    populateAndRenderDurationDistance(response, routeIndex);
+    //createDurationDistanceDOM('.street-views .duration-distance-placeholder','.hidden .duration-distance-template');
+    //populateAndRenderDurationDistance(response, routeIndex);
 }
 
 function route(originPlace, destinationPlace, travelMode, directionsService, directionsDisplay) {
@@ -584,11 +585,13 @@ function mustachePrototype() {
         ]
     };
 
-    var routeInfo = {
+
+  var markerLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
+  var routeInfo = {
             routeInfo: populateRouteInfo(response)
         },
         stepInfo = {
-            stepInfo: populateStepDescriptionInfo(response, 0)
+            stepInfo: populateStepDescriptionInfo(response, 0, markerLabels)
         };
 
 

@@ -49,7 +49,6 @@ limit my key usage to top level domain i.e. seanclynes.com
 export to github
 
 Investigation of use of Mustaches to replace templating code.
-  * Spike with hard coded JSON and template to work out what needs to b done
   * Factor out response parsing code and do all of it upfront
   * Replace DOM code and additional templates with {{}}
 
