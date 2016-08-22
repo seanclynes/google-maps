@@ -135,7 +135,7 @@ function createRouteInfoDOM(containerSelector, templateSelector, childContainerS
     appendTemplateCopies(childContainer, childTemplate, routeInfo.length);
 }
 
-function createStreetViewDOM(containerSelector, templateSelector, copyCount) {
+function  createStreetViewDOM(containerSelector, templateSelector, copyCount) {
     'use strict';
 
     var container = document.querySelector(containerSelector),
@@ -287,7 +287,11 @@ function populateStepDescriptionInfo(response, routeIndex) {
         durationDistanceData[i].instructions = steps[i].instructions;
         durationDistanceData[i].duration = steps[i].duration.text;
         durationDistanceData[i].distance = steps[i].distance.text;
+        durationDistanceData[i].duration_distance = 'Travel ' + durationDistanceData[i].duration +
+                                                    ' (' + durationDistanceData[i].distance + ')';
     }
+    durationDistanceData[i] = {};
+    durationDistanceData[i].instructions = 'You have reached your destination';
     return durationDistanceData;
 }
 
@@ -367,7 +371,7 @@ function populateAndRenderRouteInfo(response){
     var routeRadio,
         routeInfo = {
                 routeInfo: populateRouteInfo(response)
-        }, 
+        },
         mustacheRoute = document.querySelector('.hidden .route-info-mustache').outerHTML;
 
     document.querySelector('.route-summary').innerHTML = Mustache.render(mustacheRoute, routeInfo);
