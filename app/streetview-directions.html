@@ -96,23 +96,27 @@
            placeholder="Enter an end location">
 
     <div class="route-info-mustache">
-        {{#routeInfo}}
-           <div>
-                <div class="route-radio">
-                    <input title="Select Route" type="radio" name="routeradio" class="route-radio-input">
+        <form autocomplete="off">
+            <div class="route-info">
+            {{#routeInfo}}
+               <div class="route-info-row">
+                    <div class="route-radio">
+                        <input title="Select Route" type="radio" name="routeradio" class="route-radio-input">
+                    </div>
+                    <div class="route-description">{{{summary}}}</div>
+                    <div class="route-duration-distance">
+                        {{duration}}
+                        ( {{distance}} )
+                    </div>
                 </div>
-                <div class="route-description">{{summary}}</div>
-                <div class="route-duration-distance">
-                    {{duration}}
-                    ( {{distance}} )
-                </div>
+            {{/routeInfo}}
             </div>
-        {{/routeInfo}}
+        </form>
     </div>
 
     <div class="panorama-mustache">
         {{#stepInfo}}
-            <div>
+            <div class="step-info">
                 <div class="street-view-description">
                     <div class="min-max">
                         <span class="minimise" title="Minimise"></span><span class="maximise" title="Maximise"></span>

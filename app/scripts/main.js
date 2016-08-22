@@ -520,7 +520,7 @@ function mustachePrototype() {
     var response = {
         routes: [
             {
-                summary: 'Canterbury Rd',
+                summary: '<b>Canterbury Rd</b>',
                 legs: [
                     {
                         duration: {
@@ -531,7 +531,7 @@ function mustachePrototype() {
                         },
                         steps: [
                             {
-                                instructions: 'Head west on Inkerman St toward Barkly St/State Route 29',
+                                instructions: '<b>Head west</b> on Inkerman St toward Barkly St/State Route 29',
                                 duration: {
                                     text: '1 min'
                                 },
@@ -540,7 +540,7 @@ function mustachePrototype() {
                                 }
                             },
                             {
-                                instructions: 'Slight left onto Nepean Hwy/St Kilda Rd/State Route 29/State Route 3',
+                                instructions: 'Slight left onto <b>Nepean Hwy/St Kilda Rd/State Route 29/State Route 3</b>',
                                 duration: {
                                     text: '1 min'
                                 },
@@ -587,11 +587,14 @@ function mustachePrototype() {
         };
 
 
-    clearContainer('.route-summary');
-    clearContainer('.street-views');
+    var mustacheRoute = document.querySelector('.hidden .route-info-mustache').outerHTML;
+    document.querySelector('.route-summary').innerHTML = Mustache.render(mustacheRoute, routeInfo);
 
-    console.info(Mustache.render(document.querySelector('.hidden .route-info-mustache').outerHTML, routeInfo));
-    console.info(Mustache.render(document.querySelector('.hidden .panorama-mustache').outerHTML, stepInfo));
+    var mustacheStreetview = document.querySelector('.hidden .panorama-mustache').outerHTML;
+    document.querySelector('.street-views').innerHTML = Mustache.render(mustacheStreetview, stepInfo);
+
+    var routeRadio = document.querySelectorAll('.route-summary .route-radio-input');
+    checkFirstRoute(routeRadio);
 }
 
 /** Make as much code as possible testable. Even if it's a bit hacky

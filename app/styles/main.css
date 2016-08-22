@@ -116,6 +116,16 @@ body {
   justify-content: space-between;
 }
 
+.route-info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1em;
+}
+
+.route-info-row:nth-child(even) {
+  background-color: #CCC;
+}
+
 .directions-information {
   margin-bottom: 10px;
 }
@@ -204,6 +214,10 @@ body {
 
 
 .panorama-template {
+  margin-bottom: 10px;
+}
+
+.step-info {
   margin-bottom: 10px;
 }
 
