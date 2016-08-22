@@ -364,12 +364,13 @@ function addRouteChangeListeners(routeRadio) {
 function populateAndRenderRouteInfo(response){
     'use strict';
 
-    var routeRadio, routeInfo = populateRouteInfo(response);
+    var routeRadio,
+        routeInfo = {
+                routeInfo: populateRouteInfo(response)
+        }, 
+        mustacheRoute = document.querySelector('.hidden .route-info-mustache').outerHTML;
 
-    createRouteInfoDOM('.route-summary', '.hidden .directions-information', '.route-summary .route-info',
-        '.hidden .route-info-template', routeInfo);
-    addRouteInfo('.route-summary .route-description', '.route-summary .distance-data',
-        '.route-summary .duration-data', routeInfo);
+    document.querySelector('.route-summary').innerHTML = Mustache.render(mustacheRoute, routeInfo);
 
     routeRadio = document.querySelectorAll('.route-summary .route-radio-input');
     checkFirstRoute(routeRadio);
