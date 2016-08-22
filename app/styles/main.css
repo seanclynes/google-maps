@@ -111,10 +111,6 @@ body {
 /*  route-summary children  */
 
 
-.route-info-template {
-  display: flex;
-  justify-content: space-between;
-}
 
 .route-info-row {
   display: flex;
@@ -126,7 +122,7 @@ body {
   background-color: #CCC;
 }
 
-.directions-information {
+.route-info-mustache {
   margin-bottom: 10px;
 }
 
@@ -134,14 +130,6 @@ body {
   border-radius: 0.5em;
   border: 2px solid #CCC;
   box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.3);
-}
-
-.route-info-template {
-  padding: 0 1em;
-}
-
-.route-info-template:nth-child(even) {
-  background-color: #CCC;
 }
 
 .route-radio {
@@ -213,10 +201,6 @@ body {
 
 
 
-.panorama-template {
-  margin-bottom: 10px;
-}
-
 .step-info {
   margin-bottom: 10px;
 }
@@ -276,7 +260,7 @@ body {
   flex: 1 1 auto;
 }
 
-.duration-distance-placeholder {
+.duration-distance {
   flex: 0 0 auto;
   margin-left: 0.4em;
 }
@@ -396,7 +380,7 @@ body {
     width: 190px;
   }
 
-  .duration-distance-placeholder {
+  .duration-distance {
     flex: 1 1 auto;
   }
 }
